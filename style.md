@@ -53,7 +53,7 @@ git push --set-upstream origin <prenom>
 
 ### Règles de commits
 
-Format : `[Tag] Description claire`
+Format : `[Tag] : Description claire`
 
 Tags : 
 - [Func_xx] : exigences fonctionnelles

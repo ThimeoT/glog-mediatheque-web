@@ -29,4 +29,6 @@ public class Auteur
             _prenom = value;
         }
     }
+
+    public List<Oeuvre> Oeuvres { get; set; } = [];
 }
