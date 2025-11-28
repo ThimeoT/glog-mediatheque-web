@@ -2,7 +2,7 @@ public class Oeuvre
 {
     public int Id { get; set; }
 
-    private string _titre = "";
+    private string _titre;
     public string Titre
     {
         get => _titre;
@@ -19,4 +19,6 @@ public class Oeuvre
     public Auteur? Auteur { get; set; } = null;
 
     public List<Exemplaire> Exemplaires { get; set; } = [];
+    
+    public List<Reservation> Reservations { get; set; } = [];
 }
