@@ -5,4 +5,6 @@ public class Exemplaire
     public StatutExemplaire Statut { get; set; } = StatutExemplaire.Disponible;
 
     public Oeuvre Oeuvre { get; set; }
+
+    public List<Emprunt> Emprunts { get; set; } = [];
 }
