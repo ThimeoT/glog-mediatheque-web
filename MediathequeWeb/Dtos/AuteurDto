@@ -3,7 +3,7 @@ public class AuteurDto
     public int Id {get;set;}
     public string Nom {get;set;}
     public string Prenom {get;set;}
-    public List<Oeuvre> Oeuvres { get; set; } = [];
+    public List<String> Oeuvres { get; set; } = [];
     public static AuteurDto FromModel(Auteur auteur)
     {
         var dto = new BilletDto
