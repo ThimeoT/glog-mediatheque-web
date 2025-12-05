@@ -11,6 +11,7 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     app.MapScalarApiReference();
+    SeedData.Initialize();
 }
 
 app.UseHttpsRedirection();

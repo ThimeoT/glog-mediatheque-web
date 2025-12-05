@@ -67,6 +67,9 @@ namespace MediathequeWeb.Migrations
                     b.Property<int>("AdherentId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateOnly>("DateEmprunt")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateOnly>("DateRetourPrevue")
                         .HasColumnType("TEXT");
 
