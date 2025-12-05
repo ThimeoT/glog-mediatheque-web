@@ -28,7 +28,7 @@ Sommaire :
 
 - `main` : version stable, utilisée pour la livraison des versions fonctionnelles
 - `dev` : intégration continue du travail du projet
-- `lina` ou `thimeo`: branches personnelles de développement
+- `lina` ou `thimeo` ou `charlotte` : branches personnelles de développement
 
 ### Workflow Git
 
