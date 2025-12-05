@@ -6,7 +6,7 @@ public class Emprunt
 
     public Exemplaire Exemplaire { get; set; }
 
-    public DateOnly DateEmprunt { get; } = DateOnly.FromDateTime(DateTime.Now);
+    public DateOnly DateEmprunt { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
     private DateOnly _dateRetourPrevue;
     public DateOnly DateRetourPrevue
