@@ -47,6 +47,6 @@ public class Adherent
     public DateOnly DateInscription { get; } = DateOnly.FromDateTime(DateTime.Now);
 
     public List<Emprunt> Emprunts { get; set; } = [];
-    
+
     public List<Reservation> Reservations { get; set; } = [];
 }
