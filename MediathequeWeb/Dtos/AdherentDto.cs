@@ -5,17 +5,21 @@ public class AdherentDto
     public string Prenom { get; set; }
     public string Email { get; set; }
     public DateOnly DateInscription { get; set; }
-    public List<Emprunt> Emprunts { get; set; } = [] ;
-    public List<Reservation> Reservations { get; set; } = [];
-    public static AdherentDto FromModel(AdherentDto adherent)
+    public List<string> Emprunts { get; set; } = [];
+    public List<string> Reservations { get; set; } = [];
+
+    public static AdherentDto FromModel(Adherent adherent)
     {
         var dto = new AdherentDto
         {
             Id = adherent.Id,
             Nom = adherent.Nom,
-            
+            Prenom = adherent.Prenom,
+            Email = adherent.Email,
+            DateInscription = adherent.DateInscription,
+            Emprunts = adherent.Emprunts.Select(e => e.Exemplaire.Oeuvre.Titre).ToList(),
+            Reservations = adherent.Reservations.Select(r=>r.Oeuvre.Titre).ToList()
         };
         return dto;
     }
-
 }
