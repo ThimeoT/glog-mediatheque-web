@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-public class BlogContext : DbContext
+public class DataContext : DbContext
 {
     private const string DbPath = "data.sqlite";
 
