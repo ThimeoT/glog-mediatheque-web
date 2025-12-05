@@ -113,7 +113,7 @@ namespace MediathequeWeb.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("AuteurId")
+                    b.Property<int>("AuteurId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Titre")
@@ -191,7 +191,9 @@ namespace MediathequeWeb.Migrations
                 {
                     b.HasOne("Auteur", "Auteur")
                         .WithMany("Oeuvres")
-                        .HasForeignKey("AuteurId");
+                        .HasForeignKey("AuteurId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Auteur");
                 });

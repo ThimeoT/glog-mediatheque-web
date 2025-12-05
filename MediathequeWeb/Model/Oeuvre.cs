@@ -16,7 +16,7 @@ public class Oeuvre
 
     public OeuvreType Type { get; set; }
 
-    public Auteur? Auteur { get; set; } = null;
+    public Auteur Auteur { get; set; }
 
     public List<Exemplaire> Exemplaires { get; set; } = [];
     
