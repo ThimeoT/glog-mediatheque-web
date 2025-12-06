@@ -7,7 +7,7 @@ public class AuteurDto
 
     public static AuteurDto FromModel(Auteur auteur)
     {
-        var dto = new BilletDto
+        var dto = new AuteurDto
         {
             Id = auteur.Id,
             Nom = auteur.Nom,
