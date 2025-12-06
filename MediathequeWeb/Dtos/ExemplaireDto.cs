@@ -5,7 +5,7 @@ public class ExemplaireDto
     public string Oeuvre { get; set; }
     public List<string> Emprunts { get; set; }
 
-    public ExemplaireDto FromModel(Exemplaire exemplaire)
+    public static ExemplaireDto FromModel(Exemplaire exemplaire)
     {
         var dto = new ExemplaireDto
         {
