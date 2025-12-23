@@ -1,7 +1,7 @@
 public class AdherentService
 {
     private readonly IAdherentRepository _repo;
-    private readonly InventoryService _inventoryService;
+    private readonly InventaireService _inventoryService;
 
     public AdherentService(IAdherentRepository repo)
     {
@@ -10,11 +10,7 @@ public class AdherentService
 
     public Adherent? GetAdherentByID(int id)
     {
-        var adherent = _repo.GetAdherent(id);
-        if (adherent == null)
-        {
-            throw new NotFoundException($"L'adherent avec l'Id {id} n'existe pas.");
-        }
+        var adherent = _repo.GetAdherent(id) ?? throw new NotFoundException($"L'adherent avec l'Id {id} n'existe pas.");
         return adherent;
     }
 

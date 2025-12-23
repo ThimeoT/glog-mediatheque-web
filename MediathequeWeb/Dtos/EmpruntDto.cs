@@ -3,7 +3,6 @@ public class EmpruntDto
     public int Id { get; set; }
     public string Adherent { get; set; }
     public ExemplaireDto Exemplaire { get; set; }
-
     public DateOnly DateEmprunt { get; set; }
     public DateOnly DateRetourPrevue { get; set; }
     public DateOnly? DateRetourReelle;

@@ -1,4 +1,4 @@
-public interface IInventoryRepository
+public interface IInventaireRepository
 {
     Auteur? GetAuteur(int id);
     IEnumerable<Auteur> GetAllAuteurs();
@@ -11,7 +11,6 @@ public interface IInventoryRepository
     void RemoveOeuvre(Oeuvre oeuvre);
 
     Exemplaire? GetExemplaire(int id);
-    IEnumerable<Exemplaire> GetAllExemplaires();
     void AddExemplaire(Exemplaire exemplaire);
     void RemoveExemplaire(Exemplaire exemplaire);
 }

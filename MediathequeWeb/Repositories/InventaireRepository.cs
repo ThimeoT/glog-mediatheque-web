@@ -1,20 +1,27 @@
-public class InventoryRepository : IInventoryRepository
+using Microsoft.EntityFrameworkCore;
+
+public class InventaireRepository : IInventaireRepository
 {
     private readonly DataContext _db;
 
-    public InventoryRepository(DataContext db)
+    public InventaireRepository(DataContext db)
     {
         _db = db;
     }
 
+    // Auteurs
     public Auteur? GetAuteur(int id)
     {
-        return _db.Auteurs.FirstOrDefault(a => a.Id == id);
+        return _db.Auteurs
+            .Include(a => a.Oeuvres)
+            .FirstOrDefault(a => a.Id == id);
     }
 
     public IEnumerable<Auteur> GetAllAuteurs()
     {
-        return _db.Auteurs.ToList();
+        return _db.Auteurs
+            .Include(a => a.Oeuvres)
+            .ToList();
     }
 
     public void AddAuteur(Auteur auteur)
@@ -27,14 +34,21 @@ public class InventoryRepository : IInventoryRepository
         _db.Auteurs.Remove(auteur);
     }
 
+    // Oeuvres
     public Oeuvre? GetOeuvre(int id)
     {
-        return _db.Oeuvres.FirstOrDefault(o => o.Id == id);
+        return _db.Oeuvres
+            .Include(o => o.Auteur)
+            .Include(o => o.Exemplaires)
+            .FirstOrDefault(o => o.Id == id);
     }
 
     public IEnumerable<Oeuvre> GetAllOeuvres()
     {
-        return _db.Oeuvres.ToList();
+        return _db.Oeuvres
+            .Include(o => o.Auteur)
+            .Include(o => o.Exemplaires)
+            .ToList();
     }
 
     public void AddOeuvre(Oeuvre oeuvre)
@@ -47,14 +61,13 @@ public class InventoryRepository : IInventoryRepository
         _db.Oeuvres.Remove(oeuvre);
     }
 
+    // Exemplaires
     public Exemplaire? GetExemplaire(int id)
     {
-        return _db.Exemplaires.FirstOrDefault(e => e.Id == id);
-    }
-
-    public IEnumerable<Exemplaire> GetAllExemplaires()
-    {
-        return _db.Exemplaires.ToList();
+        return _db.Exemplaires
+            .Include(e => e.Oeuvre) 
+                .ThenInclude(o => o.Auteur)
+            .FirstOrDefault(e => e.Id == id);
     }
 
     public void AddExemplaire(Exemplaire exemplaire)

@@ -9,14 +9,23 @@ public class AdherentRepository : IAdherentRepository
         _db = db;
     }
 
+    // Adhérents
     public Adherent? GetAdherent(int id)
     {
-        return _db.Adherents.FirstOrDefault(a => a.Id == id);
+        return _db.Adherents
+            .Include(a => a.Emprunts)
+                .ThenInclude(e => e.Exemplaire)
+                    .ThenInclude(ex => ex.Oeuvre)
+            .Include(a => a.Reservations)
+                .ThenInclude(r => r.Oeuvre)
+            .FirstOrDefault(a => a.Id == id);
     }
 
     public IEnumerable<Adherent> GetAllAdherents()
     {
-        return _db.Adherents.ToList();
+        return _db.Adherents
+            .Include(a => a.Emprunts)
+            .ToList();
     }
 
     public void AddAdherent(Adherent adherent)
@@ -29,14 +38,22 @@ public class AdherentRepository : IAdherentRepository
         _db.Adherents.Remove(adherent);
     }
 
+    // Emprunts
     public Emprunt? GetEmprunt(int id)
     {
-        return _db.Emprunts.FirstOrDefault(e => e.Id == id);
+        return _db.Emprunts
+            .Include(e => e.Exemplaire)
+                .ThenInclude(ex => ex.Oeuvre)
+            .Include(e => e.Adherent)
+            .FirstOrDefault(e => e.Id == id);
     }
 
     public IEnumerable<Emprunt> GetAllEmprunts()
     {
-        return _db.Emprunts.ToList();
+        return _db.Emprunts
+            .Include(e => e.Exemplaire)
+                .ThenInclude(ex => ex.Oeuvre)
+            .ToList();
     }
 
     public void AddEmprunt(Emprunt emprunt)
@@ -49,14 +66,20 @@ public class AdherentRepository : IAdherentRepository
         _db.Emprunts.Remove(emprunt);
     }
 
+    // Réservations
     public Reservation? GetReservation(int id)
     {
-        return _db.Reservations.FirstOrDefault(r => r.Id == id);
+        return _db.Reservations
+            .Include(r => r.Adherent)
+            .Include(r => r.Oeuvre)
+            .FirstOrDefault(r => r.Id == id);
     }
 
     public IEnumerable<Reservation> GetAllReservations()
     {
-        return _db.Reservations.ToList();
+        return _db.Reservations
+            .Include(r => r.Oeuvre)
+            .ToList();
     }
 
     public void AddReservation(Reservation reservation)

@@ -1,19 +1,15 @@
-public class InventoryService
+public class InventaireService
 {
-    private readonly IInventoryRepository _repo;
+    private readonly IInventaireRepository _repo;
 
-    public InventoryService(IInventoryRepository repo)
+    public InventaireService(IInventaireRepository repo)
     {
         _repo = repo;
     }
 
     public Auteur? GetAuteurByID(int id)
     {
-        var auteur = _repo.GetAuteur(id);
-        if (auteur == null)
-        {
-            throw new NotFoundException($"Le auteur avec l'Id {id} n'existe pas.");
-        }
+        var auteur = _repo.GetAuteur(id) ?? throw new NotFoundException($"Le auteur avec l'Id {id} n'existe pas.");
         return auteur;
     }
 
