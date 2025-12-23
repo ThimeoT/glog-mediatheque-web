@@ -2,13 +2,15 @@ public class ReservationService
 {
     private readonly IAdherentRepository _adherentRepo;
     private readonly IInventaireRepository _inventaireRepo;
+    private readonly IReservationRepository _reservationRepo;
 
     public ReservationService(
         IAdherentRepository adherentRepo,
-        IInventaireRepository inventaireRepo)
+        IInventaireRepository inventaireRepo,IReservationRepository reservationRepo)
     {
         _adherentRepo = adherentRepo;
         _inventaireRepo = inventaireRepo;
+        _reservationRepo = reservationRepo;
     }
 
     public Reservation CreerReservation(int adherentId, int oeuvreId)
@@ -39,7 +41,7 @@ public class ReservationService
             Statut = StatutReservation.Active
         };
 
-        _adherentRepo.AddReservation(reservation);
+        _reservationRepo.AddReservation(reservation);
         _adherentRepo.SaveChanges();
 
         return reservation;
