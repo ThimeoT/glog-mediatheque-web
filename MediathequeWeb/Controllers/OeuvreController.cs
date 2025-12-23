@@ -1,0 +1,88 @@
+using Microsoft.AspNetCore.Mvc;
+
+[ApiController]
+[Route("api/oeuvre")]
+public class OeuvreController : ControllerBase
+{
+    private readonly InventaireService _inventaireService;
+
+    public OeuvreController(InventaireService inventaireService)
+    {
+        _inventaireService = inventaireService;
+    }
+
+    [HttpGet]
+    public ActionResult<IEnumerable<OeuvreDto>> RecupererOeuvres()
+    {
+        var oeuvres = _inventaireService.GetAllOeuvres();
+        return Ok(oeuvres.Select(OeuvreDto.FromModel));
+    }
+
+    [HttpGet("{id}")]
+    public ActionResult<OeuvreDto> RecupererOeuvre(int id)
+    {
+        try
+        {
+            var oeuvre = _inventaireService.GetOeuvreById(id);
+            return Ok(OeuvreDto.FromModel(oeuvre));
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public ActionResult<OeuvreDto> AjouterOeuvre(string titre, string type, int auteurId)
+    {
+        try
+        {
+            var oeuvre = _inventaireService.CreateOeuvre(titre, type, auteurId);
+            return CreatedAtAction(
+                nameof(RecupererOeuvre), 
+                new { id = oeuvre.Id }, 
+                OeuvreDto.FromModel(oeuvre)
+            );
+        }
+        catch (DomainValidationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPut("{id}")]
+    public ActionResult<OeuvreDto> ModifierAdherent(int id, string titre, string type, int auteurId)
+    {
+        try
+        {
+            var oeuvre = _inventaireService.UpdateOeuvre(id, titre, type, auteurId);
+            return Ok(OeuvreDto.FromModel(oeuvre));
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (DomainValidationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public ActionResult SupprimerOeuvre(int id)
+    {
+        try
+        {
+            _inventaireService.DeleteOeuvre(id);
+            return NoContent();
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (DomainValidationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+}
