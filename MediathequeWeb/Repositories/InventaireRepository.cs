@@ -70,6 +70,13 @@ public class InventaireRepository : IInventaireRepository
             .FirstOrDefault(e => e.Id == id);
     }
 
+    public IEnumerable<Exemplaire> GetAllExemplaires()
+    {
+        return _db.Exemplaires
+            .Include(e => e.Oeuvre)
+            .ToList();
+    }
+
     public void AddExemplaire(Exemplaire exemplaire)
     {
         _db.Exemplaires.Add(exemplaire);
