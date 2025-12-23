@@ -32,6 +32,20 @@ public class OeuvreController : ControllerBase
         }
     }
 
+    [HttpGet("{id}/exemplaire")]
+    public ActionResult<ExemplaireDto> RecupererExemplaire(int exemplaireId)
+    {
+        try
+        {
+            var exemplaire = _inventaireService.GetExemplaireById(exemplaireId);
+            return Ok(ExemplaireDto.FromModel(exemplaire));
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+    }
+
     [HttpPost]
     public ActionResult<OeuvreDto> AjouterOeuvre(string titre, string type, int auteurId)
     {
@@ -42,6 +56,24 @@ public class OeuvreController : ControllerBase
                 nameof(RecupererOeuvre), 
                 new { id = oeuvre.Id }, 
                 OeuvreDto.FromModel(oeuvre)
+            );
+        }
+        catch (DomainValidationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost("{id}/exemplaire")]
+    public ActionResult<ExemplaireDto> AjouterExemplaire(int oeuvreId)
+    {
+        try
+        {
+            var exemplaire = _inventaireService.CreateExemplaire(oeuvreId);
+            return CreatedAtAction(
+                nameof(RecupererExemplaire),
+                new { id = exemplaire.Id },
+                ExemplaireDto.FromModel(exemplaire)
             );
         }
         catch (DomainValidationException ex)

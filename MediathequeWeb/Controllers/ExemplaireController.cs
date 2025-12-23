@@ -18,38 +18,6 @@ public class ExemplaireController : ControllerBase
         return Ok(exemplaires.Select(ExemplaireDto.FromModel));
     }
 
-    [HttpGet("{id}")]
-    public ActionResult<ExemplaireDto> RecupererExemplaire(int id)
-    {
-        try
-        {
-            var exemplaire = _inventaireService.GetExemplaireById(id);
-            return Ok(ExemplaireDto.FromModel(exemplaire));
-        }
-        catch (NotFoundException ex)
-        {
-            return NotFound(ex.Message);
-        }
-    }
-
-    [HttpPost]
-    public ActionResult<ExemplaireDto> AjouterExemplaire(int oeuvreId)
-    {
-        try
-        {
-            var exemplaire = _inventaireService.CreateExemplaire(oeuvreId);
-            return CreatedAtAction(
-                nameof(RecupererExemplaire),
-                new { id = exemplaire.Id },
-                ExemplaireDto.FromModel(exemplaire)
-            );
-        }
-        catch (DomainValidationException ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
     [HttpDelete("{id}")]
     public ActionResult SupprimerExemplaire(int id)
     {
