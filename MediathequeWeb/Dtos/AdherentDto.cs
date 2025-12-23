@@ -6,7 +6,6 @@ public class AdherentDto
     public string Email { get; set; }
     public DateOnly DateInscription { get; set; }
     public List<string> Emprunts { get; set; } = [];
-    public List<string> Reservations { get; set; } = [];
 
     public static AdherentDto FromModel(Adherent adherent)
     {
@@ -17,8 +16,10 @@ public class AdherentDto
             Prenom = adherent.Prenom,
             Email = adherent.Email,
             DateInscription = adherent.DateInscription,
-            Emprunts = adherent.Emprunts.Select(e => e.Exemplaire.Oeuvre.Titre).ToList(),
-            Reservations = adherent.Reservations.Select(r=>r.Oeuvre.Titre).ToList()
+            Emprunts = adherent.Emprunts?
+                .Where(e => e.Exemplaire != null && e.Exemplaire.Oeuvre != null)
+                .Select(e => e.Exemplaire.Oeuvre.Titre)
+                .ToList() ?? []
         };
         return dto;
     }
