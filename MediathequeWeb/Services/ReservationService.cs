@@ -12,6 +12,10 @@ public class ReservationService
         _inventaireRepo = inventaireRepo;
         _reservationRepo = reservationRepo;
     }
+    public IEnumerable<Reservation> GetAllReservations()
+    {
+        return _reservationRepo.GetAllReservations();
+    }
 
     public Reservation CreerReservation(int adherentId, int oeuvreId)
     {
