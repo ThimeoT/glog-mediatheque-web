@@ -87,4 +87,12 @@ public class EmpruntService
         _empruntRepo.SaveChanges();
         return emprunt;
     }
+
+    public void DeleteEmprunt(int empruntId)
+    {
+        Emprunt emprunt = GetEmpruntById(empruntId);
+        emprunt.Exemplaire.Statut = StatutExemplaire.Disponible;
+        _empruntRepo.RemoveEmprunt(emprunt);
+        _empruntRepo.SaveChanges();
+    }
 }
