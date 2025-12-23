@@ -4,13 +4,16 @@ public class EmpruntService
     private const int DUREE_EMPRUNT_JOURS = 21;
 
     private readonly IAdherentRepository _adherentRepo;
+    private readonly IEmpruntRepository _empruntRepo;
     private readonly IInventaireRepository _inventaireRepo;
 
     public EmpruntService(
         IAdherentRepository adherentRepo,
+        IEmpruntRepository empruntRepo,
         IInventaireRepository inventaireRepo)
     {
         _adherentRepo = adherentRepo;
+        _empruntRepo = empruntRepo;
         _inventaireRepo = inventaireRepo;
     }
 
@@ -44,15 +47,15 @@ public class EmpruntService
 
         exemplaire.Statut = StatutExemplaire.Emprunte;
 
-        _adherentRepo.AddEmprunt(emprunt);
-        _adherentRepo.SaveChanges();
+        _empruntRepo.AddEmprunt(emprunt);
+        _empruntRepo.SaveChanges();
 
         return emprunt;
     }
 
     public Emprunt RetournerEmprunt(int empruntId)
     {
-        Emprunt emprunt = _adherentRepo.GetEmprunt(empruntId)
+        Emprunt emprunt = _empruntRepo.GetEmprunt(empruntId)
             ?? throw new NotFoundException("Emprunt introuvable.");
 
         if (emprunt.DateRetourReelle != null)
@@ -61,7 +64,7 @@ public class EmpruntService
         emprunt.DateRetourReelle = DateOnly.FromDateTime(DateTime.Now);
         emprunt.Exemplaire.Statut = StatutExemplaire.Disponible;
 
-        _adherentRepo.SaveChanges();
+        _empruntRepo.SaveChanges();
         return emprunt;
     }
 }
