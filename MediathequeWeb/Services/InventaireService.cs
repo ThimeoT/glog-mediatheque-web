@@ -7,10 +7,10 @@ public class InventaireService
         _repo = repo;
     }
 
-    public Auteur? GetAuteurByID(int id)
+    public Auteur GetAuteurById(int id)
     {
-        var auteur = _repo.GetAuteur(id) ?? throw new NotFoundException($"Le auteur avec l'Id {id} n'existe pas.");
-        return auteur;
+        return _repo.GetAuteur(id)
+            ?? throw new NotFoundException($"L’auteur avec l’id {id} n’existe pas.");
     }
 
     public IEnumerable<Auteur> GetAllAuteurs()
@@ -18,42 +18,41 @@ public class InventaireService
         return _repo.GetAllAuteurs();
     }
 
-    public void CreateAuteur(string nom, string prenom)
+    public Auteur CreateAuteur(string nom, string prenom)
     {
-        var newAuteur = new Auteur
+        Auteur auteur = new()
         {
             Nom = nom,
             Prenom = prenom
         };
 
-        _repo.AddAuteur(newAuteur);
+        _repo.AddAuteur(auteur);
+        _repo.SaveChanges();
+        return auteur;
     }
 
     public Auteur UpdateAuteur(int id, string nom, string prenom)
     {
-        var auteurToUpdate = GetAuteurByID(id);
+        Auteur auteur = GetAuteurById(id);
 
-        auteurToUpdate.Nom = nom;
-        auteurToUpdate.Prenom = prenom;
+        auteur.Nom = nom;
+        auteur.Prenom = prenom;
 
-        return auteurToUpdate;
+        _repo.SaveChanges();
+        return auteur;
     }
 
     public void DeleteAuteur(int id)
     {
-        var auteurToDelete = GetAuteurByID(id);
-        _repo.RemoveAuteur(auteurToDelete);
-
+        Auteur auteur = GetAuteurById(id);
+        _repo.RemoveAuteur(auteur);
+        _repo.SaveChanges();
     }
 
-    public Oeuvre? GetOeuvreById(int id)
+    public Oeuvre GetOeuvreById(int id)
     {
-        var oeuvre = _repo.GetOeuvre(id);
-        if (oeuvre == null)
-        {
-            throw new NotFoundException($"Le oeuvre avec l'Id {id} n'existe pas.");
-        }
-        return oeuvre;
+        return _repo.GetOeuvre(id)
+            ?? throw new NotFoundException($"L’œuvre avec l’id {id} n’existe pas.");
     }
 
     public IEnumerable<Oeuvre> GetAllOeuvres()
@@ -61,51 +60,43 @@ public class InventaireService
         return _repo.GetAllOeuvres();
     }
 
-    public void CreateOeuvre(string titre, string type, int auteurID)
+    public Oeuvre CreateOeuvre(string titre, string type, int auteurId)
     {
-        var auteur = GetAuteurByID(auteurID);
-
-        var oeuvreType = Enum.Parse<OeuvreType>(type, ignoreCase: true);
-
-        var newOeuvre = new Oeuvre
+        Oeuvre oeuvre = new()
         {
             Titre = titre,
-            Type = oeuvreType,
-            Auteur = auteur
+            Type = Enum.Parse<OeuvreType>(type, ignoreCase: true),
+            Auteur = GetAuteurById(auteurId)
         };
 
-        _repo.AddOeuvre(newOeuvre);
+        _repo.AddOeuvre(oeuvre);
+        _repo.SaveChanges();
+        return oeuvre;
     }
 
-    public Oeuvre UpdateOeuvre(int id, string titre, string type, int auteurID)
+    public Oeuvre UpdateOeuvre(int id, string titre, string type, int auteurId)
     {
-        var oeuvreToUpdate = GetOeuvreById(id);
+        Oeuvre oeuvre = GetOeuvreById(id);
 
-        var oeuvreType = Enum.Parse<OeuvreType>(type, ignoreCase: true);
+        oeuvre.Titre = titre;
+        oeuvre.Type = Enum.Parse<OeuvreType>(type, ignoreCase: true);
+        oeuvre.Auteur = GetAuteurById(auteurId);
 
-        oeuvreToUpdate.Titre = titre;
-        oeuvreToUpdate.Type = oeuvreType;
-        oeuvreToUpdate.Auteur = GetAuteurByID(auteurID);
-
-        return oeuvreToUpdate;
+        _repo.SaveChanges();
+        return oeuvre;
     }
 
     public void DeleteOeuvre(int id)
     {
-        var oeuvreToDelete = GetOeuvreById(id);
-        _repo.RemoveOeuvre(oeuvreToDelete);
+        var oeuvre = GetOeuvreById(id);
+        _repo.RemoveOeuvre(oeuvre);
+        _repo.SaveChanges();
     }
 
-    public Exemplaire? GetExemplaireById(int id)
+    public Exemplaire GetExemplaireById(int id)
     {
-        var exemplaire = _repo.GetExemplaire(id);
-
-        if (exemplaire == null)
-        {
-            throw new NotFoundException($"Le exemplaire avec l'Id {id} n'existe pas.");
-        }
-
-        return exemplaire;
+        return _repo.GetExemplaire(id)
+            ?? throw new NotFoundException($"L’exemplaire avec l’id {id} n’existe pas.");
     }
 
     public IEnumerable<Exemplaire> GetAllExemplaires()
@@ -113,37 +104,23 @@ public class InventaireService
         return _repo.GetAllExemplaires();
     }
 
-    public void CreateExemplaire(string statut, int oeuvreID)
+    public Exemplaire CreateExemplaire(int oeuvreId)
     {
-        var statutExemplaire = Enum.Parse<StatutExemplaire>(statut, ignoreCase: true);
-
-        var oeuvre = GetOeuvreById(oeuvreID);
-
-        var exemplaire = new Exemplaire
+        Exemplaire exemplaire = new()
         {
-            Statut = statutExemplaire,
-            Oeuvre = oeuvre
+            Oeuvre = GetOeuvreById(oeuvreId),
+            Statut = StatutExemplaire.Disponible
         };
 
         _repo.AddExemplaire(exemplaire);
-    }
-
-    public Exemplaire UpdateExemplaire(int id, string statut, int oeuvreID)
-    {
-        var exemplaireToUpdate = GetExemplaireById(id);
-
-        var statutExemplaire = Enum.Parse<StatutExemplaire>(statut, ignoreCase: true);
-
-        exemplaireToUpdate.Statut = statutExemplaire;
-        exemplaireToUpdate.Oeuvre = GetOeuvreById(oeuvreID);
-
-        return exemplaireToUpdate;
+        _repo.SaveChanges();
+        return exemplaire;
     }
 
     public void DeleteExemplaire(int id)
     {
-        var exemplaireToDelete = GetExemplaireById(id);
-        _repo.RemoveExemplaire(exemplaireToDelete);
+        Exemplaire exemplaire = GetExemplaireById(id);
+        _repo.RemoveExemplaire(exemplaire);
+        _repo.SaveChanges();
     }
-
 }
