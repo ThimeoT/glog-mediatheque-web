@@ -10,28 +10,33 @@ public class EmpruntService
     public EmpruntService(
         IAdherentRepository adherentRepo,
         IEmpruntRepository empruntRepo,
-        IInventaireRepository inventaireRepo)
+        IInventaireRepository inventaireRepo
+    )
     {
         _adherentRepo = adherentRepo;
         _empruntRepo = empruntRepo;
         _inventaireRepo = inventaireRepo;
     }
 
-    public Emprunt CreerEmprunt(int adherentId, int oeuvreId)
+    public Emprunt CreateEmprunt(int adherentId, int oeuvreId)
     {
-        Adherent adherent = _adherentRepo.GetAdherent(adherentId)
+        Adherent adherent =
+            _adherentRepo.GetAdherent(adherentId)
             ?? throw new NotFoundException("Adhérent introuvable.");
 
-        int empruntsActifs = adherent.Emprunts
-            .Count(e => e.DateRetourReelle == null);
+        int empruntsActifs = adherent.Emprunts.Count(e => e.DateRetourReelle == null);
 
         if (empruntsActifs >= LIMITE_EMPRUNTS_ACTIFS)
-            throw new DomainValidationException($"Limite de {LIMITE_EMPRUNTS_ACTIFS} emprunts atteinte.");
+            throw new DomainValidationException(
+                $"Limite de {LIMITE_EMPRUNTS_ACTIFS} emprunts atteinte."
+            );
 
-        Exemplaire exemplaire = _inventaireRepo.GetAllExemplaires()
-            .FirstOrDefault(e =>
-                e.Oeuvre.Id == oeuvreId &&
-                e.Statut == StatutExemplaire.Disponible)
+        Exemplaire exemplaire =
+            _inventaireRepo
+                .GetAllExemplaires()
+                .FirstOrDefault(e =>
+                    e.Oeuvre.Id == oeuvreId && e.Statut == StatutExemplaire.Disponible
+                )
             ?? throw new DomainValidationException("Aucun exemplaire disponible.");
 
         DateOnly dateEmprunt = DateOnly.FromDateTime(DateTime.Now);
@@ -42,7 +47,7 @@ public class EmpruntService
             Exemplaire = exemplaire,
             DateEmprunt = dateEmprunt,
             DateRetourPrevue = dateEmprunt.AddDays(DUREE_EMPRUNT_JOURS),
-            DateRetourReelle = null
+            DateRetourReelle = null,
         };
 
         exemplaire.Statut = StatutExemplaire.Emprunte;
@@ -53,9 +58,24 @@ public class EmpruntService
         return emprunt;
     }
 
-    public Emprunt RetournerEmprunt(int empruntId)
+    public Emprunt GetEmpruntById(int empruntId)
     {
-        Emprunt emprunt = _empruntRepo.GetEmprunt(empruntId)
+        Emprunt emprunt =
+            _empruntRepo.GetEmprunt(empruntId)
+            ?? throw new NotFoundException("Emprunt introuvable.");
+        return emprunt;
+    }
+
+    public IEnumerable<Emprunt> GetAllEmprunts()
+    {
+        IEnumerable<Emprunt> emprunts = _empruntRepo.GetAllEmprunts();
+        return emprunts;
+    }
+
+    public Emprunt ReturnEmprunt(int empruntId)
+    {
+        Emprunt emprunt =
+            _empruntRepo.GetEmprunt(empruntId)
             ?? throw new NotFoundException("Emprunt introuvable.");
 
         if (emprunt.DateRetourReelle != null)
