@@ -1,0 +1,70 @@
+using Microsoft.AspNetCore.Mvc;
+
+[ApiController]
+[Route("api/exemplaire")]
+public class ExemplaireController : ControllerBase
+{
+    private readonly InventaireService _inventaireService;
+
+    public ExemplaireController(InventaireService inventaireService)
+    {
+        _inventaireService = inventaireService;
+    }
+
+    [HttpGet]
+    public ActionResult<IEnumerable<ExemplaireDto>> RecupererExemplaires()
+    {
+        var exemplaires = _inventaireService.GetAllExemplaires();
+        return Ok(exemplaires.Select(ExemplaireDto.FromModel));
+    }
+
+    [HttpGet("{id}")]
+    public ActionResult<ExemplaireDto> RecupererExemplaire(int id)
+    {
+        try
+        {
+            var exemplaire = _inventaireService.GetExemplaireById(id);
+            return Ok(ExemplaireDto.FromModel(exemplaire));
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public ActionResult<ExemplaireDto> AjouterExemplaire(int oeuvreId)
+    {
+        try
+        {
+            var exemplaire = _inventaireService.CreateExemplaire(oeuvreId);
+            return CreatedAtAction(
+                nameof(RecupererExemplaire),
+                new { id = exemplaire.Id },
+                ExemplaireDto.FromModel(exemplaire)
+            );
+        }
+        catch (DomainValidationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public ActionResult SupprimerExemplaire(int id)
+    {
+        try
+        {
+            _inventaireService.DeleteExemplaire(id);
+            return NoContent();
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (DomainValidationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+}
