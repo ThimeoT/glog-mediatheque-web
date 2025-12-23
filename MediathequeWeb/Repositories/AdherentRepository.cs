@@ -91,4 +91,9 @@ public class AdherentRepository : IAdherentRepository
     {
         _db.Reservations.Remove(reservation);
     }
+
+    public void SaveChanges()
+    {
+        _db.SaveChanges();
+    }
 }

@@ -79,4 +79,9 @@ public class InventaireRepository : IInventaireRepository
     {
         _db.Exemplaires.Remove(exemplaire);
     }
+
+    public void SaveChanges()
+    {
+        _db.SaveChanges();
+    }
 }

@@ -13,4 +13,6 @@ public interface IInventaireRepository
     Exemplaire? GetExemplaire(int id);
     void AddExemplaire(Exemplaire exemplaire);
     void RemoveExemplaire(Exemplaire exemplaire);
+
+    void SaveChanges();
 }
