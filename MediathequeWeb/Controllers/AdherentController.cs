@@ -14,7 +14,7 @@ public class AdherentController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<AdherentDto>> RecupererAdherents()
     {
-        var adherents = _adherentService.GetAll();
+        var adherents = _adherentService.GetAllAdherents();
         return Ok(adherents.Select(AdherentDto.FromModel));
     }
 
@@ -23,7 +23,7 @@ public class AdherentController : ControllerBase
     {
         try
         {
-            var adherent = _adherentService.GetById(id);
+            var adherent = _adherentService.GetAdherentById(id);
             return Ok(AdherentDto.FromModel(adherent));
         }
         catch (NotFoundException ex)
@@ -37,7 +37,7 @@ public class AdherentController : ControllerBase
     {
         try
         {
-            var adherent = _adherentService.Create(nom, prenom, email);
+            var adherent = _adherentService.CreateAdherent(nom, prenom, email);
             return CreatedAtAction(
                 nameof(RecupererAdherent), 
                 new { id = adherent.Id }, 
@@ -55,7 +55,7 @@ public class AdherentController : ControllerBase
     {
         try
         {
-            var adherent = _adherentService.Update(id, nom, prenom, email);
+            var adherent = _adherentService.UpdateAdherent(id, nom, prenom, email);
             return Ok(AdherentDto.FromModel(adherent));
         }
         catch (NotFoundException ex)
@@ -73,7 +73,7 @@ public class AdherentController : ControllerBase
     {
         try
         {
-            _adherentService.Delete(id);
+            _adherentService.DeleteAdherent(id);
             return NoContent();
         }
         catch (NotFoundException ex)

@@ -7,18 +7,18 @@ public class AdherentService
         _repo = repo;
     }
 
-    public Adherent GetById(int id)
+    public Adherent GetAdherentById(int id)
     {
         return _repo.GetAdherent(id)
             ?? throw new NotFoundException($"L’adhérent avec l’id {id} n’existe pas.");
     }
 
-    public IEnumerable<Adherent> GetAll()
+    public IEnumerable<Adherent> GetAllAdherents()
     {
         return _repo.GetAllAdherents();
     }
 
-    public Adherent Create(string nom, string prenom, string email)
+    public Adherent CreateAdherent(string nom, string prenom, string email)
     {
         Adherent adherent = new()
         {
@@ -33,9 +33,9 @@ public class AdherentService
         return adherent;
     }
 
-    public Adherent Update(int id, string nom, string prenom, string email)
+    public Adherent UpdateAdherent(int id, string nom, string prenom, string email)
     {
-        Adherent adherent = GetById(id);
+        Adherent adherent = GetAdherentById(id);
 
         adherent.Nom = nom;
         adherent.Prenom = prenom;
@@ -45,9 +45,9 @@ public class AdherentService
         return adherent;
     }
 
-    public void Delete(int id)
+    public void DeleteAdherent(int id)
     {
-        Adherent adherent = GetById(id);
+        Adherent adherent = GetAdherentById(id);
         _repo.RemoveAdherent(adherent);
         _repo.SaveChanges();
     }
