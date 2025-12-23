@@ -16,8 +16,6 @@ public class AdherentRepository : IAdherentRepository
             .Include(a => a.Emprunts)
                 .ThenInclude(e => e.Exemplaire)
                     .ThenInclude(ex => ex.Oeuvre)
-            .Include(a => a.Reservations)
-                .ThenInclude(r => r.Oeuvre)
             .FirstOrDefault(a => a.Id == id);
     }
 
