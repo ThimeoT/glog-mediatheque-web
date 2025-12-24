@@ -15,5 +15,15 @@ public class ReservationController : ControllerBase
         var reservations = _reservationService.GetAllReservations();
         return Ok(reservations.Select(ReservationDto.FromModel));
     }
+    public ActionResult<IEnumerable<Reservation>> RecupererReservationsAdherent(int adherentId)
+    {
+        var reservations = _reservationService.GetAllReservationsByAdherentId(adherentId);
+        return Ok(reservations.Select(ReservationDto.FromModel));
+    }
+    public ActionResult<IEnumerable<Reservation>> RecupererReservationsOeuvre(int oeuvreId)
+    {
+        var reservations = _reservationService.GetAllReservationsByOeuvreId(oeuvreId);
+        return Ok(reservations.Select(ReservationDto.FromModel));
+    }
 
 }
