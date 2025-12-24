@@ -18,6 +18,10 @@ public class AdherentRepository : IAdherentRepository
                     .ThenInclude(ex => ex.Oeuvre)
             .FirstOrDefault(a => a.Id == id);
     }
+    public bool AdherentExists(int adherentId)
+    {
+        return _db.Adherents.Any(a => a.Id == adherentId);
+    }
 
     public IEnumerable<Adherent> GetAllAdherents()
     {
