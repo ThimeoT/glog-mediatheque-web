@@ -32,20 +32,6 @@ public class OeuvreController : ControllerBase
         }
     }
 
-    [HttpGet("{id}/exemplaire")]
-    public ActionResult<ExemplaireDto> RecupererExemplaire(int exemplaireId)
-    {
-        try
-        {
-            var exemplaire = _inventaireService.GetExemplaireById(exemplaireId);
-            return Ok(ExemplaireDto.FromModel(exemplaire));
-        }
-        catch (NotFoundException ex)
-        {
-            return NotFound(ex.Message);
-        }
-    }
-
     [HttpPost]
     public ActionResult<OeuvreDto> AjouterOeuvre(string titre, string type, int auteurId)
     {
@@ -64,26 +50,8 @@ public class OeuvreController : ControllerBase
         }
     }
 
-    [HttpPost("{id}/exemplaire")]
-    public ActionResult<ExemplaireDto> AjouterExemplaire(int oeuvreId)
-    {
-        try
-        {
-            var exemplaire = _inventaireService.CreateExemplaire(oeuvreId);
-            return CreatedAtAction(
-                nameof(RecupererExemplaire),
-                new { id = exemplaire.Id },
-                ExemplaireDto.FromModel(exemplaire)
-            );
-        }
-        catch (DomainValidationException ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
     [HttpPut("{id}")]
-    public ActionResult<OeuvreDto> ModifierAdherent(int id, string titre, string type, int auteurId)
+    public ActionResult<OeuvreDto> ModifierOeuvre(int id, string titre, string type, int auteurId)
     {
         try
         {
