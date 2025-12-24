@@ -17,9 +17,9 @@ public class EmpruntController : ControllerBase
         var emprunts = _empruntService.GetAllEmprunts();
         return Ok(emprunts.Select(EmpruntDto.FromModel));
     }
-
+    
     [HttpGet("{id}")]
-    public ActionResult<ExemplaireDto> RecupererEmprunt(int empruntId)
+    public ActionResult<EmpruntDto> RecupererEmprunt(int empruntId)
     {
         try
         {
