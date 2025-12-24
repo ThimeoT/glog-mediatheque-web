@@ -10,9 +10,9 @@ public class InventaireRepository : IInventaireRepository
     }
 
     // Auteurs
-    public Auteur? GetAuteur(int id)
+    public Auteur? GetAuteur(int auteurId)
     {
-        return _db.Auteurs.Include(a => a.Oeuvres).FirstOrDefault(a => a.Id == id);
+        return _db.Auteurs.Include(a => a.Oeuvres).FirstOrDefault(a => a.Id == auteurId);
     }
 
     public IEnumerable<Auteur> GetAllAuteurs()
@@ -31,12 +31,17 @@ public class InventaireRepository : IInventaireRepository
     }
 
     // Oeuvres
-    public Oeuvre? GetOeuvre(int id)
+    
+    public Oeuvre? GetOeuvre(int oeuvreId)
     {
         return _db
             .Oeuvres.Include(o => o.Auteur)
             .Include(o => o.Exemplaires)
-            .FirstOrDefault(o => o.Id == id);
+            .FirstOrDefault(o => o.Id == oeuvreId);
+    }
+    public bool OeuvreExists(int oeuvreId)
+    {
+        return _db.Oeuvres.Any(o => o.Id == oeuvreId);
     }
 
     public IEnumerable<Oeuvre> GetAllOeuvres()

@@ -100,6 +100,14 @@ public class InventaireService
         return _repo.GetAllExemplaires();
     }
 
+    public IEnumerable<Exemplaire> GetAllExemplairesFromOeuvreId(int oeuvreId)
+    {
+        GetOeuvreById(oeuvreId);
+        return _repo.GetAllExemplairesByOeuvreId(oeuvreId);
+    }
+
+
+
     public Exemplaire CreateExemplaire(int oeuvreId)
     {
         Exemplaire exemplaire = new()

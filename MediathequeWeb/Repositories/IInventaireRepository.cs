@@ -5,7 +5,8 @@ public interface IInventaireRepository
     void AddAuteur(Auteur auteur);
     void RemoveAuteur(Auteur auteur);
 
-    Oeuvre? GetOeuvre(int id);
+    Oeuvre? GetOeuvre(int oeuvreId);
+    bool OeuvreExists(int oeuvreId);
     IEnumerable<Oeuvre> GetAllOeuvres();
     void AddOeuvre(Oeuvre oeuvre);
     void RemoveOeuvre(Oeuvre oeuvre);
