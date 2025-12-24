@@ -10,7 +10,7 @@ public class ReservationController : ControllerBase
         _reservationService = reservationService;
     }
     [HttpGet]
-    public ActionResult<IEnumerable<Reservation>> GetAllReservations()
+    public ActionResult<IEnumerable<Reservation>> RecupererReservations()
     {
         var reservations = _reservationService.GetAllReservations();
         return Ok(reservations.Select(ReservationDto.FromModel));
