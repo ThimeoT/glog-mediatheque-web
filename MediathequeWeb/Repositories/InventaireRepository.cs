@@ -68,6 +68,11 @@ public class InventaireRepository : IInventaireRepository
         return _db.Exemplaires.Include(e => e.Oeuvre).ToList();
     }
 
+    public IEnumerable<Exemplaire> GetAllExemplairesByOeuvreId(int oeuvreId)
+    {
+        return _db.Exemplaires.Where(e => e.Oeuvre.Id == oeuvreId).ToList();
+    }
+
     public void AddExemplaire(Exemplaire exemplaire)
     {
         _db.Exemplaires.Add(exemplaire);

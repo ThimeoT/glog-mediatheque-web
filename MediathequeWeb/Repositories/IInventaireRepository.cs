@@ -12,6 +12,7 @@ public interface IInventaireRepository
 
     Exemplaire? GetExemplaire(int id);
     public IEnumerable<Exemplaire> GetAllExemplaires();
+    public IEnumerable<Exemplaire> GetAllExemplairesByOeuvreId(int oeuvreId);
     void AddExemplaire(Exemplaire exemplaire);
     void RemoveExemplaire(Exemplaire exemplaire);
 
