@@ -102,11 +102,10 @@ public class InventaireService
 
     public IEnumerable<Exemplaire> GetAllExemplairesFromOeuvreId(int oeuvreId)
     {
-        GetOeuvreById(oeuvreId);
+        if (!_repo.OeuvreExists(oeuvreId))
+            throw new NotFoundException($"L'oeuvre avec l’id {oeuvreId} n’existe pas.");
         return _repo.GetAllExemplairesByOeuvreId(oeuvreId);
     }
-
-
 
     public Exemplaire CreateExemplaire(int oeuvreId)
     {
