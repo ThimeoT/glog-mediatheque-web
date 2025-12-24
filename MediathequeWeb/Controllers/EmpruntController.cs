@@ -19,11 +19,11 @@ public class EmpruntController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public ActionResult<EmpruntDto> RecupererEmprunt(int empruntId)
+    public ActionResult<EmpruntDto> RecupererEmprunt(int id)
     {
         try
         {
-            var emprunt = _empruntService.GetEmpruntById(empruntId);
+            var emprunt = _empruntService.GetEmpruntById(id);
             return Ok(EmpruntDto.FromModel(emprunt));
         }
         catch (NotFoundException ex)
@@ -51,11 +51,11 @@ public class EmpruntController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public ActionResult<EmpruntDto> ModifierAdherent(int empruntId)
+    public ActionResult<EmpruntDto> ModifierAdherent(int id)
     {
         try
         {
-            var emprunt = _empruntService.ReturnEmprunt(empruntId);
+            var emprunt = _empruntService.ReturnEmprunt(id);
             return Ok(EmpruntDto.FromModel(emprunt));
         }
         catch (NotFoundException ex)
@@ -69,11 +69,11 @@ public class EmpruntController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public ActionResult SupprimerEmprunt(int empruntId)
+    public ActionResult SupprimerEmprunt(int id)
     {
         try
         {
-            _empruntService.DeleteEmprunt(empruntId);
+            _empruntService.DeleteEmprunt(id);
             return NoContent();
         }
         catch (NotFoundException ex)

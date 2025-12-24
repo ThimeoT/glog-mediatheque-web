@@ -20,13 +20,27 @@ public class ReservationController : ControllerBase
 
     public ActionResult<IEnumerable<Reservation>> RecupererReservationsAdherent(int adherentId)
     {
-        var reservations = _reservationService.GetAllReservationsFromAdherentId(adherentId);
-        return Ok(reservations.Select(ReservationDto.FromModel));
+        try
+        {
+            var reservations = _reservationService.GetAllReservationsFromAdherentId(adherentId);
+            return Ok(reservations.Select(ReservationDto.FromModel));
+        }
+        catch (NotFoundException ex) // si on ne trouve pas l'adhérent
+        {
+            return NotFound(ex.Message);
+        }
     }
 
     public ActionResult<IEnumerable<Reservation>> RecupererReservationsOeuvre(int oeuvreId)
     {
-        var reservations = _reservationService.GetAllReservationsFromOeuvreId(oeuvreId);
-        return Ok(reservations.Select(ReservationDto.FromModel));
+        try
+        {
+            var reservations = _reservationService.GetAllReservationsFromOeuvreId(oeuvreId);
+            return Ok(reservations.Select(ReservationDto.FromModel));
+        }
+        catch (NotFoundException ex) // si on ne trouve pas l'oeuvre
+        {
+            return NotFound(ex.Message);
+        }
     }
 }
