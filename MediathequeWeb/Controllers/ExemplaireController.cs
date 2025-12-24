@@ -18,6 +18,20 @@ public class ExemplaireController : ControllerBase
         return Ok(exemplaires.Select(ExemplaireDto.FromModel));
     }
 
+    [HttpGet("{id}")]
+    public ActionResult<ExemplaireDto> RecupererExemplaire(int id)
+    {
+        try
+        {
+            var exemplaire = _inventaireService.GetExemplaireById(id);
+            return Ok(ExemplaireDto.FromModel(exemplaire));
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+    }
+
     [HttpDelete("{id}")]
     public ActionResult SupprimerExemplaire(int id)
     {
