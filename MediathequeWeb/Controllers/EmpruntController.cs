@@ -17,7 +17,7 @@ public class EmpruntController : ControllerBase
         var emprunts = _empruntService.GetAllEmprunts();
         return Ok(emprunts.Select(EmpruntDto.FromModel));
     }
-    
+
     [HttpGet("{id}")]
     public ActionResult<EmpruntDto> RecupererEmprunt(int empruntId)
     {
@@ -49,6 +49,7 @@ public class EmpruntController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
     [HttpPut("{id}")]
     public ActionResult<EmpruntDto> ModifierAdherent(int empruntId)
     {
@@ -66,6 +67,7 @@ public class EmpruntController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
     [HttpDelete("{id}")]
     public ActionResult SupprimerEmprunt(int empruntId)
     {

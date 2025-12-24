@@ -3,24 +3,24 @@ using Microsoft.EntityFrameworkCore;
 public class ReservationRepository : IReservationRepository
 {
     private readonly DataContext _db;
+
     public ReservationRepository(DataContext db)
     {
         _db = db;
     }
+
     // Réservations
     public Reservation? GetReservation(int id)
     {
-        return _db.Reservations
-            .Include(r => r.Adherent)
+        return _db
+            .Reservations.Include(r => r.Adherent)
             .Include(r => r.Oeuvre)
             .FirstOrDefault(r => r.Id == id);
     }
 
     public IEnumerable<Reservation> GetAllReservations()
     {
-        return _db.Reservations
-            .Include(r => r.Oeuvre)
-            .ToList();
+        return _db.Reservations.Include(r => r.Oeuvre).ToList();
     }
 
     public void AddReservation(Reservation reservation)
@@ -32,9 +32,9 @@ public class ReservationRepository : IReservationRepository
     {
         _db.Reservations.Remove(reservation);
     }
+
     public void SaveChanges()
     {
         _db.SaveChanges();
     }
-
 }

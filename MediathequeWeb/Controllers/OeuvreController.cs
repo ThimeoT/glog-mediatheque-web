@@ -39,8 +39,8 @@ public class OeuvreController : ControllerBase
         {
             var oeuvre = _inventaireService.CreateOeuvre(titre, type, auteurId);
             return CreatedAtAction(
-                nameof(RecupererOeuvre), 
-                new { id = oeuvre.Id }, 
+                nameof(RecupererOeuvre),
+                new { id = oeuvre.Id },
                 OeuvreDto.FromModel(oeuvre)
             );
         }

@@ -20,11 +20,7 @@ public class InventaireService
 
     public Auteur CreateAuteur(string nom, string prenom)
     {
-        Auteur auteur = new()
-        {
-            Nom = nom,
-            Prenom = prenom
-        };
+        Auteur auteur = new() { Nom = nom, Prenom = prenom };
 
         _repo.AddAuteur(auteur);
         _repo.SaveChanges();
@@ -66,7 +62,7 @@ public class InventaireService
         {
             Titre = titre,
             Type = Enum.Parse<OeuvreType>(type, ignoreCase: true),
-            Auteur = GetAuteurById(auteurId)
+            Auteur = GetAuteurById(auteurId),
         };
 
         _repo.AddOeuvre(oeuvre);
@@ -109,7 +105,7 @@ public class InventaireService
         Exemplaire exemplaire = new()
         {
             Oeuvre = GetOeuvreById(oeuvreId),
-            Statut = StatutExemplaire.Disponible
+            Statut = StatutExemplaire.Disponible,
         };
 
         _repo.AddExemplaire(exemplaire);
