@@ -2,8 +2,8 @@ public interface IReservationRepository
 {
     Reservation? GetReservation(int id);
     IEnumerable<Reservation> GetAllReservations();
-    IEnumerable<Reservation> GetAllReservationsByAdherentId(int adherentId);
-    IEnumerable<Reservation> GetAllReservationsByOeuvreId(int oeuvreId);
+    IEnumerable<Reservation> GetAllReservationsFromAdherentId(int adherentId);
+    IEnumerable<Reservation> GetAllReservationsFromOeuvreId(int oeuvreId);
     void AddReservation(Reservation reservation);
     void RemoveReservation(Reservation reservation);
 

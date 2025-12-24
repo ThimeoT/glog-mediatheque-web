@@ -22,16 +22,16 @@ public class ReservationRepository : IReservationRepository
     {
         return _db.Reservations.Include(r => r.Oeuvre).ToList();
     }
-    public IEnumerable<Reservation> GetAllReservationsByAdherentId(int adherentId)
+
+    public IEnumerable<Reservation> GetAllReservationsFromAdherentId(int adherentId)
     {
         return _db.Reservations.Where(r => r.Adherent.Id == adherentId).ToList();
     }
-    
-    public IEnumerable<Reservation> GetAllReservationsByOeuvreId(int oeuvreId)
+
+    public IEnumerable<Reservation> GetAllReservationsFromOeuvreId(int oeuvreId)
     {
         return _db.Reservations.Where(r => r.Oeuvre.Id == oeuvreId).ToList();
     }
-    
 
     public void AddReservation(Reservation reservation)
     {

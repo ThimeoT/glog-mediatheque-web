@@ -20,18 +20,18 @@ public class ReservationService
         return _reservationRepo.GetAllReservations();
     }
 
-    public IEnumerable<Reservation> GetAllReservationsByAdherentId(int adherentId)
+    public IEnumerable<Reservation> GetAllReservationsFromAdherentId(int adherentId)
     {
         if (!_adherentRepo.AdherentExists(adherentId))
             throw new NotFoundException($"L'adhérent avec l'id {adherentId} n'existe pas");
-        return _reservationRepo.GetAllReservationsByAdherentId(adherentId);
+        return _reservationRepo.GetAllReservationsFromAdherentId(adherentId);
     }
 
-    public IEnumerable<Reservation> GetAllReservationsByOeuvreId(int oeuvreId)
+    public IEnumerable<Reservation> GetAllReservationsFromOeuvreId(int oeuvreId)
     {
         if (!_inventaireRepo.OeuvreExists(oeuvreId))
             throw new NotFoundException($"L'oeuvre avec l'id {oeuvreId} n'existe pas");
-        return _reservationRepo.GetAllReservationsByOeuvreId(oeuvreId);
+        return _reservationRepo.GetAllReservationsFromOeuvreId(oeuvreId);
     }
 
     public Reservation CreerReservation(int adherentId, int oeuvreId)
