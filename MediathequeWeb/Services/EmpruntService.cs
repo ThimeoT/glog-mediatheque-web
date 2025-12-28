@@ -53,6 +53,18 @@ public class EmpruntService
         exemplaire.Statut = StatutExemplaire.Emprunte;
 
         _empruntRepo.AddEmprunt(emprunt);
+
+        Reservation? reservation = adherent.Reservations
+            .FirstOrDefault(r =>
+                r.Oeuvre.Id == oeuvreId &&
+                r.Statut == StatutReservation.Active
+            );
+
+        if (reservation != null)
+        {
+            reservation.Statut = StatutReservation.Terminee;
+        }
+
         _empruntRepo.SaveChanges();
 
         return emprunt;
@@ -72,7 +84,7 @@ public class EmpruntService
         return emprunts;
     }
 
-    public Emprunt ReturnEmprunt(int empruntId)
+    public Emprunt ReturnEmprunt(int empruntId, DateOnly dateRetourReelle)
     {
         Emprunt emprunt =
             _empruntRepo.GetEmprunt(empruntId)
@@ -81,7 +93,7 @@ public class EmpruntService
         if (emprunt.DateRetourReelle != null)
             throw new DomainValidationException("Cet emprunt a déjà été retourné.");
 
-        emprunt.DateRetourReelle = DateOnly.FromDateTime(DateTime.Now);
+        emprunt.DateRetourReelle = dateRetourReelle;
         emprunt.Exemplaire.Statut = StatutExemplaire.Disponible;
 
         _empruntRepo.SaveChanges();

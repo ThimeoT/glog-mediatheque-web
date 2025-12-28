@@ -5,7 +5,7 @@ public class EmpruntDto
     public string Adherent { get; set; }
     public DateOnly DateEmprunt { get; set; }
     public DateOnly DateRetourPrevue { get; set; }
-    public DateOnly? DateRetourReelle;
+    public DateOnly? DateRetourReelle { get; set; }
 
     public static EmpruntDto FromModel(Emprunt emprunt)
     {

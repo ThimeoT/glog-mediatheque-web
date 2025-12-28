@@ -51,11 +51,11 @@ public class EmpruntController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public ActionResult<EmpruntDto> ModifierAdherent(int id)
+    public ActionResult<EmpruntDto> ModifierEmprunt(int id, DateOnly dateRetourReelle)
     {
         try
         {
-            var emprunt = _empruntService.ReturnEmprunt(id);
+            var emprunt = _empruntService.ReturnEmprunt(id, dateRetourReelle);
             return Ok(EmpruntDto.FromModel(emprunt));
         }
         catch (NotFoundException ex)
