@@ -67,4 +67,14 @@ public class ReservationService
 
         return reservation;
     }
+
+    public void SupprimerReservation(int reservationId)
+    {
+        Reservation reservation =
+            _reservationRepo.GetReservation(reservationId)
+            ?? throw new NotFoundException("Réservation introuvable.");
+
+        _reservationRepo.RemoveReservation(reservation);
+        _reservationRepo.SaveChanges();
+    }
 }

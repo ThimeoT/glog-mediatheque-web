@@ -40,4 +40,18 @@ public class ReservationController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpDelete("{id}")]
+    public ActionResult SupprimerReservation(int id)
+    {
+        try
+        {
+            _reservationService.SupprimerReservation(id);
+            return NoContent();
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+    }
 }
