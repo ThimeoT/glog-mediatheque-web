@@ -18,6 +18,7 @@ public class ReservationController : ControllerBase
         return Ok(reservations.Select(ReservationDto.FromModel));
     }
 
+    [HttpGet("adherent/{adherentId}")]
     public ActionResult<IEnumerable<Reservation>> RecupererReservationsAdherent(int adherentId)
     {
         try
@@ -31,6 +32,7 @@ public class ReservationController : ControllerBase
         }
     }
 
+    [HttpGet("oeuvre/{oeuvreId}")]
     public ActionResult<IEnumerable<Reservation>> RecupererReservationsOeuvre(int oeuvreId)
     {
         try
