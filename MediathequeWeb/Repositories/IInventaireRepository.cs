@@ -18,4 +18,6 @@ public interface IInventaireRepository
     void RemoveExemplaire(Exemplaire exemplaire);
 
     void SaveChanges();
+
+    bool ExisteExemplaireDisponiblePourOeuvre(int oeuvreId);
 }

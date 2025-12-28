@@ -92,4 +92,11 @@ public class InventaireRepository : IInventaireRepository
     {
         _db.SaveChanges();
     }
+
+    public bool ExisteExemplaireDisponiblePourOeuvre(int oeuvreId)
+    {
+        return _db.Exemplaires.Any(e =>
+            e.Oeuvre.Id == oeuvreId && e.Statut == StatutExemplaire.Disponible
+        );
+    }
 }

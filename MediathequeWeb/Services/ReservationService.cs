@@ -44,21 +44,15 @@ public class ReservationService
             _inventaireRepo.GetOeuvre(oeuvreId)
             ?? throw new NotFoundException("Oeuvre introuvable.");
 
-        bool exemplaireDisponible = _inventaireRepo
-            .GetAllExemplaires()
-            .Any(e => e.Oeuvre.Id == oeuvreId && e.Statut == StatutExemplaire.Disponible);
-
-        if (exemplaireDisponible)
+        if (_inventaireRepo.ExisteExemplaireDisponiblePourOeuvre(oeuvreId))
             throw new DomainValidationException(
                 "Un exemplaire est disponible, réservation impossible."
             );
 
-        bool dejaReserve = adherent.Reservations.Any(r =>
-            r.Oeuvre.Id == oeuvreId && r.Statut == StatutReservation.Active
-        );
-
-        if (dejaReserve)
-            throw new DomainValidationException("Réservation déjà existante pour cette œuvre.");
+        if (_reservationRepo.ReservationActiveExiste(adherentId, oeuvreId))
+            throw new DomainValidationException(
+                "Une réservation active existe déjà pour cette œuvre."
+            );
 
         Reservation reservation = new()
         {

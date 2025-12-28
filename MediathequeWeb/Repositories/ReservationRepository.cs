@@ -59,4 +59,13 @@ public class ReservationRepository : IReservationRepository
     {
         _db.SaveChanges();
     }
+
+    public bool ReservationActiveExiste(int adherentId, int oeuvreId)
+    {
+        return _db.Reservations.Any(r =>
+            r.Adherent.Id == adherentId
+            && r.Oeuvre.Id == oeuvreId
+            && r.Statut == StatutReservation.Active
+        );
+    }
 }
