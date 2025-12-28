@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("api/exemplaire")]
+[Route("api/emprunt")]
 public class EmpruntController : ControllerBase
 {
     private readonly EmpruntService _empruntService;
