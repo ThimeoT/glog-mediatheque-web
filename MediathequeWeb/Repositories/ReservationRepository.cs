@@ -9,7 +9,6 @@ public class ReservationRepository : IReservationRepository
         _db = db;
     }
 
-    // Réservations
     public Reservation? GetReservation(int id)
     {
         return _db
@@ -20,17 +19,30 @@ public class ReservationRepository : IReservationRepository
 
     public IEnumerable<Reservation> GetAllReservations()
     {
-        return _db.Reservations.Include(r => r.Oeuvre).ToList();
+        return _db.Reservations
+            .Include(r => r.Adherent)
+            .Include(r => r.Oeuvre)
+            .Where(r => r.Statut == StatutReservation.Active)
+            .ToList();
     }
 
     public IEnumerable<Reservation> GetAllReservationsFromAdherentId(int adherentId)
     {
-        return _db.Reservations.Where(r => r.Adherent.Id == adherentId).ToList();
+        return _db.Reservations
+            .Include(r => r.Adherent)
+            .Include(r => r.Oeuvre)
+            .Where(r => r.Adherent.Id == adherentId)
+            .ToList();
     }
 
     public IEnumerable<Reservation> GetAllReservationsFromOeuvreId(int oeuvreId)
     {
-        return _db.Reservations.Where(r => r.Oeuvre.Id == oeuvreId).ToList();
+        return _db.Reservations
+            .Include(r => r.Adherent)
+            .Include(r => r.Oeuvre)
+            .Where(r => r.Oeuvre.Id == oeuvreId)
+            .OrderBy(r => r.DateReservation)
+            .ToList();
     }
 
     public void AddReservation(Reservation reservation)

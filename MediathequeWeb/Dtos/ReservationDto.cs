@@ -1,21 +1,20 @@
 public class ReservationDto
 {
     public int Id { get; set; }
-    public AdherentDto Adherent { get; set; }
-    public OeuvreDto Oeuvre { get; set; }
+    public int AdherentId { get; set; }
+    public int OeuvreId { get; set; }
     public DateOnly DateReservation { get; set; }
     public StatutReservation Statut { get; set; }
 
     public static ReservationDto FromModel(Reservation reservation)
     {
-        var dto = new ReservationDto
+        return new ReservationDto
         {
             Id = reservation.Id,
-            Adherent = AdherentDto.FromModel(reservation.Adherent),
-            Oeuvre = OeuvreDto.FromModel(reservation.Oeuvre),
+            AdherentId = reservation.Adherent.Id,
+            OeuvreId = reservation.Oeuvre.Id,
             DateReservation = reservation.DateReservation,
-            Statut = reservation.Statut,
+            Statut = reservation.Statut
         };
-        return dto;
     }
 }
