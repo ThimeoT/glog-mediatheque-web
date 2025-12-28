@@ -23,7 +23,7 @@ public class ReservationController : ControllerBase
     {
         try
         {
-            var reservation = _reservationService.CreerReservation(adherentId, oeuvreId);
+            var reservation = _reservationService.CreateReservation(adherentId, oeuvreId);
 
             return CreatedAtAction(
                 nameof(RecupererReservations),
@@ -46,7 +46,7 @@ public class ReservationController : ControllerBase
     {
         try
         {
-            _reservationService.SupprimerReservation(id);
+            _reservationService.DeleteReservation(id);
             return NoContent();
         }
         catch (NotFoundException ex)

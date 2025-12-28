@@ -34,7 +34,7 @@ public class ReservationService
         return _reservationRepo.GetAllReservationsFromOeuvreId(oeuvreId);
     }
 
-    public Reservation CreerReservation(int adherentId, int oeuvreId)
+    public Reservation CreateReservation(int adherentId, int oeuvreId)
     {
         Adherent adherent =
             _adherentRepo.GetAdherent(adherentId)
@@ -68,7 +68,7 @@ public class ReservationService
         return reservation;
     }
 
-    public void SupprimerReservation(int reservationId)
+    public void DeleteReservation(int reservationId)
     {
         Reservation reservation =
             _reservationRepo.GetReservation(reservationId)
