@@ -25,7 +25,11 @@ public class AdherentRepository : IAdherentRepository
 
     public IEnumerable<Adherent> GetAllAdherents()
     {
-        return _db.Adherents.Include(a => a.Emprunts).ToList();
+        return _db.Adherents
+            .Include(a => a.Emprunts)
+                .ThenInclude(e => e.Exemplaire)
+                    .ThenInclude(ex => ex.Oeuvre)
+            .ToList();
     }
 
     public void AddAdherent(Adherent adherent)
