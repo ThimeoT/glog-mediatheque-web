@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 public class OeuvreController : ControllerBase
 {
     private readonly InventaireService _inventaireService;
+    private readonly ReservationService _reservationService;
 
-    public OeuvreController(InventaireService inventaireService)
+    public OeuvreController(InventaireService inventaireService, ReservationService reservationService)
     {
         _inventaireService = inventaireService;
+        _reservationService = reservationService;
     }
 
     [HttpGet]
@@ -119,6 +121,20 @@ public class OeuvreController : ControllerBase
         catch (DomainValidationException ex)
         {
             return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("{id}/reservation")]
+    public ActionResult<IEnumerable<ReservationDto>> RecupererReservationsOeuvre(int id)
+    {
+        try
+        {
+            var reservations = _reservationService.GetAllReservationsFromOeuvreId(id);
+            return Ok(reservations.Select(ReservationDto.FromModel));
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
         }
     }
 }

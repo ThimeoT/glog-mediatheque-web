@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 public class AdherentController : ControllerBase
 {
     private readonly AdherentService _adherentService;
+    private readonly ReservationService _reservationService;
 
-    public AdherentController(AdherentService adherentService)
+    public AdherentController(AdherentService adherentService, ReservationService reservationService)
     {
         _adherentService = adherentService;
+        _reservationService = reservationService;
     }
 
     [HttpGet]
@@ -88,6 +90,20 @@ public class AdherentController : ControllerBase
         catch (DomainValidationException ex)
         {
             return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("{id}/reservation")]
+    public ActionResult<IEnumerable<ReservationDto>> RecupererReservationsAdherent(int id)
+    {
+        try
+        {
+            var reservations = _reservationService.GetAllReservationsFromAdherentId(id);
+            return Ok(reservations.Select(ReservationDto.FromModel));
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
         }
     }
 }
