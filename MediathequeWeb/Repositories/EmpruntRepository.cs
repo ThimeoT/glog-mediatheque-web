@@ -20,7 +20,11 @@ public class EmpruntRepository : IEmpruntRepository
 
     public IEnumerable<Emprunt> GetAllEmprunts()
     {
-        return _db.Emprunts.Include(e => e.Exemplaire).ThenInclude(ex => ex.Oeuvre).ToList();
+        return _db
+            .Emprunts.Include(e => e.Adherent)
+            .Include(e => e.Exemplaire)
+                .ThenInclude(ex => ex.Oeuvre)
+            .ToList();
     }
 
     public void AddEmprunt(Emprunt emprunt)
