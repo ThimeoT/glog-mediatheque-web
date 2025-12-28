@@ -54,11 +54,9 @@ public class EmpruntService
 
         _empruntRepo.AddEmprunt(emprunt);
 
-        Reservation? reservation = adherent.Reservations
-            .FirstOrDefault(r =>
-                r.Oeuvre.Id == oeuvreId &&
-                r.Statut == StatutReservation.Active
-            );
+        Reservation? reservation = adherent.Reservations.FirstOrDefault(r =>
+            r.Oeuvre.Id == oeuvreId && r.Statut == StatutReservation.Active
+        );
 
         if (reservation != null)
         {
