@@ -19,8 +19,8 @@ public class ReservationRepository : IReservationRepository
 
     public IEnumerable<Reservation> GetAllReservations()
     {
-        return _db.Reservations
-            .Include(r => r.Adherent)
+        return _db
+            .Reservations.Include(r => r.Adherent)
             .Include(r => r.Oeuvre)
             .Where(r => r.Statut == StatutReservation.Active)
             .ToList();
@@ -28,8 +28,8 @@ public class ReservationRepository : IReservationRepository
 
     public IEnumerable<Reservation> GetAllReservationsFromAdherentId(int adherentId)
     {
-        return _db.Reservations
-            .Include(r => r.Adherent)
+        return _db
+            .Reservations.Include(r => r.Adherent)
             .Include(r => r.Oeuvre)
             .Where(r => r.Adherent.Id == adherentId)
             .ToList();
@@ -37,8 +37,8 @@ public class ReservationRepository : IReservationRepository
 
     public IEnumerable<Reservation> GetAllReservationsFromOeuvreId(int oeuvreId)
     {
-        return _db.Reservations
-            .Include(r => r.Adherent)
+        return _db
+            .Reservations.Include(r => r.Adherent)
             .Include(r => r.Oeuvre)
             .Where(r => r.Oeuvre.Id == oeuvreId)
             .OrderBy(r => r.DateReservation)

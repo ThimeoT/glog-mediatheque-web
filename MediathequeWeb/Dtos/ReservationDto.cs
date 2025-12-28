@@ -14,7 +14,7 @@ public class ReservationDto
             AdherentId = reservation.Adherent.Id,
             OeuvreId = reservation.Oeuvre.Id,
             DateReservation = reservation.DateReservation,
-            Statut = reservation.Statut
+            Statut = reservation.Statut,
         };
     }
 }

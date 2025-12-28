@@ -7,7 +7,10 @@ public class AdherentController : ControllerBase
     private readonly AdherentService _adherentService;
     private readonly ReservationService _reservationService;
 
-    public AdherentController(AdherentService adherentService, ReservationService reservationService)
+    public AdherentController(
+        AdherentService adherentService,
+        ReservationService reservationService
+    )
     {
         _adherentService = adherentService;
         _reservationService = reservationService;
