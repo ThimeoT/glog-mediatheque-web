@@ -11,13 +11,6 @@ public class ExemplaireController : ControllerBase
         _inventaireService = inventaireService;
     }
 
-    [HttpGet]
-    public ActionResult<IEnumerable<ExemplaireDto>> RecupererExemplaires()
-    {
-        var exemplaires = _inventaireService.GetAllExemplaires();
-        return Ok(exemplaires.Select(ExemplaireDto.FromModel));
-    }
-
     [HttpGet("{id}")]
     public ActionResult<ExemplaireDto> RecupererExemplaire(int id)
     {
