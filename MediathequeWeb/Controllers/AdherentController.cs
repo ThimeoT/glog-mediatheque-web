@@ -39,8 +39,8 @@ public class AdherentController : ControllerBase
         {
             var adherent = _adherentService.CreateAdherent(nom, prenom, email);
             return CreatedAtAction(
-                nameof(RecupererAdherent), 
-                new { id = adherent.Id }, 
+                nameof(RecupererAdherent),
+                new { id = adherent.Id },
                 AdherentDto.FromModel(adherent)
             );
         }
@@ -51,7 +51,12 @@ public class AdherentController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public ActionResult<AdherentDto> ModifierAdherent(int id, string nom, string prenom, string email)
+    public ActionResult<AdherentDto> ModifierAdherent(
+        int id,
+        string nom,
+        string prenom,
+        string email
+    )
     {
         try
         {

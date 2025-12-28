@@ -11,8 +11,8 @@ public class OeuvreDto
         {
             Id = oeuvre.Id,
             Titre = oeuvre.Titre,
-            Type = oeuvre.Type.ToString(), 
-            Auteur = $"{oeuvre.Auteur.Prenom} {oeuvre.Auteur.Nom}"
+            Type = oeuvre.Type.ToString(),
+            Auteur = $"{oeuvre.Auteur.Prenom} {oeuvre.Auteur.Nom}",
         };
     }
 }

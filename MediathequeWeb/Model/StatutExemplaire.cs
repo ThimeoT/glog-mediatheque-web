@@ -1,5 +1,5 @@
 public enum StatutExemplaire
 {
-    Disponible, 
-    Emprunte
+    Disponible,
+    Emprunte,
 }

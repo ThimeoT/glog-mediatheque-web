@@ -6,6 +6,5 @@ public interface IReservationRepository
     IEnumerable<Reservation> GetAllReservationsFromOeuvreId(int oeuvreId);
     void AddReservation(Reservation reservation);
     void RemoveReservation(Reservation reservation);
-
     void SaveChanges();
 }

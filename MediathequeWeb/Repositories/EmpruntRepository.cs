@@ -8,10 +8,11 @@ public class EmpruntRepository : IEmpruntRepository
     {
         _db = db;
     }
+
     public Emprunt? GetEmprunt(int id)
     {
-        return _db.Emprunts
-            .Include(e => e.Exemplaire)
+        return _db
+            .Emprunts.Include(e => e.Exemplaire)
                 .ThenInclude(ex => ex.Oeuvre)
             .Include(e => e.Adherent)
             .FirstOrDefault(e => e.Id == id);
@@ -19,10 +20,7 @@ public class EmpruntRepository : IEmpruntRepository
 
     public IEnumerable<Emprunt> GetAllEmprunts()
     {
-        return _db.Emprunts
-            .Include(e => e.Exemplaire)
-                .ThenInclude(ex => ex.Oeuvre)
-            .ToList();
+        return _db.Emprunts.Include(e => e.Exemplaire).ThenInclude(ex => ex.Oeuvre).ToList();
     }
 
     public void AddEmprunt(Emprunt emprunt)

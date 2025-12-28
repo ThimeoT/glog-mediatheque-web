@@ -9,15 +9,15 @@ public class AdherentRepository : IAdherentRepository
         _db = db;
     }
 
-    // Adhérents
     public Adherent? GetAdherent(int id)
     {
-        return _db.Adherents
-            .Include(a => a.Emprunts)
+        return _db
+            .Adherents.Include(a => a.Emprunts)
                 .ThenInclude(e => e.Exemplaire)
                     .ThenInclude(ex => ex.Oeuvre)
             .FirstOrDefault(a => a.Id == id);
     }
+
     public bool AdherentExists(int adherentId)
     {
         return _db.Adherents.Any(a => a.Id == adherentId);
@@ -25,9 +25,7 @@ public class AdherentRepository : IAdherentRepository
 
     public IEnumerable<Adherent> GetAllAdherents()
     {
-        return _db.Adherents
-            .Include(a => a.Emprunts)
-            .ToList();
+        return _db.Adherents.Include(a => a.Emprunts).ToList();
     }
 
     public void AddAdherent(Adherent adherent)

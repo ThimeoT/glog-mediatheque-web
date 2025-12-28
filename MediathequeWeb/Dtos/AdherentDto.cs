@@ -16,10 +16,11 @@ public class AdherentDto
             Prenom = adherent.Prenom,
             Email = adherent.Email,
             DateInscription = adherent.DateInscription,
-            Emprunts = adherent.Emprunts?
-                .Where(e => e.Exemplaire != null && e.Exemplaire.Oeuvre != null)
-                .Select(e => e.Exemplaire.Oeuvre.Titre)
-                .ToList() ?? []
+            Emprunts =
+                adherent
+                    .Emprunts?.Where(e => e.Exemplaire != null && e.Exemplaire.Oeuvre != null)
+                    .Select(e => e.Exemplaire.Oeuvre.Titre)
+                    .ToList() ?? [],
         };
         return dto;
     }

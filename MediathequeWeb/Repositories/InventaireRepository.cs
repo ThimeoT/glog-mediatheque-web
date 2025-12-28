@@ -31,7 +31,6 @@ public class InventaireRepository : IInventaireRepository
     }
 
     // Oeuvres
-    
     public Oeuvre? GetOeuvre(int oeuvreId)
     {
         return _db
@@ -39,6 +38,7 @@ public class InventaireRepository : IInventaireRepository
             .Include(o => o.Exemplaires)
             .FirstOrDefault(o => o.Id == oeuvreId);
     }
+
     public bool OeuvreExists(int oeuvreId)
     {
         return _db.Oeuvres.Any(o => o.Id == oeuvreId);
@@ -64,7 +64,7 @@ public class InventaireRepository : IInventaireRepository
     {
         return _db
             .Exemplaires.Include(e => e.Oeuvre)
-            .ThenInclude(o => o.Auteur)
+                .ThenInclude(o => o.Auteur)
             .FirstOrDefault(e => e.Id == id);
     }
 

@@ -16,15 +16,14 @@ namespace MediathequeWeb.Migrations
                 table: "Emprunts",
                 type: "TEXT",
                 nullable: false,
-                defaultValue: new DateOnly(1, 1, 1));
+                defaultValue: new DateOnly(1, 1, 1)
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "DateEmprunt",
-                table: "Emprunts");
+            migrationBuilder.DropColumn(name: "DateEmprunt", table: "Emprunts");
         }
     }
 }

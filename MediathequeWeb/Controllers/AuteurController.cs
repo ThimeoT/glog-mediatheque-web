@@ -39,8 +39,8 @@ public class AuteurController : ControllerBase
         {
             var auteur = _inventaireService.CreateAuteur(nom, prenom);
             return CreatedAtAction(
-                nameof(RecupererAuteur), 
-                new { id = auteur.Id }, 
+                nameof(RecupererAuteur),
+                new { id = auteur.Id },
                 AuteurDto.FromModel(auteur)
             );
         }

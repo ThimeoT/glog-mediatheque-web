@@ -8,21 +8,20 @@ public static class SeedData
 
         db.Database.Migrate();
 
-        if (db.Auteurs.Any() || db.Oeuvres.Any() || db.Exemplaires.Any() || db.Adherents.Any() || db.Emprunts.Any() || db.Reservations.Any())
+        if (
+            db.Auteurs.Any()
+            || db.Oeuvres.Any()
+            || db.Exemplaires.Any()
+            || db.Adherents.Any()
+            || db.Emprunts.Any()
+            || db.Reservations.Any()
+        )
             return;
 
         // Auteurs
-        var frankHerbert = new Auteur
-        {
-            Nom = "Herbert",
-            Prenom = "Frank"
-        };
+        var frankHerbert = new Auteur { Nom = "Herbert", Prenom = "Frank" };
 
-        var christopherNolan = new Auteur
-        {
-            Nom = "Nolan",
-            Prenom = "Christopher"
-        };
+        var christopherNolan = new Auteur { Nom = "Nolan", Prenom = "Christopher" };
 
         db.Auteurs.AddRange(frankHerbert, christopherNolan);
         db.SaveChanges();
@@ -32,30 +31,26 @@ public static class SeedData
         {
             Titre = "Dune",
             Type = OeuvreType.Livre,
-            Auteur = frankHerbert
+            Auteur = frankHerbert,
         };
 
         var interstellar = new Oeuvre
         {
             Titre = "Interstellar",
             Type = OeuvreType.DVD,
-            Auteur = christopherNolan
+            Auteur = christopherNolan,
         };
 
         db.Oeuvres.AddRange(dune, interstellar);
         db.SaveChanges();
 
         // Exemplaire
-        var exemplaireDune = new Exemplaire
-        {
-            Oeuvre = dune,
-            Statut = StatutExemplaire.Disponible
-        };
+        var exemplaireDune = new Exemplaire { Oeuvre = dune, Statut = StatutExemplaire.Disponible };
 
         var exemplaireInterstellar = new Exemplaire
         {
             Oeuvre = interstellar,
-            Statut = StatutExemplaire.Disponible
+            Statut = StatutExemplaire.Disponible,
         };
 
         db.Exemplaires.AddRange(exemplaireDune, exemplaireInterstellar);
@@ -66,14 +61,14 @@ public static class SeedData
         {
             Nom = "Dupont",
             Prenom = "Jean",
-            Email = "jean.dupont@email.com"
+            Email = "jean.dupont@email.com",
         };
 
         var marieCurie = new Adherent
         {
             Nom = "Curie",
             Prenom = "Marie",
-            Email = "marie.curie@email.com"
+            Email = "marie.curie@email.com",
         };
 
         db.Adherents.AddRange(jeanDupont, marieCurie);
@@ -81,7 +76,7 @@ public static class SeedData
 
         // Emprunt pour Marie Curie
         var dateEmprunt = DateOnly.FromDateTime(DateTime.Now.AddDays(-10));
-        var dateRetourPrevue = dateEmprunt.AddDays(21); // Si emprunt il y a 10 jours => J+21 = dans 11 jours 
+        var dateRetourPrevue = dateEmprunt.AddDays(21); // Si emprunt il y a 10 jours => J+21 = dans 11 jours
 
         var empruntMarie = new Emprunt
         {
@@ -89,7 +84,7 @@ public static class SeedData
             Exemplaire = exemplaireDune,
             DateEmprunt = dateEmprunt,
             DateRetourPrevue = dateRetourPrevue,
-            DateRetourReelle = null
+            DateRetourReelle = null,
         };
 
         // Mise à jour du statut exemplaire (Dune emprunté)
@@ -104,7 +99,7 @@ public static class SeedData
             Adherent = jeanDupont,
             Oeuvre = dune,
             DateReservation = DateOnly.FromDateTime(DateTime.Now),
-            Statut = StatutReservation.Active
+            Statut = StatutReservation.Active,
         };
 
         db.Reservations.Add(reservationJean);

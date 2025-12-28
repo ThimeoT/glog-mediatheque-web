@@ -19,6 +19,6 @@ public class Oeuvre
     public Auteur Auteur { get; set; }
 
     public List<Exemplaire> Exemplaires { get; set; } = [];
-    
+
     public List<Reservation> Reservations { get; set; } = [];
 }

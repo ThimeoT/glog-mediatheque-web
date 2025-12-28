@@ -10,9 +10,7 @@ namespace MediathequeWeb.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Oeuvres_Auteurs_AuteurId",
-                table: "Oeuvres");
+            migrationBuilder.DropForeignKey(name: "FK_Oeuvres_Auteurs_AuteurId", table: "Oeuvres");
 
             migrationBuilder.AlterColumn<int>(
                 name: "AuteurId",
@@ -22,7 +20,8 @@ namespace MediathequeWeb.Migrations
                 defaultValue: 0,
                 oldClrType: typeof(int),
                 oldType: "INTEGER",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Oeuvres_Auteurs_AuteurId",
@@ -30,15 +29,14 @@ namespace MediathequeWeb.Migrations
                 column: "AuteurId",
                 principalTable: "Auteurs",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Cascade
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Oeuvres_Auteurs_AuteurId",
-                table: "Oeuvres");
+            migrationBuilder.DropForeignKey(name: "FK_Oeuvres_Auteurs_AuteurId", table: "Oeuvres");
 
             migrationBuilder.AlterColumn<int>(
                 name: "AuteurId",
@@ -46,14 +44,16 @@ namespace MediathequeWeb.Migrations
                 type: "INTEGER",
                 nullable: true,
                 oldClrType: typeof(int),
-                oldType: "INTEGER");
+                oldType: "INTEGER"
+            );
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Oeuvres_Auteurs_AuteurId",
                 table: "Oeuvres",
                 column: "AuteurId",
                 principalTable: "Auteurs",
-                principalColumn: "Id");
+                principalColumn: "Id"
+            );
         }
     }
 }

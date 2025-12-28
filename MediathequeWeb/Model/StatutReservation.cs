@@ -1,7 +1,7 @@
 public enum StatutReservation
 {
-    Active, 
-    Disponible, 
+    Active,
+    Disponible,
     Terminee,
-    Annulee
+    Annulee,
 }
