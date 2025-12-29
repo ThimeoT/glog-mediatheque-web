@@ -56,12 +56,22 @@ public class InventaireService
         return _repo.GetAllOeuvres();
     }
 
+    private static OeuvreType ParseOeuvreType(string type)
+    {
+        if (!Enum.TryParse<OeuvreType>(type, true, out var oeuvreType))
+            throw new DomainValidationException(
+                $"Type d’œuvre invalide. Valeurs possibles : {string.Join(", ", Enum.GetNames<OeuvreType>())}"
+            );
+
+        return oeuvreType;
+    }
+
     public Oeuvre CreateOeuvre(string titre, string type, int auteurId)
     {
         Oeuvre oeuvre = new()
         {
             Titre = titre,
-            Type = Enum.Parse<OeuvreType>(type, ignoreCase: true),
+            Type = ParseOeuvreType(type),
             Auteur = GetAuteurById(auteurId),
         };
 
@@ -75,7 +85,7 @@ public class InventaireService
         Oeuvre oeuvre = GetOeuvreById(id);
 
         oeuvre.Titre = titre;
-        oeuvre.Type = Enum.Parse<OeuvreType>(type, ignoreCase: true);
+        oeuvre.Type = ParseOeuvreType(type);
         oeuvre.Auteur = GetAuteurById(auteurId);
 
         _repo.SaveChanges();
