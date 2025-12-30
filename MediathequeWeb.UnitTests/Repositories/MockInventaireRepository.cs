@@ -69,8 +69,8 @@ public class MockInventaireRepository : IInventaireRepository
 
         _exemplaires =
         [
-            new Exemplaire { Oeuvre = _oeuvres[0], Statut = StatutExemplaire.Disponible },
-            new Exemplaire { Oeuvre = _oeuvres[1], Statut = StatutExemplaire.Disponible },
+            new Exemplaire {Id = 1, Oeuvre = _oeuvres[0], Statut = StatutExemplaire.Disponible },
+            new Exemplaire {Id = 2, Oeuvre = _oeuvres[1], Statut = StatutExemplaire.Disponible },
         ];
     }
 
@@ -116,6 +116,7 @@ public class MockInventaireRepository : IInventaireRepository
         oeuvre.Id = _nextIdOeuvre++;
         oeuvre.Exemplaires ??= new();
         oeuvre.Reservations ??= new();
+        _oeuvres.Add(oeuvre);
     }
 
     public void RemoveOeuvre(Oeuvre oeuvre)
