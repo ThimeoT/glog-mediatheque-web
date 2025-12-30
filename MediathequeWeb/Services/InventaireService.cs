@@ -74,7 +74,6 @@ public class InventaireService
             Type = ParseOeuvreType(type),
             Auteur = GetAuteurById(auteurId),
         };
-
         _repo.AddOeuvre(oeuvre);
         _repo.SaveChanges();
         return oeuvre;
