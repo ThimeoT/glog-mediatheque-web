@@ -35,8 +35,18 @@ public class MockInventaireRepository : IInventaireRepository
         ];
         _auteurs =
         [
-            new Auteur { Nom = "Herbert", Prenom = "Frank" },
-            new Auteur { Nom = "Nolan", Prenom = "Christopher" },
+            new Auteur
+            {
+                Id = 1,
+                Nom = "Herbert",
+                Prenom = "Frank",
+            },
+            new Auteur
+            {
+                Id = 2,
+                Nom = "Nolan",
+                Prenom = "Christopher",
+            },
         ];
 
         _oeuvres =

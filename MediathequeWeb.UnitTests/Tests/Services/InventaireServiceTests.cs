@@ -27,7 +27,7 @@ public class InventaireServiceTests
         _service.GetAuteurById(99);
     }
     [TestMethod]
-    public void CreateAdherent_ajoute_un_adherent()
+    public void CreateAuteur_ajoute_un_auteur()
     {
         var auteur = _service.CreateAuteur("Zola","Emile");
 
@@ -35,7 +35,7 @@ public class InventaireServiceTests
         Assert.AreEqual(3, _repo.GetAllAuteurs().Count());
     }
     [TestMethod]
-    public void UpdateAdherent_modifie_les_donnees()
+    public void UpdateAuteur_modifie_les_donnees()
     {
         var auteur = _service.UpdateAuteur(1, "Mapped", "Kylian");
 
@@ -43,7 +43,7 @@ public class InventaireServiceTests
         Assert.AreEqual("Kylian", auteur.Prenom);
     }
     [TestMethod]
-    public void DeleteAdherent_existant_supprime_adherent()
+    public void DeleteAuteur_existant_supprime_auteur()
     {
         _service.DeleteAuteur(1);
 
