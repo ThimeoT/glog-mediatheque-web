@@ -69,8 +69,18 @@ public class MockInventaireRepository : IInventaireRepository
 
         _exemplaires =
         [
-            new Exemplaire {Id = 1, Oeuvre = _oeuvres[0], Statut = StatutExemplaire.Disponible },
-            new Exemplaire {Id = 2, Oeuvre = _oeuvres[1], Statut = StatutExemplaire.Disponible },
+            new Exemplaire
+            {
+                Id = 1,
+                Oeuvre = _oeuvres[0],
+                Statut = StatutExemplaire.Disponible,
+            },
+            new Exemplaire
+            {
+                Id = 2,
+                Oeuvre = _oeuvres[1],
+                Statut = StatutExemplaire.Disponible,
+            },
         ];
     }
 
