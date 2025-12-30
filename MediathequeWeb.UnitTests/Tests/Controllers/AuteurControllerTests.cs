@@ -64,6 +64,7 @@ public class AuteurContollerTests
         var dto = created.Value as AuteurDto;
         Assert.IsNotNull(dto);
         Assert.AreEqual("Werber", dto.Nom);
+        Assert.AreEqual("Bernard", dto.Prenom);
     }
 
     [TestMethod]
@@ -119,6 +120,15 @@ public class AuteurContollerTests
         var badRequestResult = result.Result as BadRequestObjectResult;
         Assert.IsNotNull(badRequestResult);
         Assert.AreEqual("Le nom ne peut pas être vide.", badRequestResult.Value);
+    }
+    [TestMethod]
+    public void Modifier_auteur_avec_prenom_vide_retourne_bad_request()
+    {
+        var result = _controller.ModifierAuteur(1, "Werber", "");
+
+        var badRequestResult = result.Result as BadRequestObjectResult;
+        Assert.IsNotNull(badRequestResult);
+        Assert.AreEqual("Le prénom ne peut pas être vide.", badRequestResult.Value);
     }
 
     [TestMethod]
