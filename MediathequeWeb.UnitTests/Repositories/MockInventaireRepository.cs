@@ -60,7 +60,7 @@ public class MockInventaireRepository : IInventaireRepository
             },
             new Oeuvre
             {
-                Id = 1,
+                Id = 2,
                 Titre = "Interstellar",
                 Type = OeuvreType.DVD,
                 Auteur = _auteurs[1],
