@@ -1,5 +1,6 @@
-namespace MediathequeWeb.UnitTests.Controllers;
 using Microsoft.AspNetCore.Mvc;
+
+namespace MediathequeWeb.UnitTests.Tests.Controllers;
 
 [TestClass]
 public class AdherentControllerTests
@@ -13,7 +14,7 @@ public class AdherentControllerTests
         _mockRepo = new MockAdherentRepository();
         var adherentService = new AdherentService(_mockRepo);
 
-        _controller = new AdherentController(adherentService, null!); 
+        _controller = new AdherentController(adherentService, null!);
     }
 
     [TestMethod]
@@ -54,11 +55,7 @@ public class AdherentControllerTests
     [TestMethod]
     public void Ajouter_adherent_retourne_created_avec_adherent()
     {
-        var result = _controller.AjouterAdherent(
-            "Gonzola",
-            "Igor",
-            "igorgonzola@ensc.fr"
-        );
+        var result = _controller.AjouterAdherent("Gonzola", "Igor", "igorgonzola@ensc.fr");
 
         var created = result.Result as CreatedAtActionResult;
         Assert.IsNotNull(created);
@@ -72,11 +69,7 @@ public class AdherentControllerTests
     public void Ajouter_adherent_avec_nom_vide_retourne_bad_request()
     {
         string nomVide = "";
-        var result = _controller.AjouterAdherent(
-            nomVide,
-            "Igor",
-            "igorgonzola@ensc.fr"
-        );
+        var result = _controller.AjouterAdherent(nomVide, "Igor", "igorgonzola@ensc.fr");
 
         var badRequestResult = result.Result as BadRequestObjectResult;
         Assert.IsNotNull(badRequestResult);
@@ -87,11 +80,7 @@ public class AdherentControllerTests
     public void Ajouter_adherent_avec_prenom_vide_retourne_bad_request()
     {
         string prenomVide = "";
-        var result = _controller.AjouterAdherent(
-            "Gonzola",
-            prenomVide,
-            "igorgonzola@ensc.fr"
-        );
+        var result = _controller.AjouterAdherent("Gonzola", prenomVide, "igorgonzola@ensc.fr");
 
         var badRequestResult = result.Result as BadRequestObjectResult;
         Assert.IsNotNull(badRequestResult);
@@ -102,11 +91,7 @@ public class AdherentControllerTests
     public void Ajouter_adherent_avec_mail_vide_retourne_bad_request()
     {
         string mailVide = "";
-        var result = _controller.AjouterAdherent(
-            "Gonzola",
-            "Igor",
-            mailVide
-        );
+        var result = _controller.AjouterAdherent("Gonzola", "Igor", mailVide);
 
         var badRequestResult = result.Result as BadRequestObjectResult;
         Assert.IsNotNull(badRequestResult);
@@ -116,12 +101,7 @@ public class AdherentControllerTests
     [TestMethod]
     public void Modifier_adherent_avec_id_valide_retourne_ok_avec_adherent_modifie()
     {
-        var result = _controller.ModifierAdherent(
-            1,
-            "Emarre",
-            "Jean",
-            "jeanemarre@ensc.fr"
-        );
+        var result = _controller.ModifierAdherent(1, "Emarre", "Jean", "jeanemarre@ensc.fr");
 
         var okResult = result.Result as OkObjectResult;
         Assert.IsNotNull(okResult);
@@ -136,12 +116,7 @@ public class AdherentControllerTests
     [TestMethod]
     public void Modifier_adherent_avec_id_invalide_retourne_not_found()
     {
-        var result = _controller.ModifierAdherent(
-            99,
-            "Emarre",
-            "Jean",
-            "jeanemarre@ensc.fr"
-        );
+        var result = _controller.ModifierAdherent(99, "Emarre", "Jean", "jeanemarre@ensc.fr");
 
         var notFoundResult = result.Result as NotFoundObjectResult;
         Assert.IsNotNull(notFoundResult);
@@ -150,12 +125,7 @@ public class AdherentControllerTests
     [TestMethod]
     public void Modifier_adherent_avec_nom_vide_retourne_bad_request()
     {
-        var result = _controller.ModifierAdherent(
-            1,
-            "",
-            "Jean",
-            "jeanemarre@ensc.fr"
-        );
+        var result = _controller.ModifierAdherent(1, "", "Jean", "jeanemarre@ensc.fr");
 
         var badRequestResult = result.Result as BadRequestObjectResult;
         Assert.IsNotNull(badRequestResult);
