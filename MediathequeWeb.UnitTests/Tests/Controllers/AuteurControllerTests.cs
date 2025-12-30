@@ -18,7 +18,7 @@ public class AuteurContollerTests
     }
 
     [TestMethod]
-    public void Recuperer_auteurs_retourne_ok_avec_la_liste_des_auteurs()
+    public void Recuperer_auteurs_retourne_ok_avec_la_liste_des_dto_auteurs()
     {
         var result = _controller.RecupererAuteurs();
 
@@ -31,7 +31,7 @@ public class AuteurContollerTests
     }
 
     [TestMethod]
-    public void Recuperer_auteur_avec_id_valide_retourne_ok_avec_auteur()
+    public void Recuperer_auteur_avec_id_valide_retourne_ok_avec_dto_auteur()
     {
         var result = _controller.RecupererAuteur(1);
 
@@ -54,7 +54,7 @@ public class AuteurContollerTests
     }
 
     [TestMethod]
-    public void Ajouter_auteur_retourne_created_avec_auteur()
+    public void Ajouter_auteur_retourne_created_avec_dto_auteur()
     {
         var result = _controller.AjouterAuteur("Werber", "Bernard");
 
@@ -90,7 +90,7 @@ public class AuteurContollerTests
     }
 
     [TestMethod]
-    public void Modifier_auteur_avec_id_valide_retourne_ok_avec_auteur_modifie()
+    public void Modifier_auteur_avec_id_valide_retourne_ok_avec_dto_auteur_modifie()
     {
         var result = _controller.ModifierAuteur(1, "Werber", "Bernard");
 
