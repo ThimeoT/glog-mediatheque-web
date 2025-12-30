@@ -1,3 +1,4 @@
+namespace MediathequeWeb.UnitTests.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 [TestClass]

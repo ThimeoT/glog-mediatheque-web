@@ -1,4 +1,6 @@
-﻿[TestClass]
+﻿namespace MediathequeWeb.UnitTests.Services;
+
+[TestClass]
 public class AdherentServiceTests
 {
     private AdherentService _service;

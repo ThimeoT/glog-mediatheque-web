@@ -1,3 +1,5 @@
+namespace MediathequeWeb.UnitTests.Services;
+
 [TestClass]
 public class InventaireServiceTests
 {
