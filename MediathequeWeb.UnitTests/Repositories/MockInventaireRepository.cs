@@ -3,7 +3,7 @@ using System.Net.NetworkInformation;
 public class MockInventaireRepository : IInventaireRepository
 {
     private List<Adherent> _adherents;
-    private List<AttributeUsageAttribute> _auteurs;
+    private List<Auteur> _auteurs;
     private List<Oeuvre> _oeuvres;
     private List<Exemplaire> _exemplaires;
     private int _nextIdAuteur = 3;
@@ -39,11 +39,6 @@ public class MockInventaireRepository : IInventaireRepository
             new Auteur { Nom = "Nolan", Prenom = "Christopher" },
         ];
 
-        _exemplaires =
-        [
-            new Exemplaire { Oeuvre = dune, Statut = StatutExemplaire.Disponible },
-            new Exemplaire { Oeuvre = interstellar, Statut = StatutExemplaire.Disponible },
-        ];
         _oeuvres =
         [
             new Oeuvre
@@ -61,60 +56,66 @@ public class MockInventaireRepository : IInventaireRepository
                 Auteur = _auteurs[1],
             },
         ];
+
+        _exemplaires =
+        [
+            new Exemplaire { Oeuvre = _oeuvres[0], Statut = StatutExemplaire.Disponible },
+            new Exemplaire { Oeuvre = _oeuvres[1], Statut = StatutExemplaire.Disponible },
+        ];
     }
 
-    Auteur? GetAuteur(int id)
+    public Auteur? GetAuteur(int id)
     {
         return _auteurs.FirstOrDefault(a => a.Id == id);
     }
 
-    IEnumerable<Auteur> GetAllAuteurs()
+    public IEnumerable<Auteur> GetAllAuteurs()
     {
         return _auteurs;
     }
 
-    void AddAuteur(Auteur auteur)
+    public void AddAuteur(Auteur auteur)
     {
         auteur.Id = _nextIdAuteur++;
         auteur.Oeuvres ??= new();
         _auteurs.Add(auteur);
     }
 
-    void RemoveAuteur(Auteur auteur)
+    public void RemoveAuteur(Auteur auteur)
     {
         _auteurs.Remove(auteur);
     }
 
-    Oeuvre? GetOeuvre(int oeuvreId)
+    public Oeuvre? GetOeuvre(int oeuvreId)
     {
         return _oeuvres.FirstOrDefault(o => o.Id == oeuvreId);
     }
 
-    bool OeuvreExists(int oeuvreId)
+    public bool OeuvreExists(int oeuvreId)
     {
         return _oeuvres.Any(o => o.Id == oeuvreId);
     }
 
-    IEnumerable<Oeuvre> GetAllOeuvres()
+    public IEnumerable<Oeuvre> GetAllOeuvres()
     {
         return _oeuvres;
     }
 
-    void AddOeuvre(Oeuvre oeuvre)
+    public void AddOeuvre(Oeuvre oeuvre)
     {
         oeuvre.Id = _nextIdOeuvre++;
         oeuvre.Exemplaires ??= new();
         oeuvre.Reservations ??= new();
     }
 
-    void RemoveOeuvre(Oeuvre oeuvre)
+    public void RemoveOeuvre(Oeuvre oeuvre)
     {
         _oeuvres.Remove(oeuvre);
     }
 
-    Exemplaire? GetExemplaire(int id)
+    public Exemplaire? GetExemplaire(int id)
     {
-        return _exemplaires.FirstOrDefault(e => e.Id ==Id);
+        return _exemplaires.FirstOrDefault(e => e.Id == id);
     }
 
     public IEnumerable<Exemplaire> GetAllExemplaires()
@@ -127,26 +128,24 @@ public class MockInventaireRepository : IInventaireRepository
         return _exemplaires.Where(e => e.Oeuvre.Id == oeuvreId);
     }
 
-    void AddExemplaire(Exemplaire exemplaire)
+    public void AddExemplaire(Exemplaire exemplaire)
     {
         exemplaire.Id = _nextIdExemplaire;
         exemplaire.Emprunts ??= new();
         _exemplaires.Add(exemplaire);
     }
 
-    void RemoveExemplaire(Exemplaire exemplaire)
+    public void RemoveExemplaire(Exemplaire exemplaire)
     {
         _exemplaires.Remove(exemplaire);
     }
 
-    void SaveChanges();
-
-    bool ExisteExemplaireDisponiblePourOeuvre(int oeuvreId)
+    public bool ExisteExemplaireDisponiblePourOeuvre(int oeuvreId)
     {
-        _exemplaires.Any(e =>
+        return _exemplaires.Any(e =>
             e.Oeuvre.Id == oeuvreId && e.Statut == StatutExemplaire.Disponible
         );
     }
 
-    
+    public void SaveChanges() { }
 }
