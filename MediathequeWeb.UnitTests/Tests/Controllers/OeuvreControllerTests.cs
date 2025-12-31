@@ -8,14 +8,19 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 public class OeuvreContollerTests
 {
     private OeuvreController _controller;
-    private MockInventaireRepository _mockRepo;
+    private MockInventaireRepository _mockInventaireRepo;
 
     [TestInitialize]
     public void Setup()
     {
-        _mockRepo = new();
-        InventaireService _inventaireService = new(_mockRepo);
-        ReservationService _reservationService = new(null!, _mockRepo, null!);
+        _mockInventaireRepo = new();
+        MockReservationRepository _mockReservationRepo = new();
+        InventaireService _inventaireService = new(_mockInventaireRepo);
+        ReservationService _reservationService = new(
+            null!,
+            _mockInventaireRepo,
+            _mockReservationRepo
+        );
         _controller = new(_inventaireService, _reservationService);
     }
 
@@ -160,7 +165,7 @@ public class OeuvreContollerTests
 
         var noContent = result as NoContentResult;
         Assert.IsNotNull(noContent);
-        Assert.AreEqual(1, _mockRepo.GetAllOeuvres().Count());
+        Assert.AreEqual(1, _mockInventaireRepo.GetAllOeuvres().Count());
     }
 
     [TestMethod]
@@ -227,7 +232,7 @@ public class OeuvreContollerTests
         var okResult = result.Result as OkObjectResult;
         Assert.IsNotNull(okResult);
 
-        var dtos = okResult.Value as IEnumerable<ExemplaireDto>;
+        var dtos = okResult.Value as IEnumerable<ReservationDto>;
         Assert.IsNotNull(dtos);
         Assert.AreEqual(1, dtos.Count());
     }

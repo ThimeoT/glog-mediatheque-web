@@ -67,6 +67,7 @@ public class MockReservationRepository : IReservationRepository
         [
             new Reservation
             {
+                Id = 1,
                 Adherent = _adherents[0],
                 Oeuvre = _oeuvres[0],
                 DateReservation = DateOnly.FromDateTime(DateTime.Now),
@@ -74,6 +75,7 @@ public class MockReservationRepository : IReservationRepository
             },
             new Reservation
             {
+                Id = 2,
                 Adherent = _adherents[1],
                 Oeuvre = _oeuvres[1],
                 DateReservation = DateOnly.FromDateTime(DateTime.Now),
