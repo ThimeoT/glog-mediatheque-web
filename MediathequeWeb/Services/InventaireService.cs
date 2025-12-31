@@ -113,7 +113,7 @@ public class InventaireService
     {
         if (!_repo.OeuvreExists(oeuvreId))
             throw new NotFoundException($"L’oeuvre avec l’id {oeuvreId} n’existe pas.");
-        return _repo.GetAllExemplairesByOeuvreId(oeuvreId);
+        return _repo.GetAllExemplairesFromOeuvreId(oeuvreId);
     }
 
     public Exemplaire CreateExemplaire(int oeuvreId)

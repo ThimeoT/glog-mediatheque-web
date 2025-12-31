@@ -20,8 +20,8 @@ public class MockInventaireRepository : IInventaireRepository
                 Nom = "Némard",
                 Prenom = "Jean",
                 Email = "jeannemard@ensc.fr",
-                Emprunts = new List<Emprunt>(),
-                Reservations = new List<Reservation>(),
+                Emprunts = [],
+                Reservations = [],
             },
             new Adherent
             {
@@ -29,8 +29,8 @@ public class MockInventaireRepository : IInventaireRepository
                 Nom = "Dicule",
                 Prenom = "Thierry",
                 Email = "thierrydicule@ensc.fr",
-                Emprunts = new List<Emprunt>(),
-                Reservations = new List<Reservation>(),
+                Emprunts = [],
+                Reservations = [],
             },
         ];
         _auteurs =
@@ -144,7 +144,7 @@ public class MockInventaireRepository : IInventaireRepository
         return _exemplaires;
     }
 
-    public IEnumerable<Exemplaire> GetAllExemplairesByOeuvreId(int oeuvreId)
+    public IEnumerable<Exemplaire> GetAllExemplairesFromOeuvreId(int oeuvreId)
     {
         return _exemplaires.Where(e => e.Oeuvre.Id == oeuvreId);
     }

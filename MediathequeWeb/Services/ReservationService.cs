@@ -49,7 +49,7 @@ public class ReservationService
                 "Un exemplaire est disponible, réservation impossible."
             );
 
-        if (_reservationRepo.ReservationActiveExiste(adherentId, oeuvreId))
+        if (_reservationRepo.ReservationActiveExists(adherentId, oeuvreId))
             throw new DomainValidationException(
                 "Une réservation active existe déjà pour cette œuvre."
             );

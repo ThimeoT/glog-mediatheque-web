@@ -45,6 +45,15 @@ public class ReservationRepository : IReservationRepository
             .ToList();
     }
 
+    public bool ReservationActiveExists(int adherentId, int oeuvreId)
+    {
+        return _db.Reservations.Any(r =>
+            r.Adherent.Id == adherentId
+            && r.Oeuvre.Id == oeuvreId
+            && r.Statut == StatutReservation.Active
+        );
+    }
+
     public void AddReservation(Reservation reservation)
     {
         _db.Reservations.Add(reservation);
@@ -58,14 +67,5 @@ public class ReservationRepository : IReservationRepository
     public void SaveChanges()
     {
         _db.SaveChanges();
-    }
-
-    public bool ReservationActiveExiste(int adherentId, int oeuvreId)
-    {
-        return _db.Reservations.Any(r =>
-            r.Adherent.Id == adherentId
-            && r.Oeuvre.Id == oeuvreId
-            && r.Statut == StatutReservation.Active
-        );
     }
 }

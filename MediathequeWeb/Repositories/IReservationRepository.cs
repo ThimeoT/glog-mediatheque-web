@@ -7,5 +7,5 @@ public interface IReservationRepository
     void AddReservation(Reservation reservation);
     void RemoveReservation(Reservation reservation);
     void SaveChanges();
-    bool ReservationActiveExiste(int adherentId, int oeuvreId);
+    bool ReservationActiveExists(int adherentId, int oeuvreId);
 }
