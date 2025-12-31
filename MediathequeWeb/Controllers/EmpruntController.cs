@@ -44,6 +44,10 @@ public class EmpruntController : ControllerBase
                 EmpruntDto.FromModel(emprunt)
             );
         }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
         catch (DomainValidationException ex)
         {
             return BadRequest(ex.Message);
@@ -51,7 +55,7 @@ public class EmpruntController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public ActionResult<EmpruntDto> ModifierEmprunt(int id, DateOnly dateRetourReelle)
+    public ActionResult<EmpruntDto> RetournerEmprunt(int id, DateOnly dateRetourReelle)
     {
         try
         {

@@ -121,6 +121,7 @@ public class AuteurContollerTests
         Assert.IsNotNull(badRequestResult);
         Assert.AreEqual("Le nom ne peut pas être vide.", badRequestResult.Value);
     }
+
     [TestMethod]
     public void Modifier_auteur_avec_prenom_vide_retourne_bad_request()
     {

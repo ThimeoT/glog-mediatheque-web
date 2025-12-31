@@ -43,16 +43,15 @@ public class EmpruntServiceTests
     [TestMethod]
     public void CreateEmprunt_ajoute_un_emprunt()
     {
-        var emprunt = _service.CreateEmprunt(adherentId: 1,oeuvreId: 1);
+        var emprunt = _service.CreateEmprunt(adherentId: 1, oeuvreId: 1);
         Assert.IsTrue(emprunt.Id > 0);
         Assert.AreEqual(3, _mockEmpruntRepo.GetAllEmprunts().Count());
     }
 
-
     [TestMethod]
     public void ReturnEmprunt_retourne_un_emprunt_avec_une_date_retour_relle_et_un_exemplaire_disponible()
     {
-        var emprunt = _service.ReturnEmprunt(1,DateOnly.FromDateTime(DateTime.Now));
+        var emprunt = _service.ReturnEmprunt(1, DateOnly.FromDateTime(DateTime.Now));
 
         Assert.AreEqual(DateOnly.FromDateTime(DateTime.Now), emprunt.DateRetourReelle);
         Assert.AreEqual(StatutExemplaire.Disponible, emprunt.Exemplaire.Statut);

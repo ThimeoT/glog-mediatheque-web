@@ -5,7 +5,6 @@ public class ReservationServiceTests
 {
     private ReservationService _service;
     private MockReservationRepository _mockReservationRepo;
-    
 
     [TestInitialize]
     public void Setup()
@@ -13,7 +12,11 @@ public class ReservationServiceTests
         _mockReservationRepo = new MockReservationRepository();
         MockInventaireRepository _mockInventaireRepo = new();
         MockAdherentRepository _mockAdherentRepo = new();
-        _service = new ReservationService(_mockAdherentRepo,_mockInventaireRepo, _mockReservationRepo);
+        _service = new ReservationService(
+            _mockAdherentRepo,
+            _mockInventaireRepo,
+            _mockReservationRepo
+        );
     }
 
     [TestMethod]
@@ -23,17 +26,19 @@ public class ReservationServiceTests
 
         Assert.AreEqual(2, reservations.Count());
     }
+
     [TestMethod]
     public void GetAllReservationsFromAdherentId_retourne_toutes_les_reservations_associees_a_un_adherent()
     {
         int idAdherent = 1;
         var reservations = _service.GetAllReservationsFromAdherentId(idAdherent);
         Assert.AreEqual(1, reservations.Count());
-        foreach(Reservation reservation in reservations)
+        foreach (Reservation reservation in reservations)
         {
             Assert.AreEqual(idAdherent, reservation.Adherent.Id);
         }
     }
+
     [TestMethod]
     [ExpectedException(typeof(NotFoundException))]
     public void GetAllReservationsFromAdherentId_inexistant_lance_exception()
@@ -48,11 +53,12 @@ public class ReservationServiceTests
         int idOeuvre = 1;
         var reservations = _service.GetAllReservationsFromOeuvreId(idOeuvre);
         Assert.AreEqual(1, reservations.Count());
-        foreach(Reservation reservation in reservations)
+        foreach (Reservation reservation in reservations)
         {
             Assert.AreEqual(idOeuvre, reservation.Oeuvre.Id);
         }
     }
+
     [TestMethod]
     [ExpectedException(typeof(NotFoundException))]
     public void GetAllReservationsFromOeuvreId_inexistant_lance_exception()

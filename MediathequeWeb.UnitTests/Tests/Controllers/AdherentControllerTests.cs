@@ -15,7 +15,11 @@ public class AdherentControllerTests
         MockInventaireRepository _mockInventaireRepo = new();
         MockReservationRepository _mockReservationRepo = new();
         var adherentService = new AdherentService(_mockAdherentRepo);
-        ReservationService reservationService = new(_mockAdherentRepo,_mockInventaireRepo,_mockReservationRepo);
+        ReservationService reservationService = new(
+            _mockAdherentRepo,
+            _mockInventaireRepo,
+            _mockReservationRepo
+        );
 
         _controller = new AdherentController(adherentService, reservationService);
     }

@@ -9,6 +9,7 @@ public class MockEmpruntRepository : IEmpruntRepository
     private List<Reservation> _reservations;
     private List<Emprunt> _emprunts;
     private int _nextId = 3;
+
     public MockEmpruntRepository()
     {
         _adherents =
@@ -60,7 +61,8 @@ public class MockEmpruntRepository : IEmpruntRepository
                 Auteur = _auteurs[1],
             },
         ];
-        _exemplaires = [
+        _exemplaires =
+        [
             new Exemplaire
             {
                 Id = 1,
@@ -72,10 +74,11 @@ public class MockEmpruntRepository : IEmpruntRepository
                 Id = 2,
                 Oeuvre = _oeuvres[1],
                 Statut = StatutExemplaire.Disponible,
-            }
+            },
         ];
-        _reservations = [
-             new Reservation
+        _reservations =
+        [
+            new Reservation
             {
                 Id = 1,
                 Adherent = _adherents[0],
@@ -101,7 +104,7 @@ public class MockEmpruntRepository : IEmpruntRepository
                 Adherent = _adherents[0],
                 Exemplaire = _exemplaires[0],
                 DateEmprunt = DateOnly.FromDateTime(DateTime.Now.AddDays(-10)),
-                DateRetourPrevue = DateOnly.FromDateTime(DateTime.Now.AddDays(-10+21)),
+                DateRetourPrevue = DateOnly.FromDateTime(DateTime.Now.AddDays(-10 + 21)),
                 DateRetourReelle = null,
             },
             new Emprunt
@@ -110,9 +113,9 @@ public class MockEmpruntRepository : IEmpruntRepository
                 Adherent = _adherents[1],
                 Exemplaire = _exemplaires[1],
                 DateEmprunt = DateOnly.FromDateTime(DateTime.Now.AddDays(-4)),
-                DateRetourPrevue = DateOnly.FromDateTime(DateTime.Now.AddDays(-4+21)),
+                DateRetourPrevue = DateOnly.FromDateTime(DateTime.Now.AddDays(-4 + 21)),
                 DateRetourReelle = null,
-            }
+            },
         ];
     }
 
@@ -131,7 +134,6 @@ public class MockEmpruntRepository : IEmpruntRepository
         emprunt.Id = _nextId++;
         _emprunts.Add(emprunt);
     }
-
 
     public void RemoveEmprunt(Emprunt emprunt)
     {
