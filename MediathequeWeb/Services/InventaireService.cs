@@ -10,7 +10,7 @@ public class InventaireService
     public Auteur GetAuteurById(int id)
     {
         return _repo.GetAuteur(id)
-            ?? throw new NotFoundException($"L’auteur avec l’id {id} n’existe pas.");
+            ?? throw new NotFoundException($"L'auteur avec l'id {id} n’existe pas.");
     }
 
     public IEnumerable<Auteur> GetAllAuteurs()
