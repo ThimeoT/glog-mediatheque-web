@@ -1,5 +1,6 @@
 namespace MediathequeWeb.UnitTests.Tests.Controllers;
 
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -89,12 +90,13 @@ public class OeuvreContollerTests
     }
 
     [TestMethod]
-    public void Ajouter_oeuvre_avec_auteurId_invalide_retourne_bad_request()
+    public void Ajouter_oeuvre_avec_auteurId_invalide_retourne_not_found()
     {
         var result = _controller.AjouterOeuvre("Tenet", "CD", 999);
 
-        var badRequestResult = result.Result as BadRequestObjectResult;
-        Assert.IsNotNull(badRequestResult);
+        var notFoundResult = result.Result as NotFoundObjectResult;
+        Assert.IsNotNull(notFoundResult);
+        Assert.AreEqual("L’auteur avec l’id 999 n’existe pas.", notFoundResult.Value);
     }
 
     [TestMethod]
@@ -119,6 +121,7 @@ public class OeuvreContollerTests
 
         var notFoundResult = result.Result as NotFoundObjectResult;
         Assert.IsNotNull(notFoundResult);
+        Assert.AreEqual("L’œuvre avec l’id 999 n’existe pas.", notFoundResult.Value);
     }
 
     [TestMethod]
@@ -141,12 +144,13 @@ public class OeuvreContollerTests
     }
 
     [TestMethod]
-    public void Modifier_oeuvre_avec_auteurId_invalide_retourne_bad_request()
+    public void Modifier_oeuvre_avec_auteurId_invalide_retourne_not_found()
     {
         var result = _controller.ModifierOeuvre(1, "Tenet", "CD", 999);
 
-        var badRequestResult = result.Result as BadRequestObjectResult;
-        Assert.IsNotNull(badRequestResult);
+        var notFoundResult = result.Result as NotFoundObjectResult;
+        Assert.IsNotNull(notFoundResult);
+        Assert.AreEqual("L’auteur avec l’id 999 n’existe pas.", notFoundResult.Value);
     }
 
     [TestMethod]
@@ -162,7 +166,7 @@ public class OeuvreContollerTests
     [TestMethod]
     public void Supprimer_oeuvre_avec_id_invalide_retourne_not_found()
     {
-        var result = _controller.SupprimerOeuvre(99);
+        var result = _controller.SupprimerOeuvre(999);
 
         var notFoundResult = result as NotFoundObjectResult;
         Assert.IsNotNull(notFoundResult);
@@ -210,8 +214,9 @@ public class OeuvreContollerTests
     {
         var result = _controller.AjouterExemplaireOeuvre(999);
 
-        var badRequestResult = result.Result as BadRequestObjectResult;
-        Assert.IsNotNull(badRequestResult);
+        var notFoundResult = result.Result as NotFoundObjectResult;
+        Assert.IsNotNull(notFoundResult);
+        Assert.AreEqual("L’œuvre avec l’id 999 n’existe pas.", notFoundResult.Value);
     }
 
     [TestMethod]

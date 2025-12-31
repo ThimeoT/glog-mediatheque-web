@@ -63,6 +63,10 @@ public class OeuvreController : ControllerBase
                 OeuvreDto.FromModel(oeuvre)
             );
         }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
         catch (DomainValidationException ex)
         {
             return BadRequest(ex.Message);

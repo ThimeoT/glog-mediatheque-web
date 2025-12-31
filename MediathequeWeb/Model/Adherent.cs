@@ -38,7 +38,7 @@ public class Adherent
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                throw new DomainValidationException("L'adresse email ne peut pas être vide.");
+                throw new DomainValidationException("L’adresse email ne peut pas être vide.");
             }
             _email = value;
         }

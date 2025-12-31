@@ -23,14 +23,14 @@ public class ReservationService
     public IEnumerable<Reservation> GetAllReservationsFromAdherentId(int adherentId)
     {
         if (!_adherentRepo.AdherentExists(adherentId))
-            throw new NotFoundException($"L'adhérent avec l'id {adherentId} n'existe pas.");
+            throw new NotFoundException($"L’adhérent avec l’id {adherentId} n’existe pas.");
         return _reservationRepo.GetAllReservationsFromAdherentId(adherentId);
     }
 
     public IEnumerable<Reservation> GetAllReservationsFromOeuvreId(int oeuvreId)
     {
         if (!_inventaireRepo.OeuvreExists(oeuvreId))
-            throw new NotFoundException($"L'oeuvre avec l'id {oeuvreId} n'existe pas.");
+            throw new NotFoundException($"L’œuvre avec l’id {oeuvreId} n’existe pas.");
         return _reservationRepo.GetAllReservationsFromOeuvreId(oeuvreId);
     }
 
@@ -42,7 +42,7 @@ public class ReservationService
 
         Oeuvre oeuvre =
             _inventaireRepo.GetOeuvre(oeuvreId)
-            ?? throw new NotFoundException("Oeuvre introuvable.");
+            ?? throw new NotFoundException("Œuvre introuvable.");
 
         if (_inventaireRepo.ExisteExemplaireDisponiblePourOeuvre(oeuvreId))
             throw new DomainValidationException(

@@ -10,7 +10,7 @@ public class InventaireService
     public Auteur GetAuteurById(int id)
     {
         return _repo.GetAuteur(id)
-            ?? throw new NotFoundException($"L'auteur avec l'id {id} n'existe pas.");
+            ?? throw new NotFoundException($"L’auteur avec l’id {id} n’existe pas.");
     }
 
     public IEnumerable<Auteur> GetAllAuteurs()
@@ -112,7 +112,7 @@ public class InventaireService
     public IEnumerable<Exemplaire> GetAllExemplairesFromOeuvreId(int oeuvreId)
     {
         if (!_repo.OeuvreExists(oeuvreId))
-            throw new NotFoundException($"L'oeuvre avec l’id {oeuvreId} n’existe pas.");
+            throw new NotFoundException($"L’oeuvre avec l’id {oeuvreId} n’existe pas.");
         return _repo.GetAllExemplairesByOeuvreId(oeuvreId);
     }
 

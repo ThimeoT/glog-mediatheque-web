@@ -95,7 +95,7 @@ public class AdherentControllerTests
 
         var badRequestResult = result.Result as BadRequestObjectResult;
         Assert.IsNotNull(badRequestResult);
-        Assert.AreEqual("L'adresse email ne peut pas être vide.", badRequestResult.Value);
+        Assert.AreEqual("L’adresse email ne peut pas être vide.", badRequestResult.Value);
     }
 
     [TestMethod]
