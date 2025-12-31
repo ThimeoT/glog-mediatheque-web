@@ -6,15 +6,18 @@ namespace MediathequeWeb.UnitTests.Tests.Controllers;
 public class AdherentControllerTests
 {
     private AdherentController _controller;
-    private MockAdherentRepository _mockRepo;
+    private MockAdherentRepository _mockAdherentRepo;
 
     [TestInitialize]
     public void Setup()
     {
-        _mockRepo = new MockAdherentRepository();
-        var adherentService = new AdherentService(_mockRepo);
+        _mockAdherentRepo = new();
+        MockInventaireRepository _mockInventaireRepo = new();
+        MockReservationRepository _mockReservationRepo = new();
+        var adherentService = new AdherentService(_mockAdherentRepo);
+        ReservationService reservationService = new(_mockAdherentRepo,_mockInventaireRepo,_mockReservationRepo);
 
-        _controller = new AdherentController(adherentService, null!);
+        _controller = new AdherentController(adherentService, reservationService);
     }
 
     [TestMethod]
@@ -139,7 +142,7 @@ public class AdherentControllerTests
 
         var noContent = result as NoContentResult;
         Assert.IsNotNull(noContent);
-        Assert.AreEqual(1, _mockRepo.GetAllAdherents().Count());
+        Assert.AreEqual(1, _mockAdherentRepo.GetAllAdherents().Count());
     }
 
     [TestMethod]
@@ -149,5 +152,28 @@ public class AdherentControllerTests
 
         var notFoundResult = result as NotFoundObjectResult;
         Assert.IsNotNull(notFoundResult);
+    }
+
+    [TestMethod]
+    public void Recuperer_reservations_adherent_retourne_ok_avec_la_liste_des_dto_exemplaires()
+    {
+        var result = _controller.RecupererReservationsAdherent(1);
+
+        var okResult = result.Result as OkObjectResult;
+        Assert.IsNotNull(okResult);
+
+        var dtos = okResult.Value as IEnumerable<ReservationDto>;
+        Assert.IsNotNull(dtos);
+        Assert.AreEqual(1, dtos.Count());
+    }
+
+    [TestMethod]
+    public void Recuperer_reservations_oeuvre_avec_id_invalide_retourne_not_found()
+    {
+        int idInvalide = 999;
+        var result = _controller.RecupererReservationsAdherent(id: idInvalide);
+
+        var notFound = result.Result as NotFoundObjectResult;
+        Assert.IsNotNull(notFound);
     }
 }
