@@ -27,6 +27,7 @@ public class AdherentServiceTests
         var adherent = _service.GetAdherentById(1);
 
         Assert.AreEqual("Némard", adherent.Nom);
+        Assert.AreEqual("Jean", adherent.Prenom);
     }
 
     [TestMethod]
