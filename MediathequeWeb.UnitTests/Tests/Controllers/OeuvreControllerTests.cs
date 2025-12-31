@@ -8,15 +8,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 public class OeuvreContollerTests
 {
     private OeuvreController _controller;
-    private InventaireService _service;
     private MockInventaireRepository _mockRepo;
 
     [TestInitialize]
     public void Setup()
     {
         _mockRepo = new();
-        _service = new(_mockRepo);
-        _controller = new(_service, null!);
+        InventaireService _inventaireService = new(_mockRepo);
+        ReservationService _reservationService = new(null!, _mockRepo, null!);
+        _controller = new(_inventaireService, _reservationService);
     }
 
     [TestMethod]
@@ -241,6 +241,4 @@ public class OeuvreContollerTests
         var notFound = result.Result as NotFoundObjectResult;
         Assert.IsNotNull(notFound);
     }
-
-
 }
