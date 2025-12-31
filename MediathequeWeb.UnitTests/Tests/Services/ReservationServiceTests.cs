@@ -38,8 +38,8 @@ public class ReservationServiceTests
     [ExpectedException(typeof(NotFoundException))]
     public void GetAllReservationsFromAdherentId_inexistant_lance_exception()
     {
-        int idAdherentInexistant = 999;
-        _service.GetAllReservationsFromOeuvreId(idAdherentInexistant);
+        int idInvalide = 999;
+        _service.GetAllReservationsFromOeuvreId(idInvalide);
     }
 
     [TestMethod]
@@ -57,8 +57,8 @@ public class ReservationServiceTests
     [ExpectedException(typeof(NotFoundException))]
     public void GetAllReservationsFromOeuvreId_inexistant_lance_exception()
     {
-        int idOeuvreInexistante = 999;
-        _service.GetAllReservationsFromOeuvreId(idOeuvreInexistante);
+        int idInvalide = 999;
+        _service.GetAllReservationsFromOeuvreId(idInvalide);
     }
 
     [TestMethod]
