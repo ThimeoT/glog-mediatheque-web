@@ -8,13 +8,15 @@ public class EmpruntControllerTests
     private EmpruntController _controller;
     private EmpruntService _service;
     private MockEmpruntRepository _mockEmpruntRepo;
+    private MockAdherentRepository _mockAdherentRepo;
+    private MockInventaireRepository _mockInventaireRepo;
 
     [TestInitialize]
     public void Setup()
     {
         _mockEmpruntRepo = new();
-        MockAdherentRepository _mockAdherentRepo = new();
-        MockInventaireRepository _mockInventaireRepo = new();
+        _mockAdherentRepo = new();
+        _mockInventaireRepo = new();
         _service = new(_mockAdherentRepo, _mockEmpruntRepo, _mockInventaireRepo);
         _controller = new(_service);
     }
@@ -96,8 +98,59 @@ public class EmpruntControllerTests
         Assert.AreEqual($"L’œuvre avec l’id {idInvalide} n’existe pas.", notFoundResult.Value);
     }
 
+    [TestMethod]
+    public void Ajouter_emprunt_sans_exemplaire_disponible_retourne_bad_request()
+    {
+        int oeuvreId = 1;
 
-    // TODO : ajouter test pour vérifier le cas où tous les exemplaires sont indisponibles
+        var inventaireRepo = new MockInventaireRepository();
+        var exemplairesOeuvre = inventaireRepo.GetAllExemplairesFromOeuvreId(oeuvreId).ToList();
+
+        foreach (var ex in exemplairesOeuvre)
+            inventaireRepo.RemoveExemplaire(ex);
+
+        EmpruntController controller = new(
+            new EmpruntService(
+                new MockAdherentRepository(),
+                new MockEmpruntRepository(),
+                inventaireRepo
+            )
+        );
+
+        var result = controller.AjouterEmprunt(adherentId: 1, oeuvreId: oeuvreId);
+
+        var badRequest = result.Result as BadRequestObjectResult;
+        Assert.IsNotNull(badRequest);
+        Assert.AreEqual("Aucun exemplaire disponible.", badRequest.Value);
+    }
+
+    [TestMethod]
+    public void Ajouter_emprunt_limite_atteinte_retourne_bad_request()
+    {
+        var adherent = _mockAdherentRepo.GetAdherent(1);
+        Assert.IsNotNull(adherent);
+
+        var exemplaire = _mockInventaireRepo.GetExemplaire(1);
+        Assert.IsNotNull(exemplaire);
+
+        for (int i = 0; i < 10; i++)
+        {
+            adherent.Emprunts.Add(new Emprunt
+            {
+                Id = 100 + i,
+                Adherent = adherent,
+                Exemplaire = exemplaire,
+                DateEmprunt = DateOnly.FromDateTime(DateTime.Now),
+                DateRetourPrevue = DateOnly.FromDateTime(DateTime.Now).AddDays(21)
+            });
+        }
+
+        var result = _controller.AjouterEmprunt(adherentId: 1, oeuvreId: 1);
+
+        var badRequest = result.Result as BadRequestObjectResult;
+        Assert.IsNotNull(badRequest);
+        Assert.AreEqual("Limite de 10 emprunts atteinte.", badRequest.Value);
+    }
 
     [TestMethod]
     public void Retourner_emprunt_avec_id_valide_retourne_ok_avec_dto_emprunt_modifie()
@@ -138,10 +191,26 @@ public class EmpruntControllerTests
         var badRequestResult = result.Result as BadRequestObjectResult;
         Assert.IsNotNull(badRequestResult);
         Assert.AreEqual("La date de retour réelle ne peut pas être avant la date d’emprunt.", badRequestResult.Value);
+    }
+
+    [TestMethod]
+    public void Retourner_emprunt_deja_retourne_retourne_bad_request()
+    {
+        var emprunt = _mockEmpruntRepo.GetEmprunt(1);
+        Assert.IsNotNull(emprunt);
         
+        emprunt.DateRetourReelle = DateOnly.FromDateTime(DateTime.Now);
+
+        var result = _controller.RetournerEmprunt(
+            id: 1,
+            dateRetourReelle: DateOnly.FromDateTime(DateTime.Now)
+        );
+
+        var badRequest = result.Result as BadRequestObjectResult;
+        Assert.IsNotNull(badRequest);
+        Assert.AreEqual("Cet emprunt a déjà été retourné.", badRequest.Value);
     }
     
-
     [TestMethod]
     public void Supprimer_emprunt_avec_id_valide_retourne_no_content()
     {
