@@ -2,7 +2,6 @@ using System.Net.NetworkInformation;
 
 public class MockInventaireRepository : IInventaireRepository
 {
-    private List<Adherent> _adherents;
     private List<Auteur> _auteurs;
     private List<Oeuvre> _oeuvres;
     private List<Exemplaire> _exemplaires;
@@ -12,27 +11,6 @@ public class MockInventaireRepository : IInventaireRepository
 
     public MockInventaireRepository()
     {
-        _adherents =
-        [
-            new Adherent
-            {
-                Id = 1,
-                Nom = "Némard",
-                Prenom = "Jean",
-                Email = "jeannemard@ensc.fr",
-                Emprunts = [],
-                Reservations = [],
-            },
-            new Adherent
-            {
-                Id = 2,
-                Nom = "Dicule",
-                Prenom = "Thierry",
-                Email = "thierrydicule@ensc.fr",
-                Emprunts = [],
-                Reservations = [],
-            },
-        ];
         _auteurs =
         [
             new Auteur
