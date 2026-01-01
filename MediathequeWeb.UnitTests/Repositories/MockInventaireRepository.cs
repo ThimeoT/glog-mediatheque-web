@@ -2,12 +2,12 @@ using System.Net.NetworkInformation;
 
 public class MockInventaireRepository : IInventaireRepository
 {
-    private List<Auteur> _auteurs;
-    private List<Oeuvre> _oeuvres;
-    private List<Exemplaire> _exemplaires;
+    private readonly List<Auteur> _auteurs;
+    private readonly List<Oeuvre> _oeuvres;
+    private readonly List<Exemplaire> _exemplaires;
     private int _nextIdAuteur = 3;
     private int _nextIdOeuvre = 3;
-    private int _nextIdExemplaire = 3;
+    private readonly int _nextIdExemplaire = 3;
 
     public MockInventaireRepository()
     {
@@ -75,7 +75,7 @@ public class MockInventaireRepository : IInventaireRepository
     public void AddAuteur(Auteur auteur)
     {
         auteur.Id = _nextIdAuteur++;
-        auteur.Oeuvres ??= new();
+        auteur.Oeuvres ??= [];
         _auteurs.Add(auteur);
     }
 
@@ -102,8 +102,8 @@ public class MockInventaireRepository : IInventaireRepository
     public void AddOeuvre(Oeuvre oeuvre)
     {
         oeuvre.Id = _nextIdOeuvre++;
-        oeuvre.Exemplaires ??= new();
-        oeuvre.Reservations ??= new();
+        oeuvre.Exemplaires ??= [];
+        oeuvre.Reservations ??= [];
         _oeuvres.Add(oeuvre);
     }
 
@@ -130,7 +130,7 @@ public class MockInventaireRepository : IInventaireRepository
     public void AddExemplaire(Exemplaire exemplaire)
     {
         exemplaire.Id = _nextIdExemplaire;
-        exemplaire.Emprunts ??= new();
+        exemplaire.Emprunts ??= [];
         _exemplaires.Add(exemplaire);
     }
 

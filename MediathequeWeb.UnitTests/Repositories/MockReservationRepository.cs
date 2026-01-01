@@ -112,6 +112,7 @@ public class MockReservationRepository : IReservationRepository
                 Statut = StatutReservation.Active,
             },
         ];
+
         _exemplaires[1].Statut = StatutExemplaire.Emprunte;
     }
 
@@ -152,8 +153,5 @@ public class MockReservationRepository : IReservationRepository
         _reservations.Remove(reservation);
     }
 
-    public void SaveChanges()
-    {
-        // Rien à faire
-    }
+    public void SaveChanges() { }
 }

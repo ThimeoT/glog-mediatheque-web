@@ -13,8 +13,8 @@ public class MockAdherentRepository : IAdherentRepository
                 Nom = "Némard",
                 Prenom = "Jean",
                 Email = "jeannemard@ensc.fr",
-                Emprunts = new List<Emprunt>(),
-                Reservations = new List<Reservation>(),
+                Emprunts = [],
+                Reservations = [],
             },
             new Adherent
             {
@@ -22,8 +22,8 @@ public class MockAdherentRepository : IAdherentRepository
                 Nom = "Dicule",
                 Prenom = "Thierry",
                 Email = "thierrydicule@ensc.fr",
-                Emprunts = new List<Emprunt>(),
-                Reservations = new List<Reservation>(),
+                Emprunts = [],
+                Reservations = [],
             },
         ];
     }
@@ -46,8 +46,8 @@ public class MockAdherentRepository : IAdherentRepository
     public void AddAdherent(Adherent adherent)
     {
         adherent.Id = _nextId++;
-        adherent.Emprunts ??= new();
-        adherent.Reservations ??= new();
+        adherent.Emprunts ??= [];
+        adherent.Reservations ??= [];
         _adherents.Add(adherent);
     }
 
@@ -56,8 +56,5 @@ public class MockAdherentRepository : IAdherentRepository
         _adherents.Remove(adherent);
     }
 
-    public void SaveChanges()
-    {
-        // Rien à faire
-    }
+    public void SaveChanges() { }
 }

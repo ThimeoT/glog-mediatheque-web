@@ -2,12 +2,11 @@ using MediathequeWeb.UnitTests.Tests.Controllers;
 
 public class MockEmpruntRepository : IEmpruntRepository
 {
-    private List<Adherent> _adherents;
-    private List<Auteur> _auteurs;
-    private List<Oeuvre> _oeuvres;
-    private List<Exemplaire> _exemplaires;
-    private List<Reservation> _reservations;
-    private List<Emprunt> _emprunts;
+    private readonly List<Adherent> _adherents;
+    private readonly List<Auteur> _auteurs;
+    private readonly List<Oeuvre> _oeuvres;
+    private readonly List<Exemplaire> _exemplaires;
+    private readonly List<Emprunt> _emprunts;
     private int _nextId = 3;
 
     public MockEmpruntRepository()
@@ -20,8 +19,8 @@ public class MockEmpruntRepository : IEmpruntRepository
                 Nom = "Némard",
                 Prenom = "Jean",
                 Email = "jeannemard@ensc.fr",
-                Emprunts = new List<Emprunt>(),
-                Reservations = new List<Reservation>()
+                Emprunts = [],
+                Reservations = []
             },
             new Adherent
             {
@@ -29,10 +28,11 @@ public class MockEmpruntRepository : IEmpruntRepository
                 Nom = "Dicule",
                 Prenom = "Thierry",
                 Email = "thierrydicule@ensc.fr",
-                Emprunts = new List<Emprunt>(),
-                Reservations = new List<Reservation>()
+                Emprunts = [],
+                Reservations = []
             },
         ];
+
         _auteurs =
         [
             new Auteur
@@ -48,6 +48,7 @@ public class MockEmpruntRepository : IEmpruntRepository
                 Prenom = "Stephen",
             },
         ];
+
         _oeuvres =
         [
             new Oeuvre
@@ -65,6 +66,7 @@ public class MockEmpruntRepository : IEmpruntRepository
                 Auteur = _auteurs[1],
             },
         ];
+        
         _exemplaires =
         [
             new Exemplaire
@@ -78,25 +80,6 @@ public class MockEmpruntRepository : IEmpruntRepository
                 Id = 2,
                 Oeuvre = _oeuvres[1],
                 Statut = StatutExemplaire.Disponible,
-            },
-        ];
-        _reservations =
-        [
-            new Reservation
-            {
-                Id = 1,
-                Adherent = _adherents[0],
-                Oeuvre = _oeuvres[0],
-                DateReservation = DateOnly.FromDateTime(DateTime.Now),
-                Statut = StatutReservation.Active,
-            },
-            new Reservation
-            {
-                Id = 2,
-                Adherent = _adherents[1],
-                Oeuvre = _oeuvres[1],
-                DateReservation = DateOnly.FromDateTime(DateTime.Now),
-                Statut = StatutReservation.Active,
             },
         ];
 
@@ -144,8 +127,5 @@ public class MockEmpruntRepository : IEmpruntRepository
         _emprunts.Remove(emprunt);
     }
 
-    public void SaveChanges()
-    {
-        // rien à faire ici
-    }
+    public void SaveChanges() { }
 }
