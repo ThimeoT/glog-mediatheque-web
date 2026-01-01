@@ -70,10 +70,17 @@ public class ReservationServiceTests
     [TestMethod]
     public void CreateReservation_ajoute_une_reservation()
     {
-        var reservation = _service.CreateReservation(adherentId: 1, oeuvreId: 1);
+        var reservation = _service.CreateReservation(adherentId: 1, oeuvreId: 2);
 
         Assert.IsTrue(reservation.Id > 0);
         Assert.AreEqual(3, _mockReservationRepo.GetAllReservations().Count());
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(DomainValidationException))]
+    public void CreateReservation_avec_exemplaire_disponible_lance_exception()
+    {
+        var reservation = _service.CreateReservation(adherentId: 1, oeuvreId: 1);
     }
 
     [TestMethod]

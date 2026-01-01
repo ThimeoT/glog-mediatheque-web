@@ -46,7 +46,7 @@ public class ReservationService
 
         if (_inventaireRepo.ExisteExemplaireDisponiblePourOeuvre(oeuvreId))
             throw new DomainValidationException(
-                "Un exemplaire est disponible, réservation impossible."
+                "Pas besoin de réserver, un exemplaire est déjà disponible !"
             );
 
         if (_reservationRepo.ReservationActiveExists(adherentId, oeuvreId))

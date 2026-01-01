@@ -48,8 +48,18 @@ public class ReservationContollerTests
         var dto = created.Value as ReservationDto;
         Assert.IsNotNull(dto);
         Assert.AreEqual(1, dto.AdherentId);
-        Assert.AreEqual(1, dto.OeuvreId);
-        Assert.AreEqual("Disponible", dto.Statut);
+        Assert.AreEqual(2, dto.OeuvreId);
+        Assert.AreEqual("Active", dto.Statut);
+    }
+
+    [TestMethod]
+    public void Ajouter_reservation_avec_exemplaire_disponible_retourne_domain_validation()
+    {
+        var result = _controller.AjouterReservation(adherentId: 1, oeuvreId: 1);
+
+        var badRequest = result.Result as BadRequestObjectResult;
+        Assert.IsNotNull(badRequest);
+        Assert.AreEqual("Pas besoin de réserver, un exemplaire est déjà disponible !", badRequest.Value);
     }
 
     [TestMethod]

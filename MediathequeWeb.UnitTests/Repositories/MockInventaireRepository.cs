@@ -79,7 +79,7 @@ public class MockInventaireRepository : IInventaireRepository
             {
                 Id = 2,
                 Oeuvre = _oeuvres[1],
-                Statut = StatutExemplaire.Disponible,
+                Statut = StatutExemplaire.Emprunte,
             },
         ];
     }

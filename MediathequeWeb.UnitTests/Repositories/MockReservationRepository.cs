@@ -4,6 +4,7 @@ public class MockReservationRepository : IReservationRepository
     private readonly List<Adherent> _adherents;
     private readonly List<Reservation> _reservations;
     private readonly List<Oeuvre> _oeuvres;
+    private readonly List<Exemplaire> _exemplaires;
     private int _nextId = 3;
 
     public MockReservationRepository()
@@ -63,6 +64,21 @@ public class MockReservationRepository : IReservationRepository
                 Auteur = _auteurs[1],
             },
         ];
+        _exemplaires =
+        [
+            new Exemplaire
+            {
+                Id = 1,
+                Oeuvre = _oeuvres[0],
+                Statut = StatutExemplaire.Disponible,
+            },
+            new Exemplaire
+            {
+                Id = 2,
+                Oeuvre = _oeuvres[1],
+                Statut = StatutExemplaire.Disponible,
+            },
+        ];
 
         _reservations =
         [
@@ -83,6 +99,7 @@ public class MockReservationRepository : IReservationRepository
                 Statut = StatutReservation.Active,
             },
         ];
+        _exemplaires[1].Statut = StatutExemplaire.Emprunte;
     }
 
     public Reservation? GetReservation(int id)
