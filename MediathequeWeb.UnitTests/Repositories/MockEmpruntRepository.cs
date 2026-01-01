@@ -17,16 +17,20 @@ public class MockEmpruntRepository : IEmpruntRepository
             new Adherent
             {
                 Id = 1,
-                Nom = "Curie",
-                Prenom = "Marie",
-                Email = "marie.curie@email.com",
+                Nom = "Némard",
+                Prenom = "Jean",
+                Email = "jeannemard@ensc.fr",
+                Emprunts = new List<Emprunt>(),
+                Reservations = new List<Reservation>()
             },
             new Adherent
             {
                 Id = 2,
-                Nom = "Dupont",
-                Prenom = "Jean",
-                Email = "jean.dupont@email.com",
+                Nom = "Dicule",
+                Prenom = "Thierry",
+                Email = "thierrydicule@ensc.fr",
+                Emprunts = new List<Emprunt>(),
+                Reservations = new List<Reservation>()
             },
         ];
         _auteurs =
@@ -34,14 +38,14 @@ public class MockEmpruntRepository : IEmpruntRepository
             new Auteur
             {
                 Id = 1,
-                Nom = "Herbert",
-                Prenom = "Frank",
+                Nom = "Williams",
+                Prenom = "Robbie",
             },
             new Auteur
             {
                 Id = 2,
-                Nom = "Nolan",
-                Prenom = "Christopher",
+                Nom = "Darren",
+                Prenom = "Aronofsky",
             },
         ];
         _oeuvres =
@@ -49,14 +53,14 @@ public class MockEmpruntRepository : IEmpruntRepository
             new Oeuvre
             {
                 Id = 1,
-                Titre = "Dune",
-                Type = OeuvreType.Livre,
+                Titre = "Kids",
+                Type = OeuvreType.CD,
                 Auteur = _auteurs[0],
             },
             new Oeuvre
             {
                 Id = 2,
-                Titre = "Interstellar",
+                Titre = "The Whale",
                 Type = OeuvreType.DVD,
                 Auteur = _auteurs[1],
             },

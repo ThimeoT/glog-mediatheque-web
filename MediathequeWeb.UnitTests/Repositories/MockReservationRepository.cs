@@ -8,40 +8,6 @@ public class MockReservationRepository : IReservationRepository
 
     public MockReservationRepository()
     {
-        _auteurs =
-        [
-            new Auteur
-            {
-                Id = 1,
-                Nom = "Herbert",
-                Prenom = "Frank",
-            },
-            new Auteur
-            {
-                Id = 2,
-                Nom = "Nolan",
-                Prenom = "Christopher",
-            },
-        ];
-
-        _oeuvres =
-        [
-            new Oeuvre
-            {
-                Id = 1,
-                Titre = "Dune",
-                Type = OeuvreType.Livre,
-                Auteur = _auteurs[0],
-            },
-            new Oeuvre
-            {
-                Id = 2,
-                Titre = "Interstellar",
-                Type = OeuvreType.DVD,
-                Auteur = _auteurs[1],
-            },
-        ];
-
         _adherents =
         [
             new Adherent
@@ -63,6 +29,41 @@ public class MockReservationRepository : IReservationRepository
                 Reservations = [],
             },
         ];
+
+        _auteurs =
+        [
+            new Auteur
+            {
+                Id = 1,
+                Nom = "Williams",
+                Prenom = "Robbie",
+            },
+            new Auteur
+            {
+                Id = 2,
+                Nom = "Darren",
+                Prenom = "Aronofsky",
+            },
+        ];
+
+        _oeuvres =
+        [
+            new Oeuvre
+            {
+                Id = 1,
+                Titre = "Kids",
+                Type = OeuvreType.CD,
+                Auteur = _auteurs[0],
+            },
+            new Oeuvre
+            {
+                Id = 2,
+                Titre = "The Whale",
+                Type = OeuvreType.DVD,
+                Auteur = _auteurs[1],
+            },
+        ];
+
         _reservations =
         [
             new Reservation

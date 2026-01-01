@@ -38,14 +38,14 @@ public class MockInventaireRepository : IInventaireRepository
             new Auteur
             {
                 Id = 1,
-                Nom = "Herbert",
-                Prenom = "Frank",
+                Nom = "Williams",
+                Prenom = "Robbie",
             },
             new Auteur
             {
                 Id = 2,
-                Nom = "Nolan",
-                Prenom = "Christopher",
+                Nom = "Darren",
+                Prenom = "Aronofsky",
             },
         ];
 
@@ -54,14 +54,14 @@ public class MockInventaireRepository : IInventaireRepository
             new Oeuvre
             {
                 Id = 1,
-                Titre = "Dune",
-                Type = OeuvreType.Livre,
+                Titre = "Kids",
+                Type = OeuvreType.CD,
                 Auteur = _auteurs[0],
             },
             new Oeuvre
             {
                 Id = 2,
-                Titre = "Interstellar",
+                Titre = "The Whale",
                 Type = OeuvreType.DVD,
                 Auteur = _auteurs[1],
             },
