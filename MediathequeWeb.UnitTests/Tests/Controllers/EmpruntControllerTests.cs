@@ -92,8 +92,10 @@ public class EmpruntContollerTests
 
         var notFoundResult = result.Result as NotFoundObjectResult;
         Assert.IsNotNull(notFoundResult);
-        Assert.AreEqual("Œuvre introuvable.", notFoundResult.Value);
+        Assert.AreEqual($"L’œuvre avec l’id {idInvalide} n’existe pas.", notFoundResult.Value);
     }
+
+    // TODO : ajouter test pour vérifier le cas où tous les exemplaires sont indisponibles
 
     [TestMethod]
     public void Retourner_emprunt_avec_id_valide_retourne_ok_avec_dto_emprunt_modifie()

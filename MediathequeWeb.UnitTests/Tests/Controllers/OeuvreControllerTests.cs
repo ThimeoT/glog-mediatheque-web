@@ -97,11 +97,12 @@ public class OeuvreContollerTests
     [TestMethod]
     public void Ajouter_oeuvre_avec_auteurId_invalide_retourne_not_found()
     {
-        var result = _controller.AjouterOeuvre("Tenet", "CD", 999);
+        int idInvalide = 999;
+        var result = _controller.AjouterOeuvre("Tenet", "CD", idInvalide);
 
         var notFoundResult = result.Result as NotFoundObjectResult;
         Assert.IsNotNull(notFoundResult);
-        Assert.AreEqual("L’auteur avec l’id 999 n’existe pas.", notFoundResult.Value);
+        Assert.AreEqual($"L’auteur avec l’id {idInvalide} n’existe pas.", notFoundResult.Value);
     }
 
     [TestMethod]
@@ -122,11 +123,12 @@ public class OeuvreContollerTests
     [TestMethod]
     public void Modifier_oeuvre_avec_id_invalide_retourne_not_found()
     {
-        var result = _controller.ModifierOeuvre(999, "Tenet", "CD", 1);
+        int idInvalide = 999;
+        var result = _controller.ModifierOeuvre(idInvalide, "Tenet", "CD", 1);
 
         var notFoundResult = result.Result as NotFoundObjectResult;
         Assert.IsNotNull(notFoundResult);
-        Assert.AreEqual("L’œuvre avec l’id 999 n’existe pas.", notFoundResult.Value);
+        Assert.AreEqual($"L’œuvre avec l’id {idInvalide} n’existe pas.", notFoundResult.Value);
     }
 
     [TestMethod]
@@ -151,11 +153,12 @@ public class OeuvreContollerTests
     [TestMethod]
     public void Modifier_oeuvre_avec_auteurId_invalide_retourne_not_found()
     {
-        var result = _controller.ModifierOeuvre(1, "Tenet", "CD", 999);
+        int idInvalide = 999;
+        var result = _controller.ModifierOeuvre(1, "Tenet", "CD", idInvalide);
 
         var notFoundResult = result.Result as NotFoundObjectResult;
         Assert.IsNotNull(notFoundResult);
-        Assert.AreEqual("L’auteur avec l’id 999 n’existe pas.", notFoundResult.Value);
+        Assert.AreEqual($"L’auteur avec l’id {idInvalide} n’existe pas.", notFoundResult.Value);
     }
 
     [TestMethod]
@@ -217,11 +220,12 @@ public class OeuvreContollerTests
     [TestMethod]
     public void Ajouter_exemplaire_avec_oeuvreId_invalide_retourne_bad_request()
     {
-        var result = _controller.AjouterExemplaireOeuvre(999);
+        int idInvalide = 999;
+        var result = _controller.AjouterExemplaireOeuvre(idInvalide);
 
         var notFoundResult = result.Result as NotFoundObjectResult;
         Assert.IsNotNull(notFoundResult);
-        Assert.AreEqual("L’œuvre avec l’id 999 n’existe pas.", notFoundResult.Value);
+        Assert.AreEqual($"L’œuvre avec l’id {idInvalide} n’existe pas.", notFoundResult.Value);
     }
 
     [TestMethod]
