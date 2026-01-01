@@ -45,7 +45,7 @@ public class AuteurContollerTests
     }
 
     [TestMethod]
-    public void Recuperer_auteur_id_avec_invalide_retourne_not_found()
+    public void Recuperer_auteur_avec_id_invalide_retourne_not_found()
     {
         var result = _controller.RecupererAuteur(99);
 
@@ -60,6 +60,7 @@ public class AuteurContollerTests
 
         var created = result.Result as CreatedAtActionResult;
         Assert.IsNotNull(created);
+        Assert.AreEqual(nameof(AuteurController.RecupererAuteur), created.ActionName);
 
         var dto = created.Value as AuteurDto;
         Assert.IsNotNull(dto);
