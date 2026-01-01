@@ -14,7 +14,7 @@ public class MockAdherentRepository : IAdherentRepository
                 Prenom = "Jean",
                 Email = "jeannemard@ensc.fr",
                 Emprunts = new List<Emprunt>(),
-                Reservations = new List<Reservation>()
+                Reservations = new List<Reservation>(),
             },
             new Adherent
             {
@@ -23,8 +23,8 @@ public class MockAdherentRepository : IAdherentRepository
                 Prenom = "Thierry",
                 Email = "thierrydicule@ensc.fr",
                 Emprunts = new List<Emprunt>(),
-                Reservations = new List<Reservation>()
-            }
+                Reservations = new List<Reservation>(),
+            },
         ];
     }
 

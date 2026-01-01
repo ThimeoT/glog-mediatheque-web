@@ -45,6 +45,12 @@ public class MockReservationRepository : IReservationRepository
                 Nom = "King",
                 Prenom = "Stephen",
             },
+            new Auteur
+            {
+                Id = 2,
+                Nom = "Cameron",
+                Prenom = "James",
+            },
         ];
 
         _oeuvres =
@@ -62,6 +68,13 @@ public class MockReservationRepository : IReservationRepository
                 Titre = "It",
                 Type = OeuvreType.DVD,
                 Auteur = _auteurs[1],
+            },
+            new Oeuvre
+            {
+                Id = 3,
+                Titre = "Avatar",
+                Type = OeuvreType.DVD,
+                Auteur = _auteurs[2],
             },
         ];
         _exemplaires =

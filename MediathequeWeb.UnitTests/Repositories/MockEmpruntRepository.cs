@@ -47,6 +47,12 @@ public class MockEmpruntRepository : IEmpruntRepository
                 Nom = "King",
                 Prenom = "Stephen",
             },
+            new Auteur
+            {
+                Id = 3,
+                Nom = "Cameron",
+                Prenom = "James",
+            },
         ];
         _oeuvres =
         [
@@ -63,6 +69,13 @@ public class MockEmpruntRepository : IEmpruntRepository
                 Titre = "It",
                 Type = OeuvreType.DVD,
                 Auteur = _auteurs[1],
+            },
+            new Oeuvre
+            {
+                Id = 3,
+                Titre = "Avatar",
+                Type = OeuvreType.DVD,
+                Auteur = _auteurs[2],
             },
         ];
         _exemplaires =
