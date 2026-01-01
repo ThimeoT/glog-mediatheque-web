@@ -25,12 +25,6 @@ public class MockInventaireRepository : IInventaireRepository
                 Nom = "King",
                 Prenom = "Stephen",
             },
-            new Auteur
-            {
-                Id = 3,
-                Nom = "Cameron",
-                Prenom = "James",
-            },
         ];
 
         _oeuvres =
@@ -48,13 +42,6 @@ public class MockInventaireRepository : IInventaireRepository
                 Titre = "It",
                 Type = OeuvreType.DVD,
                 Auteur = _auteurs[1],
-            },
-            new Oeuvre
-            {
-                Id = 3,
-                Titre = "Avatar",
-                Type = OeuvreType.DVD,
-                Auteur = _auteurs[2],
             },
         ];
 
