@@ -71,10 +71,12 @@ public class EmpruntContollerTests
         Assert.AreEqual("Kids", dto.Oeuvre);
         Assert.AreEqual(DateOnly.FromDateTime(DateTime.Now), dto.DateEmprunt);
         Assert.AreEqual(dto.DateEmprunt.AddDays(21), dto.DateRetourPrevue);
+        Assert.IsNull(dto.DateRetourReelle);
+        
     }
 
     [TestMethod]
-    public void Ajouter_reservation_avec_adherentId_invalide_retourne_not_found()
+    public void Ajouter_emprunt_avec_adherentId_invalide_retourne_not_found()
     {
         int idInvalide = 999;
         var result = _controller.AjouterEmprunt(adherentId: idInvalide, oeuvreId: 1);
@@ -94,6 +96,7 @@ public class EmpruntContollerTests
         Assert.IsNotNull(notFoundResult);
         Assert.AreEqual($"L’œuvre avec l’id {idInvalide} n’existe pas.", notFoundResult.Value);
     }
+
 
     // TODO : ajouter test pour vérifier le cas où tous les exemplaires sont indisponibles
 
