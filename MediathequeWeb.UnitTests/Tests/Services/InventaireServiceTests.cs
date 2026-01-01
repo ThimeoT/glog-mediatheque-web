@@ -70,7 +70,7 @@ public class InventaireServiceTests
     [TestMethod]
     public void CreateOeuvre_ajoute_une_oeuvre()
     {
-        var oeuvre = _service.CreateOeuvre("L'odyssée", "DVD", 1);
+        var oeuvre = _service.CreateOeuvre("Feel", "Livre", 1);
 
         Assert.IsTrue(oeuvre.Id > 0);
         Assert.AreEqual(3, _repo.GetAllOeuvres().Count());
@@ -79,8 +79,8 @@ public class InventaireServiceTests
     [TestMethod]
     public void UpdateOeuvre_modifie_les_donnees()
     {
-        var oeuvre = _service.UpdateOeuvre(1, "Oppenheimer", "Livre", 1);
-        Assert.AreEqual("Oppenheimer", oeuvre.Titre);
+        var oeuvre = _service.UpdateOeuvre(1, "Feel", "Livre", 1);
+        Assert.AreEqual("Feel", oeuvre.Titre);
         Assert.AreEqual(OeuvreType.Livre, oeuvre.Type);
     }
 

@@ -27,7 +27,7 @@ public class ExemplaireContollerTests
         Assert.IsNotNull(okResult);
         var dto = okResult.Value as ExemplaireDto;
         Assert.IsNotNull(dto);
-        Assert.AreEqual("Dune", dto.OeuvreTitre);
+        Assert.AreEqual("Kids", dto.OeuvreTitre);
         Assert.AreEqual("Disponible", dto.Statut);
     }
 

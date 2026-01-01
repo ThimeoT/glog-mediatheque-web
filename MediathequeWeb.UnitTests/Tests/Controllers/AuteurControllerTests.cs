@@ -40,8 +40,8 @@ public class AuteurContollerTests
 
         var dto = okResult.Value as AuteurDto;
         Assert.IsNotNull(dto);
-        Assert.AreEqual("Herbert", dto.Nom);
-        Assert.AreEqual("Frank", dto.Prenom);
+        Assert.AreEqual("Williams", dto.Nom);
+        Assert.AreEqual("Robbie", dto.Prenom);
     }
 
     [TestMethod]
@@ -115,7 +115,7 @@ public class AuteurContollerTests
     [TestMethod]
     public void Modifier_auteur_avec_nom_vide_retourne_bad_request()
     {
-        var result = _controller.ModifierAuteur(1, "", "Jean");
+        var result = _controller.ModifierAuteur(1, "", "Jeanne");
 
         var badRequestResult = result.Result as BadRequestObjectResult;
         Assert.IsNotNull(badRequestResult);
@@ -125,7 +125,7 @@ public class AuteurContollerTests
     [TestMethod]
     public void Modifier_auteur_avec_prenom_vide_retourne_bad_request()
     {
-        var result = _controller.ModifierAuteur(1, "Werber", "");
+        var result = _controller.ModifierAuteur(1, "Dark", "");
 
         var badRequestResult = result.Result as BadRequestObjectResult;
         Assert.IsNotNull(badRequestResult);

@@ -44,8 +44,8 @@ public class MockInventaireRepository : IInventaireRepository
             new Auteur
             {
                 Id = 2,
-                Nom = "Darren",
-                Prenom = "Aronofsky",
+                Nom = "King",
+                Prenom = "Stephen",
             },
         ];
 
@@ -61,7 +61,7 @@ public class MockInventaireRepository : IInventaireRepository
             new Oeuvre
             {
                 Id = 2,
-                Titre = "The Whale",
+                Titre = "It",
                 Type = OeuvreType.DVD,
                 Auteur = _auteurs[1],
             },

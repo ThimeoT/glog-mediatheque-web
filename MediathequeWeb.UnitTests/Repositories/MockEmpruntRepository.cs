@@ -44,8 +44,8 @@ public class MockEmpruntRepository : IEmpruntRepository
             new Auteur
             {
                 Id = 2,
-                Nom = "Darren",
-                Prenom = "Aronofsky",
+                Nom = "King",
+                Prenom = "Stephen",
             },
         ];
         _oeuvres =
@@ -60,7 +60,7 @@ public class MockEmpruntRepository : IEmpruntRepository
             new Oeuvre
             {
                 Id = 2,
-                Titre = "The Whale",
+                Titre = "It",
                 Type = OeuvreType.DVD,
                 Auteur = _auteurs[1],
             },

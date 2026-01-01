@@ -43,8 +43,8 @@ public class EmpruntContollerTests
 
         var dto = okResult.Value as EmpruntDto;
         Assert.IsNotNull(dto);
-        Assert.AreEqual("Marie Curie", dto.Adherent);
-        Assert.AreEqual("Dune", dto.Oeuvre);
+        Assert.AreEqual("Jean Némard", dto.Adherent);
+        Assert.AreEqual("Kids", dto.Oeuvre);
         Assert.AreEqual(dto.DateEmprunt.AddDays(21), dto.DateRetourPrevue);
     }
 
@@ -68,7 +68,7 @@ public class EmpruntContollerTests
         var dto = created.Value as EmpruntDto;
         Assert.IsNotNull(dto);
         Assert.AreEqual("Jean Némard", dto.Adherent);
-        Assert.AreEqual("Dune", dto.Oeuvre);
+        Assert.AreEqual("Kids", dto.Oeuvre);
         Assert.AreEqual(DateOnly.FromDateTime(DateTime.Now), dto.DateEmprunt);
         Assert.AreEqual(dto.DateEmprunt.AddDays(21), dto.DateRetourPrevue);
     }
@@ -108,8 +108,8 @@ public class EmpruntContollerTests
 
         var dto = okResult.Value as EmpruntDto;
         Assert.IsNotNull(dto);
-        Assert.AreEqual("Marie Curie", dto.Adherent);
-        Assert.AreEqual("Dune", dto.Oeuvre);
+        Assert.AreEqual("Jean Némard", dto.Adherent);
+        Assert.AreEqual("Kids", dto.Oeuvre);
     }
 
     [TestMethod]

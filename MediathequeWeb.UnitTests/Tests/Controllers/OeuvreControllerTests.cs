@@ -46,7 +46,7 @@ public class OeuvreContollerTests
         Assert.IsNotNull(okResult);
         var dto = okResult.Value as OeuvreDto;
         Assert.IsNotNull(dto);
-        Assert.AreEqual("Dune", dto.Titre);
+        Assert.AreEqual("Kids", dto.Titre);
     }
 
     [TestMethod]
@@ -61,16 +61,16 @@ public class OeuvreContollerTests
     [TestMethod]
     public void Ajouter_oeuvre_retourne_created_avec_dto_oeuvre()
     {
-        var result = _controller.AjouterOeuvre("Oppenheimer", "DVD", 2);
+        var result = _controller.AjouterOeuvre("Carrie", "DVD", 2);
 
         var created = result.Result as CreatedAtActionResult;
         Assert.IsNotNull(created);
 
         var dto = created.Value as OeuvreDto;
         Assert.IsNotNull(dto);
-        Assert.AreEqual("Oppenheimer", dto.Titre);
+        Assert.AreEqual("Carrie", dto.Titre);
         Assert.AreEqual("DVD", dto.Type);
-        Assert.AreEqual("Christopher Nolan", dto.Auteur);
+        Assert.AreEqual("Stephen King", dto.Auteur);
     }
 
     [TestMethod]
@@ -116,7 +116,7 @@ public class OeuvreContollerTests
         Assert.IsNotNull(dto);
         Assert.AreEqual("Inception", dto.Titre);
         Assert.AreEqual("CD", dto.Type);
-        Assert.AreEqual("Christopher Nolan", dto.Auteur);
+        Assert.AreEqual("Stephen King", dto.Auteur);
     }
 
     [TestMethod]
@@ -210,7 +210,7 @@ public class OeuvreContollerTests
 
         var dto = created.Value as ExemplaireDto;
         Assert.IsNotNull(dto);
-        Assert.AreEqual("Dune", dto.OeuvreTitre);
+        Assert.AreEqual("Kids", dto.OeuvreTitre);
         Assert.AreEqual("Disponible", dto.Statut);
     }
 
