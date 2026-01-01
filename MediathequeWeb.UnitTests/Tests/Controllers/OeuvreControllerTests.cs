@@ -90,6 +90,7 @@ public class OeuvreControllerTests
 
         var badRequestResult = result.Result as BadRequestObjectResult;
         Assert.IsNotNull(badRequestResult);
+        Assert.AreEqual("Type d’œuvre invalide. Valeurs possibles : Livre, BD, DVD, CD", badRequestResult.Value);
     }
 
     [TestMethod]
@@ -146,6 +147,7 @@ public class OeuvreControllerTests
 
         var badRequestResult = result.Result as BadRequestObjectResult;
         Assert.IsNotNull(badRequestResult);
+        Assert.AreEqual("Type d’œuvre invalide. Valeurs possibles : Livre, BD, DVD, CD", badRequestResult.Value);
     }
 
     [TestMethod]
@@ -202,7 +204,7 @@ public class OeuvreControllerTests
     }
 
     [TestMethod]
-    public void Ajouter_exemplaire_retourne_created_avec_dto_oeuvre()
+    public void Ajouter_exemplaire_retourne_created_avec_dto_exemplaire()
     {
         var result = _controller.AjouterExemplaireOeuvre(1);
 
@@ -216,7 +218,7 @@ public class OeuvreControllerTests
     }
 
     [TestMethod]
-    public void Ajouter_exemplaire_avec_oeuvreId_invalide_retourne_bad_request()
+    public void Ajouter_exemplaire_avec_oeuvreId_invalide_retourne_not_found()
     {
         int idInvalide = 999;
         var result = _controller.AjouterExemplaireOeuvre(idInvalide);
