@@ -46,6 +46,7 @@ public class EmpruntServiceTests
         var emprunt = _service.CreateEmprunt(adherentId: 1, oeuvreId: 1);
         Assert.IsTrue(emprunt.Id > 0);
         Assert.AreEqual(3, _mockEmpruntRepo.GetAllEmprunts().Count());
+        Assert.AreEqual(StatutExemplaire.Emprunte, emprunt.Exemplaire.Statut);
     }
 
     [TestMethod]
