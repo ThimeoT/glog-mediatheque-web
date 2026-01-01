@@ -1,5 +1,3 @@
-using System.Net.NetworkInformation;
-
 public class MockInventaireRepository : IInventaireRepository
 {
     private readonly List<Auteur> _auteurs;
@@ -7,7 +5,7 @@ public class MockInventaireRepository : IInventaireRepository
     private readonly List<Exemplaire> _exemplaires;
     private int _nextIdAuteur = 3;
     private int _nextIdOeuvre = 3;
-    private readonly int _nextIdExemplaire = 3;
+    private int _nextIdExemplaire = 3;
 
     public MockInventaireRepository()
     {
@@ -129,7 +127,7 @@ public class MockInventaireRepository : IInventaireRepository
 
     public void AddExemplaire(Exemplaire exemplaire)
     {
-        exemplaire.Id = _nextIdExemplaire;
+        exemplaire.Id = _nextIdExemplaire++;
         exemplaire.Emprunts ??= [];
         _exemplaires.Add(exemplaire);
     }
