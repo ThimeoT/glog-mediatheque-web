@@ -93,10 +93,16 @@ public class InventaireServiceTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(NotFoundException))]
     public void GetExemplaireById_inexistant_lance_exception()
     {
-        _service.GetExemplaireById(999);
+        var ex = Assert.ThrowsException<NotFoundException>(
+            () => _service.GetExemplaireById(99)
+        );
+
+        Assert.AreEqual(
+            "L’exemplaire avec l’id 99 n’existe pas.",
+            ex.Message
+        );
     }
 
     [TestMethod]

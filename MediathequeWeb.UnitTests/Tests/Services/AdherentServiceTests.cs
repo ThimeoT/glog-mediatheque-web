@@ -31,10 +31,16 @@ public class AdherentServiceTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(NotFoundException))]
     public void GetAdherentById_inexistant_lance_exception()
     {
-        _service.GetAdherentById(99);
+        var ex = Assert.ThrowsException<NotFoundException>(
+            () => _service.GetAdherentById(99)
+        );
+
+        Assert.AreEqual(
+            "L’adhérent avec l’id 99 n’existe pas.",
+            ex.Message
+        );
     }
 
     [TestMethod]

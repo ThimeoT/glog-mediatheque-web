@@ -40,11 +40,16 @@ public class ReservationServiceTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(NotFoundException))]
-    public void GetAllReservationsFromAdherentId_inexistant_lance_exception()
+    public void GetAllReservationsFromOeuvreId_avec_oeuvreId_inexistant_lance_exception()
     {
-        int idInvalide = 999;
-        _service.GetAllReservationsFromOeuvreId(idInvalide);
+        var ex = Assert.ThrowsException<NotFoundException>(
+            () => _service.GetAllReservationsFromOeuvreId(99)
+        );
+
+        Assert.AreEqual(
+            "L’œuvre avec l’id 99 n’existe pas.",
+            ex.Message
+        );
     }
 
     [TestMethod]
@@ -60,11 +65,16 @@ public class ReservationServiceTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(NotFoundException))]
     public void GetAllReservationsFromOeuvreId_inexistant_lance_exception()
     {
-        int idInvalide = 999;
-        _service.GetAllReservationsFromOeuvreId(idInvalide);
+        var ex = Assert.ThrowsException<NotFoundException>(
+            () => _service.GetAllReservationsFromOeuvreId(99)
+        );
+
+        Assert.AreEqual(
+            $"L’œuvre avec l’id 99 n’existe pas.",
+            ex.Message
+        );
     }
 
     [TestMethod]
@@ -77,10 +87,16 @@ public class ReservationServiceTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(DomainValidationException))]
     public void CreateReservation_avec_exemplaire_disponible_lance_exception()
     {
-        var reservation = _service.CreateReservation(adherentId: 1, oeuvreId: 1);
+        var ex = Assert.ThrowsException<DomainValidationException>(
+            () => _service.CreateReservation(adherentId: 1, oeuvreId: 1)
+        );
+
+        Assert.AreEqual(
+            "Pas besoin de réserver, un exemplaire est déjà disponible !",
+            ex.Message
+        );
     }
 
     [TestMethod]
