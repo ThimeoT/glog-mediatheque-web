@@ -122,10 +122,6 @@ public class OeuvreController : ControllerBase
         {
             return NotFound(ex.Message);
         }
-        catch (DomainValidationException ex)
-        {
-            return BadRequest(ex.Message);
-        }
     }
 
     [HttpGet("{id}/reservation")]
