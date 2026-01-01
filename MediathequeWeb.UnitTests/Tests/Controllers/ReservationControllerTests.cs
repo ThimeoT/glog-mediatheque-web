@@ -1,11 +1,9 @@
 namespace MediathequeWeb.UnitTests.Tests.Controllers;
 
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 [TestClass]
-public class ReservationContollerTests
+public class ReservationControllerTests
 {
     private ReservationController _controller;
     private MockReservationRepository _mockReservationRepo;

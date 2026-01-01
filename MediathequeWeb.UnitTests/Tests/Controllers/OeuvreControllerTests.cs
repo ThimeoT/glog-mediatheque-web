@@ -1,11 +1,9 @@
 namespace MediathequeWeb.UnitTests.Tests.Controllers;
 
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 [TestClass]
-public class OeuvreContollerTests
+public class OeuvreControllerTests
 {
     private OeuvreController _controller;
     private MockInventaireRepository _mockInventaireRepo;

@@ -1,10 +1,9 @@
 namespace MediathequeWeb.UnitTests.Tests.Controllers;
 
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 [TestClass]
-public class EmpruntContollerTests
+public class EmpruntControllerTests
 {
     private EmpruntController _controller;
     private EmpruntService _service;

@@ -1,10 +1,9 @@
 namespace MediathequeWeb.UnitTests.Tests.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 [TestClass]
-public class ExemplaireContollerTests
+public class ExemplaireControllerTests
 {
     private ExemplaireController _controller;
     private InventaireService _service;

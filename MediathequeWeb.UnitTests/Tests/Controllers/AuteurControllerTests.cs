@@ -3,7 +3,7 @@ namespace MediathequeWeb.UnitTests.Tests.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 [TestClass]
-public class AuteurContollerTests
+public class AuteurControllerTests
 {
     private AuteurController _controller;
     private InventaireService _service;
