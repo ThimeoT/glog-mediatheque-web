@@ -1,17 +1,21 @@
+using System.Resources;
+
 namespace MediathequeWeb.UnitTests.Services;
 
 [TestClass]
 public class EmpruntServiceTests
 {
     private EmpruntService _service;
+    private MockAdherentRepository _mockAdherentRepo;
     private MockEmpruntRepository _mockEmpruntRepo;
+    private MockInventaireRepository _mockInventaireRepo;
 
     [TestInitialize]
     public void Setup()
     {
-        _mockEmpruntRepo = new MockEmpruntRepository();
-        MockAdherentRepository _mockAdherentRepo = new();
-        MockInventaireRepository _mockInventaireRepo = new();
+        _mockEmpruntRepo = new();
+        _mockAdherentRepo = new();
+        _mockInventaireRepo = new();
         _service = new EmpruntService(_mockAdherentRepo, _mockEmpruntRepo, _mockInventaireRepo);
     }
 
@@ -47,6 +51,66 @@ public class EmpruntServiceTests
         Assert.IsTrue(emprunt.Id > 0);
         Assert.AreEqual(3, _mockEmpruntRepo.GetAllEmprunts().Count());
         Assert.AreEqual(StatutExemplaire.Emprunte, emprunt.Exemplaire.Statut);
+    }
+
+    [TestMethod]
+    public void CreateEmprunt_avec_reservation_transforme_statut_reservation_en_termine()
+    {
+        int adherentId = 1;
+        int oeuvreId = 1;
+        int reservationId = 5;
+        Adherent adherent = _mockAdherentRepo.GetAdherent(adherentId);
+        Oeuvre oeuvre = _mockInventaireRepo.GetOeuvre(oeuvreId);
+        adherent.Reservations.Add(
+            new Reservation
+            {
+                Id = reservationId,
+                Adherent = adherent,
+                Oeuvre = oeuvre,
+                Statut = StatutReservation.Active,
+            }
+        );
+        var emprunt = _service.CreateEmprunt(adherentId: adherentId, oeuvreId: oeuvreId);
+        var reservation = adherent.Reservations.FirstOrDefault(r =>
+            r.Id == reservationId
+        );
+        Assert.AreEqual(StatutReservation.Terminee, reservation.Statut);
+    }
+
+    [TestMethod]
+    public void CreateEmprunt_sans_exemplaire_lance_domain_validation()
+    {
+        int oeuvreId = 1;
+        var exemplaires = _mockInventaireRepo.GetAllExemplairesFromOeuvreId(oeuvreId).ToList();
+        int nombreExemplaires= exemplaires.Count();
+        for(int i=0; i<nombreExemplaires;i++)
+            _mockInventaireRepo.RemoveExemplaire(exemplaires[0]);
+        Assert.ThrowsException<DomainValidationException>(() =>
+            _service.CreateEmprunt(adherentId: 1, oeuvreId: oeuvreId)
+        );
+    }
+
+    [TestMethod]
+    public void CreateEmprunt_avec_limite_atteinte_lance_domain_validation()
+    {
+        var exemplaire = _mockInventaireRepo.GetExemplaire(1);
+        var adherent = _mockAdherentRepo.GetAdherent(1);
+        for (int i = 0; i < 10; i++)
+        {
+            adherent.Emprunts.Add(
+                new Emprunt
+                {
+                    Id = 100 + i,
+                    Adherent = adherent,
+                    Exemplaire = exemplaire,
+                    DateEmprunt = DateOnly.FromDateTime(DateTime.Now),
+                    DateRetourPrevue = DateOnly.FromDateTime(DateTime.Now).AddDays(21),
+                }
+            );
+        }
+        Assert.ThrowsException<DomainValidationException>(() =>
+            _service.CreateEmprunt(adherentId: adherent.Id, oeuvreId: 1)
+        );
     }
 
     [TestMethod]
