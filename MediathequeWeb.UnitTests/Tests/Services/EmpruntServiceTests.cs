@@ -74,6 +74,7 @@ public class EmpruntServiceTests
         var reservation = adherent.Reservations.FirstOrDefault(r =>
             r.Id == reservationId
         );
+        
         Assert.AreEqual(StatutReservation.Terminee, reservation.Statut);
     }
 
@@ -85,6 +86,7 @@ public class EmpruntServiceTests
         int nombreExemplaires= exemplaires.Count();
         for(int i=0; i<nombreExemplaires;i++)
             _mockInventaireRepo.RemoveExemplaire(exemplaires[0]);
+        
         Assert.ThrowsException<DomainValidationException>(() =>
             _service.CreateEmprunt(adherentId: 1, oeuvreId: oeuvreId)
         );
@@ -108,6 +110,7 @@ public class EmpruntServiceTests
                 }
             );
         }
+        
         Assert.ThrowsException<DomainValidationException>(() =>
             _service.CreateEmprunt(adherentId: adherent.Id, oeuvreId: 1)
         );
@@ -121,12 +124,26 @@ public class EmpruntServiceTests
         Assert.AreEqual(DateOnly.FromDateTime(DateTime.Now), emprunt.DateRetourReelle);
         Assert.AreEqual(StatutExemplaire.Disponible, emprunt.Exemplaire.Statut);
     }
-
     [TestMethod]
     public void DeleteEmprunt_existant_supprime_emprunt()
     {
-        _service.DeleteEmprunt(1);
+        int adherentId = 1;
+        int exemplaireId = 1;
+        Adherent adherent = _mockAdherentRepo.GetAdherent(adherentId);
+        Exemplaire exemplaire = _mockInventaireRepo.GetExemplaire(exemplaireId);
+        Emprunt emprunt = new Emprunt
+        {
+            Adherent = adherent,
+            Exemplaire = exemplaire,
+        };
+        _mockEmpruntRepo.AddEmprunt(emprunt);
+        int empruntId = emprunt.Id;
+       
+        _service.DeleteEmprunt(empruntId);
 
-        Assert.AreEqual(1, _mockEmpruntRepo.GetAllEmprunts().Count());
+        Assert.ThrowsException<NotFoundException>(() =>
+            _service.GetEmpruntById(empruntId)
+        );
+        Assert.AreEqual(StatutExemplaire.Disponible,exemplaire.Statut);
     }
 }
