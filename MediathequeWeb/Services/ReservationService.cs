@@ -3,11 +3,13 @@ public class ReservationService
     private readonly IAdherentRepository _adherentRepo;
     private readonly IInventaireRepository _inventaireRepo;
     private readonly IReservationRepository _reservationRepo;
+    private readonly ISuiviActiviteRepository _suiviActiviteRepo;
 
     public ReservationService(
         IAdherentRepository adherentRepo,
         IInventaireRepository inventaireRepo,
-        IReservationRepository reservationRepo
+        IReservationRepository reservationRepo,
+        ISuiviActiviteRepository suiviActiviteRepo
     )
     {
         _adherentRepo = adherentRepo;
@@ -61,9 +63,10 @@ public class ReservationService
             DateReservation = DateOnly.FromDateTime(DateTime.Now),
             Statut = StatutReservation.Active,
         };
-
         _reservationRepo.AddReservation(reservation);
+        IncrementNouvellesReservationsSuiviActivite(reservation.DateReservation);
         _adherentRepo.SaveChanges();
+        
 
         return reservation;
     }
@@ -73,8 +76,35 @@ public class ReservationService
         Reservation reservation =
             _reservationRepo.GetReservation(reservationId)
             ?? throw new NotFoundException("Réservation introuvable.");
-
+        DecrementNouvellesReservationsSuiviActivite(reservation.DateReservation);
         _reservationRepo.RemoveReservation(reservation);
         _reservationRepo.SaveChanges();
+    }
+
+    public void IncrementNouvellesReservationsSuiviActivite(DateOnly date)
+    {
+        SuiviActivite? suiviActivite = _suiviActiviteRepo.GetSuiviActiviteFromDate(date);
+        if (suiviActivite == null)
+            _suiviActiviteRepo.AddSuiviActivite(
+                new SuiviActivite { Date = date, NouvellesReservations = 1 }
+            );
+        else
+            suiviActivite.NouvellesReservations += 1;
+        _suiviActiviteRepo.SaveChanges();
+    }
+
+    public void DecrementNouvellesReservationsSuiviActivite(DateOnly date)
+    {
+        var suivi =
+            _suiviActiviteRepo.GetSuiviActiviteFromDate(date)
+            ?? throw new NotFoundException($"Aucune activité trouvée pour la date {date}.");
+
+        if (suivi.NouvellesReservations <= 0)
+            throw new DomainValidationException(
+                "Aucunne nouvelle réservation enregistrée pour cette date."
+            );
+
+        suivi.NouvellesReservations -= 1;
+        _suiviActiviteRepo.SaveChanges();
     }
 }
