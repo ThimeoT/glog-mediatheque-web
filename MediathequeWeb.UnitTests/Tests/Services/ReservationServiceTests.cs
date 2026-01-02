@@ -42,27 +42,21 @@ public class ReservationServiceTests
     [TestMethod]
     public void GetAllReservationsFromAdherentId_avec_adherentId_inexistant_lance_not_found_exception()
     {
-        var ex = Assert.ThrowsException<NotFoundException>(
-            () => _service.GetAllReservationsFromAdherentId(99)
+        var ex = Assert.ThrowsException<NotFoundException>(() =>
+            _service.GetAllReservationsFromAdherentId(99)
         );
 
-        Assert.AreEqual(
-            $"L’adhérent avec l’id 99 n’existe pas.",
-            ex.Message
-        );
+        Assert.AreEqual($"L’adhérent avec l’id 99 n’existe pas.", ex.Message);
     }
 
     [TestMethod]
     public void GetAllReservationsFromOeuvreId_avec_oeuvreId_inexistant_lance_not_found_exception()
     {
-        var ex = Assert.ThrowsException<NotFoundException>(
-            () => _service.GetAllReservationsFromOeuvreId(99)
+        var ex = Assert.ThrowsException<NotFoundException>(() =>
+            _service.GetAllReservationsFromOeuvreId(99)
         );
 
-        Assert.AreEqual(
-            "L’œuvre avec l’id 99 n’existe pas.",
-            ex.Message
-        );
+        Assert.AreEqual("L’œuvre avec l’id 99 n’existe pas.", ex.Message);
     }
 
     [TestMethod]
@@ -89,14 +83,11 @@ public class ReservationServiceTests
     [TestMethod]
     public void CreateReservation_avec_exemplaire_disponible_lance_domain_validation_exception()
     {
-        var ex = Assert.ThrowsException<DomainValidationException>(
-            () => _service.CreateReservation(adherentId: 1, oeuvreId: 1)
+        var ex = Assert.ThrowsException<DomainValidationException>(() =>
+            _service.CreateReservation(adherentId: 1, oeuvreId: 1)
         );
 
-        Assert.AreEqual(
-            "Pas besoin de réserver, un exemplaire est déjà disponible !",
-            ex.Message
-        );
+        Assert.AreEqual("Pas besoin de réserver, un exemplaire est déjà disponible !", ex.Message);
     }
 
     [TestMethod]
@@ -111,19 +102,16 @@ public class ReservationServiceTests
             Adherent = new Adherent { Id = adherentId },
             Oeuvre = new Oeuvre { Id = oeuvreId },
             DateReservation = DateOnly.FromDateTime(DateTime.Now.AddDays(-1)),
-            Statut = StatutReservation.Active
+            Statut = StatutReservation.Active,
         };
 
         _mockReservationRepo.AddReservation(reservationExistante);
 
-        var ex = Assert.ThrowsException<DomainValidationException>(
-            () => _service.CreateReservation(adherentId, oeuvreId)
+        var ex = Assert.ThrowsException<DomainValidationException>(() =>
+            _service.CreateReservation(adherentId, oeuvreId)
         );
 
-        Assert.AreEqual(
-            "Une réservation active existe déjà pour cette œuvre.",
-            ex.Message
-        );
+        Assert.AreEqual("Une réservation active existe déjà pour cette œuvre.", ex.Message);
     }
 
     [TestMethod]
@@ -137,9 +125,7 @@ public class ReservationServiceTests
     [TestMethod]
     public void DeleteReservation_inexistante_lance_not_found_exception()
     {
-        var ex = Assert.ThrowsException<NotFoundException>(
-            () => _service.DeleteReservation(999)
-        );
+        var ex = Assert.ThrowsException<NotFoundException>(() => _service.DeleteReservation(999));
 
         Assert.AreEqual("Réservation introuvable.", ex.Message);
     }

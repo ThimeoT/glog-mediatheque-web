@@ -6,10 +6,7 @@ public class EmpruntTests
     [TestMethod]
     public void DateRetourPrevue_valide_est_acceptee()
     {
-        var emprunt = new Emprunt
-        {
-            DateEmprunt = DateOnly.FromDateTime(DateTime.Now)
-        };
+        var emprunt = new Emprunt { DateEmprunt = DateOnly.FromDateTime(DateTime.Now) };
 
         var dateRetour = emprunt.DateEmprunt.AddDays(10);
         emprunt.DateRetourPrevue = dateRetour;
@@ -20,28 +17,19 @@ public class EmpruntTests
     [TestMethod]
     public void DateRetourPrevue_avant_date_emprunt_lance_exception()
     {
-        var emprunt = new Emprunt
-        {
-            DateEmprunt = DateOnly.FromDateTime(DateTime.Now)
-        };
+        var emprunt = new Emprunt { DateEmprunt = DateOnly.FromDateTime(DateTime.Now) };
 
         var ex = Assert.ThrowsException<DomainValidationException>(() =>
             emprunt.DateRetourPrevue = emprunt.DateEmprunt.AddDays(-1)
         );
 
-        Assert.AreEqual(
-            "La date de retour prévue doit être après la date d’emprunt.",
-            ex.Message
-        );
+        Assert.AreEqual("La date de retour prévue doit être après la date d’emprunt.", ex.Message);
     }
 
     [TestMethod]
     public void DateRetourReelle_valide_est_acceptee()
     {
-        var emprunt = new Emprunt
-        {
-            DateEmprunt = DateOnly.FromDateTime(DateTime.Now)
-        };
+        var emprunt = new Emprunt { DateEmprunt = DateOnly.FromDateTime(DateTime.Now) };
 
         var dateRetour = emprunt.DateEmprunt.AddDays(5);
         emprunt.DateRetourReelle = dateRetour;
@@ -52,10 +40,7 @@ public class EmpruntTests
     [TestMethod]
     public void DateRetourReelle_avant_date_emprunt_lance_exception()
     {
-        var emprunt = new Emprunt
-        {
-            DateEmprunt = DateOnly.FromDateTime(DateTime.Now)
-        };
+        var emprunt = new Emprunt { DateEmprunt = DateOnly.FromDateTime(DateTime.Now) };
 
         var ex = Assert.ThrowsException<DomainValidationException>(() =>
             emprunt.DateRetourReelle = emprunt.DateEmprunt.AddDays(-3)

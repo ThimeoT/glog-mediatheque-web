@@ -7,7 +7,10 @@ public class OeuvreController : ControllerBase
     private readonly InventaireService _inventaireService;
     private readonly ReservationService _reservationService;
 
-    public OeuvreController(InventaireService inventaireService, ReservationService reservationService)
+    public OeuvreController(
+        InventaireService inventaireService,
+        ReservationService reservationService
+    )
     {
         _inventaireService = inventaireService;
         _reservationService = reservationService;

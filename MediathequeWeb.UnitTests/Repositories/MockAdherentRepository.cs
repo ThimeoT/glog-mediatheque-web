@@ -31,12 +31,12 @@ public class MockAdherentRepository : IAdherentRepository
     public Adherent? GetAdherent(int id)
     {
         return _adherents.FirstOrDefault(a => a.Id == id);
-    } 
+    }
 
     public IEnumerable<Adherent> GetAllAdherents()
     {
         return _adherents;
-    }   
+    }
 
     public bool AdherentExists(int adherentId)
     {

@@ -64,7 +64,7 @@ public class InventaireRepository : IInventaireRepository
     {
         return _db
             .Exemplaires.Include(e => e.Oeuvre)
-            .ThenInclude(o => o.Auteur)
+                .ThenInclude(o => o.Auteur)
             .FirstOrDefault(e => e.Id == id);
     }
 

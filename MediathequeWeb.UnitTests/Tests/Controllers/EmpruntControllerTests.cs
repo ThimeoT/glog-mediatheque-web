@@ -73,7 +73,6 @@ public class EmpruntControllerTests
         Assert.AreEqual(DateOnly.FromDateTime(DateTime.Now), dto.DateEmprunt);
         Assert.AreEqual(dto.DateEmprunt.AddDays(21), dto.DateRetourPrevue);
         Assert.IsNull(dto.DateRetourReelle);
-        
     }
 
     [TestMethod]
@@ -135,14 +134,16 @@ public class EmpruntControllerTests
 
         for (int i = 0; i < 10; i++)
         {
-            adherent.Emprunts.Add(new Emprunt
-            {
-                Id = 100 + i,
-                Adherent = adherent,
-                Exemplaire = exemplaire,
-                DateEmprunt = DateOnly.FromDateTime(DateTime.Now),
-                DateRetourPrevue = DateOnly.FromDateTime(DateTime.Now).AddDays(21)
-            });
+            adherent.Emprunts.Add(
+                new Emprunt
+                {
+                    Id = 100 + i,
+                    Adherent = adherent,
+                    Exemplaire = exemplaire,
+                    DateEmprunt = DateOnly.FromDateTime(DateTime.Now),
+                    DateRetourPrevue = DateOnly.FromDateTime(DateTime.Now).AddDays(21),
+                }
+            );
         }
 
         var result = _controller.AjouterEmprunt(adherentId: 1, oeuvreId: 1);
@@ -173,8 +174,10 @@ public class EmpruntControllerTests
     public void Retourner_emprunt_avec_id_invalide_retourne_not_found()
     {
         int idInvalide = 999;
-        var result = _controller.RetournerEmprunt(id: idInvalide,
-            dateRetourReelle: DateOnly.FromDateTime(DateTime.Now));
+        var result = _controller.RetournerEmprunt(
+            id: idInvalide,
+            dateRetourReelle: DateOnly.FromDateTime(DateTime.Now)
+        );
 
         var notFoundResult = result.Result as NotFoundObjectResult;
         Assert.IsNotNull(notFoundResult);
@@ -185,12 +188,14 @@ public class EmpruntControllerTests
     public void Retourner_emprunt_avec_date_invalide_retourne_bad_request()
     {
         DateOnly dateInvalide = DateOnly.FromDateTime(DateTime.Now).AddDays(-120);
-        var result = _controller.RetournerEmprunt(id: 1,
-            dateRetourReelle: dateInvalide );
+        var result = _controller.RetournerEmprunt(id: 1, dateRetourReelle: dateInvalide);
 
         var badRequestResult = result.Result as BadRequestObjectResult;
         Assert.IsNotNull(badRequestResult);
-        Assert.AreEqual("La date de retour réelle ne peut pas être avant la date d’emprunt.", badRequestResult.Value);
+        Assert.AreEqual(
+            "La date de retour réelle ne peut pas être avant la date d’emprunt.",
+            badRequestResult.Value
+        );
     }
 
     [TestMethod]
@@ -198,7 +203,7 @@ public class EmpruntControllerTests
     {
         var emprunt = _mockEmpruntRepo.GetEmprunt(1);
         Assert.IsNotNull(emprunt);
-        
+
         emprunt.DateRetourReelle = DateOnly.FromDateTime(DateTime.Now);
 
         var result = _controller.RetournerEmprunt(
@@ -210,7 +215,7 @@ public class EmpruntControllerTests
         Assert.IsNotNull(badRequest);
         Assert.AreEqual("Cet emprunt a déjà été retourné.", badRequest.Value);
     }
-    
+
     [TestMethod]
     public void Supprimer_emprunt_avec_id_valide_retourne_no_content()
     {

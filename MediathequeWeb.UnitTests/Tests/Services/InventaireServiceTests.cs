@@ -26,14 +26,9 @@ public class InventaireServiceTests
     [TestMethod]
     public void GetAuteurById_avec_id_inexistant_lance_not_found_exception()
     {
-        var ex = Assert.ThrowsException<NotFoundException>(
-            () => _service.GetAuteurById(999)
-        );
+        var ex = Assert.ThrowsException<NotFoundException>(() => _service.GetAuteurById(999));
 
-        Assert.AreEqual(
-            "L’auteur avec l’id 999 n’existe pas.",
-            ex.Message
-        );
+        Assert.AreEqual("L’auteur avec l’id 999 n’existe pas.", ex.Message);
     }
 
     [TestMethod]
@@ -82,14 +77,9 @@ public class InventaireServiceTests
     [TestMethod]
     public void GetOeuvreById_avec_id_inexistant_lance_not_found_exception()
     {
-        var ex = Assert.ThrowsException<NotFoundException>(
-            () => _service.GetOeuvreById(999)
-        );
+        var ex = Assert.ThrowsException<NotFoundException>(() => _service.GetOeuvreById(999));
 
-        Assert.AreEqual(
-            "L’œuvre avec l’id 999 n’existe pas.",
-            ex.Message
-        );
+        Assert.AreEqual("L’œuvre avec l’id 999 n’existe pas.", ex.Message);
     }
 
     [TestMethod]
@@ -137,14 +127,9 @@ public class InventaireServiceTests
     [TestMethod]
     public void GetExemplaireById_avec_id_inexistant_lance_not_found_exception()
     {
-        var ex = Assert.ThrowsException<NotFoundException>(
-            () => _service.GetExemplaireById(99)
-        );
+        var ex = Assert.ThrowsException<NotFoundException>(() => _service.GetExemplaireById(99));
 
-        Assert.AreEqual(
-            "L’exemplaire avec l’id 99 n’existe pas.",
-            ex.Message
-        );
+        Assert.AreEqual("L’exemplaire avec l’id 99 n’existe pas.", ex.Message);
     }
 
     [TestMethod]

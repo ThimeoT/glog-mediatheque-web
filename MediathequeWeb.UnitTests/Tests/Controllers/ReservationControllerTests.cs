@@ -57,7 +57,10 @@ public class ReservationControllerTests
 
         var badRequest = result.Result as BadRequestObjectResult;
         Assert.IsNotNull(badRequest);
-        Assert.AreEqual("Pas besoin de réserver, un exemplaire est déjà disponible !", badRequest.Value);
+        Assert.AreEqual(
+            "Pas besoin de réserver, un exemplaire est déjà disponible !",
+            badRequest.Value
+        );
     }
 
     [TestMethod]

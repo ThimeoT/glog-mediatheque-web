@@ -33,14 +33,9 @@ public class AdherentServiceTests
     [TestMethod]
     public void GetAdherentById_avec_id_inexistant_lance_not_found_exception()
     {
-        var ex = Assert.ThrowsException<NotFoundException>(
-            () => _service.GetAdherentById(99)
-        );
+        var ex = Assert.ThrowsException<NotFoundException>(() => _service.GetAdherentById(99));
 
-        Assert.AreEqual(
-            "L’adhérent avec l’id 99 n’existe pas.",
-            ex.Message
-        );
+        Assert.AreEqual("L’adhérent avec l’id 99 n’existe pas.", ex.Message);
     }
 
     [TestMethod]

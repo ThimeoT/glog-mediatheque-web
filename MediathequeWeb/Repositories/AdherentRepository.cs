@@ -13,8 +13,8 @@ public class AdherentRepository : IAdherentRepository
     {
         return _db
             .Adherents.Include(a => a.Emprunts)
-            .ThenInclude(e => e.Exemplaire)
-            .ThenInclude(ex => ex.Oeuvre)
+                .ThenInclude(e => e.Exemplaire)
+                    .ThenInclude(ex => ex.Oeuvre)
             .FirstOrDefault(a => a.Id == id);
     }
 
@@ -27,8 +27,8 @@ public class AdherentRepository : IAdherentRepository
     {
         return _db
             .Adherents.Include(a => a.Emprunts)
-            .ThenInclude(e => e.Exemplaire)
-            .ThenInclude(ex => ex.Oeuvre)
+                .ThenInclude(e => e.Exemplaire)
+                    .ThenInclude(ex => ex.Oeuvre)
             .ToList();
     }
 

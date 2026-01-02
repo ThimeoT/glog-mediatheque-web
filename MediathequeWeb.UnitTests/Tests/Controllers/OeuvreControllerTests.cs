@@ -90,7 +90,10 @@ public class OeuvreControllerTests
 
         var badRequestResult = result.Result as BadRequestObjectResult;
         Assert.IsNotNull(badRequestResult);
-        Assert.AreEqual("Type d’œuvre invalide. Valeurs possibles : Livre, BD, DVD, CD", badRequestResult.Value);
+        Assert.AreEqual(
+            "Type d’œuvre invalide. Valeurs possibles : Livre, BD, DVD, CD",
+            badRequestResult.Value
+        );
     }
 
     [TestMethod]
@@ -147,7 +150,10 @@ public class OeuvreControllerTests
 
         var badRequestResult = result.Result as BadRequestObjectResult;
         Assert.IsNotNull(badRequestResult);
-        Assert.AreEqual("Type d’œuvre invalide. Valeurs possibles : Livre, BD, DVD, CD", badRequestResult.Value);
+        Assert.AreEqual(
+            "Type d’œuvre invalide. Valeurs possibles : Livre, BD, DVD, CD",
+            badRequestResult.Value
+        );
     }
 
     [TestMethod]

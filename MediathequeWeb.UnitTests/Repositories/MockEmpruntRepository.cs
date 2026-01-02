@@ -20,7 +20,7 @@ public class MockEmpruntRepository : IEmpruntRepository
                 Prenom = "Jean",
                 Email = "jeannemard@ensc.fr",
                 Emprunts = [],
-                Reservations = []
+                Reservations = [],
             },
             new Adherent
             {
@@ -29,7 +29,7 @@ public class MockEmpruntRepository : IEmpruntRepository
                 Prenom = "Thierry",
                 Email = "thierrydicule@ensc.fr",
                 Emprunts = [],
-                Reservations = []
+                Reservations = [],
             },
         ];
 
@@ -66,7 +66,7 @@ public class MockEmpruntRepository : IEmpruntRepository
                 Auteur = _auteurs[1],
             },
         ];
-        
+
         _exemplaires =
         [
             new Exemplaire

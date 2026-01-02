@@ -13,7 +13,7 @@ public class EmpruntRepository : IEmpruntRepository
     {
         return _db
             .Emprunts.Include(e => e.Exemplaire)
-            .ThenInclude(ex => ex.Oeuvre)
+                .ThenInclude(ex => ex.Oeuvre)
             .Include(e => e.Adherent)
             .FirstOrDefault(e => e.Id == id);
     }
@@ -23,7 +23,7 @@ public class EmpruntRepository : IEmpruntRepository
         return _db
             .Emprunts.Include(e => e.Adherent)
             .Include(e => e.Exemplaire)
-            .ThenInclude(ex => ex.Oeuvre)
+                .ThenInclude(ex => ex.Oeuvre)
             .ToList();
     }
 
