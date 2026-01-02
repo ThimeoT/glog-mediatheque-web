@@ -26,13 +26,32 @@ public class StatistiquesService
 
         return StatistiquesAdherentDto.FromData(adherent);
     }
+
     public IEnumerable<StatistiquesAdherentDto> GetAllStatistiquesAdherents()
     {
         List<StatistiquesAdherentDto> statistiquesAdherents = [];
         foreach (Adherent adherent in _adherentRepo.GetAllAdherents())
         {
-            statistiquesAdherents.Add(GetStatistiquesAdherentById(adherent.Id));
+            statistiquesAdherents.Add(StatistiquesAdherentDto.FromData(adherent));
         }
         return statistiquesAdherents;
+    }
+
+    public StatistiquesOeuvreDto GetStatistiquesOeuvreDtoById(int oeuvreId)
+    {
+        Oeuvre oeuvre =
+            _inventaireRepo.GetOeuvre(oeuvreId)
+            ?? throw new NotFoundException($"L’œuvre avec l’id {oeuvreId} n’existe pas.");
+        return StatistiquesOeuvreDto.FromData(oeuvre);
+    }
+
+    public IEnumerable<StatistiquesOeuvreDto> GetAllStatitstiquesOeuvres()
+    {
+        List<StatistiquesOeuvreDto> statistiquesOeuvres = [];
+        foreach (Oeuvre oeuvre in _inventaireRepo.GetAllOeuvres())
+        {
+            statistiquesOeuvres.Add(StatistiquesOeuvreDto.FromData(oeuvre));
+        }
+        return statistiquesOeuvres;
     }
 }
