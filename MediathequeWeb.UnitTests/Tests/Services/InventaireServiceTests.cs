@@ -14,10 +14,16 @@ public class InventaireServiceTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(NotFoundException))]
     public void GetAuteurById_inexistant_lance_exception()
     {
-        _service.GetAuteurById(999);
+        var ex = Assert.ThrowsException<NotFoundException>(
+            () => _service.GetAuteurById(999)
+        );
+
+        Assert.AreEqual(
+            "L’auteur avec l’id 999 n’existe pas.",
+            ex.Message
+        );
     }
 
     [TestMethod]
@@ -54,10 +60,16 @@ public class InventaireServiceTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(NotFoundException))]
     public void GetOeuvreById_inexistant_lance_exception()
     {
-        _service.GetOeuvreById(999);
+        var ex = Assert.ThrowsException<NotFoundException>(
+            () => _service.GetOeuvreById(999)
+        );
+
+        Assert.AreEqual(
+            "L’œuvre avec l’id 999 n’existe pas.",
+            ex.Message
+        );
     }
 
     [TestMethod]
