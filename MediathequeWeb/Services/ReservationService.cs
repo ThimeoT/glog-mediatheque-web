@@ -63,7 +63,7 @@ public class ReservationService
         };
 
         _reservationRepo.AddReservation(reservation);
-        _adherentRepo.SaveChanges();
+        _reservationRepo.SaveChanges();
 
         return reservation;
     }
