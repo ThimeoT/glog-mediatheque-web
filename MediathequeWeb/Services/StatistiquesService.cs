@@ -26,12 +26,12 @@ public class StatistiquesService
 
         return StatistiquesAdherentDto.FromData(adherent);
     }
-    public Enum<StatistiquesAdherentDto> GetAllStatistiquesAdherents()
+    public IEnumerable<StatistiquesAdherentDto> GetAllStatistiquesAdherents()
     {
         List<StatistiquesAdherentDto> statistiquesAdherents = [];
         foreach (Adherent adherent in _adherentRepo.GetAllAdherents())
         {
-            statistiquesAdherents.Append(GetStatistiquesAdherentById(adherent.Id));
+            statistiquesAdherents.Add(GetStatistiquesAdherentById(adherent.Id));
         }
         return statistiquesAdherents;
     }
