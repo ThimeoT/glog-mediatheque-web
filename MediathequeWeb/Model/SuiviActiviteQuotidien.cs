@@ -1,6 +1,9 @@
-public class StatistiquesActivite
+public class SuiviActiviteQuotidien
 {
+    public int Id {get; set; }
+    public DateOnly DateId { get; set; }
     private string _date;
+    
     public string Date
     {
         get => _date;

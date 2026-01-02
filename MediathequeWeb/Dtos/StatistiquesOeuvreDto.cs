@@ -1,4 +1,4 @@
-public class StatistiquesOeuvre
+public class StatistiquesOeuvreDto
 {
     public int Id { get; set; }
     private string _titre;

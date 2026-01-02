@@ -1,4 +1,4 @@
-public class StatistiquesAdherent
+public class StatistiquesAdherentDto
 {
     public int Id { get; set; }
     private string _nomComplet;

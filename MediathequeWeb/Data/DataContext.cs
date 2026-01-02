@@ -10,9 +10,16 @@ public class DataContext : DbContext
     public DbSet<Exemplaire> Exemplaires { get; set; }
     public DbSet<Oeuvre> Oeuvres { get; set; }
     public DbSet<Reservation> Reservations { get; set; }
+    public DbSet<SuiviActiviteQuotidien> SuiviActiviteQuotidien { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         options.UseSqlite($"Data Source={DbPath}");
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<SuiviActiviteQuotidien>().HasIndex(m => m.DateId).IsUnique();
     }
 }
