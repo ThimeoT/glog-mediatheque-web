@@ -66,7 +66,7 @@ public class EmpruntService
         {
             reservation.Statut = StatutReservation.Terminee;
         }
-        AddNewEmpruntActivite(emprunt.DateEmprunt);
+        IncrementNouveauxEmpruntsSuiviActivite(emprunt.DateEmprunt);
         _empruntRepo.SaveChanges();
 
         return emprunt;
@@ -97,8 +97,11 @@ public class EmpruntService
 
         emprunt.DateRetourReelle = dateRetourReelle;
         emprunt.Exemplaire.Statut = StatutExemplaire.Disponible;
-
+        IncrementRetoursEffectuesSuiviActivite(dateRetourReelle);
+        
         _empruntRepo.SaveChanges();
+
+
         return emprunt;
     }
 
@@ -106,12 +109,12 @@ public class EmpruntService
     {
         Emprunt emprunt = GetEmpruntById(empruntId);
         emprunt.Exemplaire.Statut = StatutExemplaire.Disponible;
-        RemoveEmpruntActivite(emprunt.DateEmprunt);
+        DecrementNouveauxEmpruntsSuiviActivite(emprunt.DateEmprunt);
         _empruntRepo.RemoveEmprunt(emprunt);
         _empruntRepo.SaveChanges();
     }
 
-    public void AddNewEmpruntActivite(DateOnly date)
+    public void IncrementNouveauxEmpruntsSuiviActivite(DateOnly date)
     {
         SuiviActivite? suiviActivite = _suiviActiviteRepo.GetSuiviActiviteFromDate(date);
         if (suiviActivite == null)
@@ -123,18 +126,28 @@ public class EmpruntService
         _suiviActiviteRepo.SaveChanges();
     }
 
-    public void RemoveEmpruntActivite(DateOnly date)
+    public void DecrementNouveauxEmpruntsSuiviActivite(DateOnly date)
     {
         var suivi =
             _suiviActiviteRepo.GetSuiviActiviteFromDate(date)
             ?? throw new NotFoundException($"Aucune activité trouvée pour la date {date}.");
 
         if (suivi.NouveauxEmprunts <= 0)
-            throw new DomainValidationException(
-                "Aucun nouvel emprunt enregistré pour cette date."
-            );
+            throw new DomainValidationException("Aucun nouvel emprunt enregistré pour cette date.");
 
         suivi.NouveauxEmprunts -= 1;
+        _suiviActiviteRepo.SaveChanges();
+    }
+
+    public void IncrementRetoursEffectuesSuiviActivite(DateOnly date)
+    {
+        SuiviActivite? suiviActivite = _suiviActiviteRepo.GetSuiviActiviteFromDate(date);
+        if (suiviActivite == null)
+            _suiviActiviteRepo.AddSuiviActivite(
+                new SuiviActivite { Date = date, RetoursEffectues = 1 }
+            );
+        else
+            suiviActivite.RetoursEffectues += 1;
         _suiviActiviteRepo.SaveChanges();
     }
 }
