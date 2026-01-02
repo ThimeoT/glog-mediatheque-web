@@ -34,13 +34,13 @@ public class SuiviActiviteQuotidienTests
     }
     
     [TestMethod]
-    public void NouveauxEmprunts_negatif_lance_exception()
+    public void RetoursEffectues_negatif_lance_exception()
     {
         int retoursEffectues = -1;
         SuiviActiviteQuotidien suiviActiviteQuotidien = new SuiviActiviteQuotidien { Date = DateOnly.FromDateTime(DateTime.Now) };
 
         var ex = Assert.ThrowsException<DomainValidationException>(() =>
-            suiviActiviteQuotidien.retoursEffectues = retoursEffectues
+            suiviActiviteQuotidien.RetoursEffectues = retoursEffectues
         );
         Assert.AreEqual("Le nombre de retours effectués ne peut pas être négatif.", ex.Message);
     }
