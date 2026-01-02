@@ -1,6 +1,6 @@
 # Guide de style et de collaboration 
 
-*Projet génie logiciel 2025 : Médiathèque*
+*Projet génie logiciel 2025 : MédiathèqueWeb*
 
 ---
 

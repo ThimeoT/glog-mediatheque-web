@@ -27,9 +27,6 @@ public class EmpruntService
             _adherentRepo.GetAdherent(adherentId)
             ?? throw new NotFoundException("Adhérent introuvable.");
 
-        if (!_inventaireRepo.OeuvreExists(oeuvreId))
-            throw new NotFoundException($"L’œuvre avec l’id {oeuvreId} n’existe pas.");
-
         int empruntsActifs = adherent.Emprunts.Count(e => e.DateRetourReelle == null);
 
         if (empruntsActifs >= LIMITE_EMPRUNTS_ACTIFS)
@@ -37,11 +34,14 @@ public class EmpruntService
                 $"Limite de {LIMITE_EMPRUNTS_ACTIFS} emprunts atteinte."
             );
 
+        if (!_inventaireRepo.OeuvreExists(oeuvreId))
+            throw new NotFoundException($"L’œuvre avec l’id {oeuvreId} n’existe pas.");
+
         Exemplaire exemplaire =
             _inventaireRepo
-                .GetAllExemplaires()
+                .GetAllExemplairesFromOeuvreId(oeuvreId)
                 .FirstOrDefault(e =>
-                    e.Oeuvre.Id == oeuvreId && e.Statut == StatutExemplaire.Disponible
+                    e.Statut == StatutExemplaire.Disponible
                 )
             ?? throw new DomainValidationException("Aucun exemplaire disponible.");
 
