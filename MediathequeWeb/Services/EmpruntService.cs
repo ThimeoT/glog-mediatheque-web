@@ -40,9 +40,7 @@ public class EmpruntService
         Exemplaire exemplaire =
             _inventaireRepo
                 .GetAllExemplairesFromOeuvreId(oeuvreId)
-                .FirstOrDefault(e =>
-                    e.Statut == StatutExemplaire.Disponible
-                )
+                .FirstOrDefault(e => e.Statut == StatutExemplaire.Disponible)
             ?? throw new DomainValidationException("Aucun exemplaire disponible.");
 
         DateOnly dateEmprunt = DateOnly.FromDateTime(DateTime.Now);
@@ -125,10 +123,18 @@ public class EmpruntService
         _suiviActiviteRepo.SaveChanges();
     }
 
-    public void RemoveEmpruntActivite(DateOnly date) 
+    public void RemoveEmpruntActivite(DateOnly date)
     {
-        SuiviActivite suiviActivite = _suiviActiviteRepo.GetSuiviActiviteFromDate(date);
-        suiviActivite.NouveauxEmprunts-=1;
+        var suivi =
+            _suiviActiviteRepo.GetSuiviActiviteFromDate(date)
+            ?? throw new NotFoundException($"Aucune activité trouvée pour la date {date}.");
+
+        if (suivi.NouveauxEmprunts <= 0)
+            throw new DomainValidationException(
+                "Aucun nouvel emprunt enregistré pour cette date."
+            );
+
+        suivi.NouveauxEmprunts -= 1;
         _suiviActiviteRepo.SaveChanges();
     }
 }
