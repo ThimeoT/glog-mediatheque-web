@@ -1,0 +1,6 @@
+@MediathequeWeb_HostAddress = http://localhost:7044
+
+GET {{MediathequeWeb_HostAddress}}/api/
+Accept: application/json
+
+###

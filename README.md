@@ -1,177 +1,67 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/68Ai_Ecq)
-# Travaux pratiques de génie logiciel
+# Projet génie logiciel 2025 : MédiathèqueWeb
 
-## Cheat Sheet
+---
 
-### Git
+Lina AMMAR-BOUDJELAL\
+Thiméo TONON\
+Charlotte NICKERSON
 
-- Configurer git sur la machine :
+Groupe 1 - Promotion 2027
+
+***Remarque concernant l’équipe*** *: Le dépôt Git ne contient que le nom de deux des membres de l’équipe dans son intitulé. Le troisième membre a rejoint le groupe après le démarrage du projet, ce qui explique son absence dans le nom initial du dépôt.*
+
+---
+
+Sommaire : 
+- [1. Présentation du projet](#1-présentation-du-projet)
+- [2. Procédure d'installation](#2-procédure-dinstallation)
+- [3. Diagramme de classes UML (modèle métier)](#3-diagramme-de-classes-uml-modèle-métier)
+- [4. Diagramme de séquence UML - Création d'un emprunt](#4-diagramme-de-séquence-uml---création-dun-emprunt)
+
+---
+
+## 1. Présentation du projet
+
+Ce projet consiste en la réalisation d'un service web back-end pour une médiathèque.\
+Il permet de gérer l'inventaire (oeuvres, auteurs des oeuvres, et exemplaires), ainsi les adhérents et leurs emprunts et réservations associées.
+
+L'application expose une API REST développée en APS.NET Core (.NET 9) et repose sur une base de données SQLite via Entity Framework Core.\
+L'architecture respecte une séparation claire des responsabilités entre contrôleurs, services et repositories, conformément aux principes SOLID.
+
+## 2. Procédure d’installation
+
+Prérequis : 
+- .NET SDK 9
+- Git
+
+> Étapes d'installation 
 ```
-git config --global user.name <Prénom Nom>
-git config --global user.email <email@ensc.fr>
-```
-- Cloner un dépôt : `git clone <adresse du dépôt>`
-- Ajouter tous les fichiers à l’index : `git add .`
-- Archiver une modification : `git commit -m <message de commit>`
-- Pousser vers le dépôt distant : `git push`
-- Récupérer les modification distantes :
-  - mettre à jour l’espace de travail : `git pull`
-  - ne pas modifier l’espace de travail : `git fetch`
-- Regarder le statut du dépôt local : `git status`
-
-### Dotnet
-
-- Vérifier la version de .Net : `dotnet --version`
-- Créer une application console : `dotnet new console -o <nom du projet>`
-- Créer un service web : `dotnet new webapi -o <nom du projet>`
-- Créer un projet de test : `dotnet new mstest -n <nom du projet>.UnitTests`
-- Créer une référence depuis un projet vers un autre : `dotnet add <projet 1>.csproj reference <projet 2>.csproj`
-- Créer un fichier `.gitignore` par défaut : `dotnet new gitignore`
-- Ajouter un paquet à un projet : `dotnet add package <nom du paquet>`
-- Pour gérer les problèmes de certificat :
-```
-dotnet dev-certs https --clean
-dotnet dev-certs https --trust
-```
-
-### C#
-
-- Afficher une ligne console : `Console.WriteLine("Enter username:");`
-- Lire une ligne console : `string userName = Console.ReadLine();`
-- Effacer la console : `Console.Clear(); `
-
-### Linq
-
-### Entity Framework
-
-- Installer les outils d'interface de ligne de commande (CLI) : `dotnet tool install --global dotnet-ef`
-- Vérifier l'installation : `dotnet ef`
-- Ajouter Entity Framework (avec SQLite) à un projet :
-```
-dotnet add package Microsoft.EntityFrameworkCore.Design
-dotnet add package Microsoft.EntityFrameworkCore.Sqlite
-```
-- Ajouter une migration suite à évolution du modèle : `dotnet ef migrations add <message de migration>`
-- Créer ou mettre à jour la base de données : `dotnet ef database update`
-
-#### Exemple de fichier Context
-
-```csharp
-using Microsoft.EntityFrameworkCore;
-
-public class TodoContext : DbContext
-{
-  private const string DbPath = "data.sqlite";
-
-  // Mettre à jour cette section en fonction du projet (Models/)
-  public DbSet<Todo> Todos { get; set; } = null!;
-  public DbSet<List> Lists { get; set; } = null!;
-  public DbSet<User> Users { get; set; } = null!;
-
-  protected override void OnConfiguring(DbContextOptionsBuilder options)
-  {
-    options.UseSqlite($"Data Source={DbPath}");
-  }
-}
+git clone https://github.com/ensc-glog/glog-classroom-project-ammarboudjelallina_tononthimeo.git
+cd glog-classroom-project-ammarboudjelallina_tononthimeo
+cd MediathequeWeb
+dotnet build
+dotnet ef database update
+dotnet run
 ```
 
-### cURL
+Le service est disponible à l'adresse : 
+- API : http://localhost:7044/api
+- Scalar : http://localhost:7044/scalar/
 
-- Requête GET simple : `curl <url>` ou `curl -X GET <url>` (par défaut cURL fait du GET)
-- Requête GET en suivant les redirections : `curl -L <url>`
-- Requête POST JSON : `curl -X POST -H 'Content-Type: application/json' -d '{…}' <url>`
-- Requête PUT avec JSON : `curl -X PUT -H 'Content-Type: application/json' -d '{…}' <url>`
-- Requête DELETE : `curl -X DELETE <url>`
-- Afficher l'en-têtes de la réponse : `curl -i …`
+Lors du premier lancement, des données initiales sont injectées automatiquement si la base de données est vide.
 
-### Contrôleur HTTP
+## 3. Diagramme de classes UML (modèle métier)
 
-#### Exemple de contrôleur HTTP
+Le diagramme suivant représente le modèle métier principal de l'application (Adhérent, Emprunt, Réservation, Oeuvre, Auteurs, Exemplaire).
 
-```csharp
-using Microsoft.AspNetCore.Mvc;
+![Diagramme de classes UML](diagramme_classes_uml.png)
 
-[ApiController] // Déclare un contrôleur HTTP (≈ point d'entrée HTTP)
-[Route("api/tache")] // Définit le chemin d’accès de base pour ce contrôleur
-// ControllerBase permet de bénéficier des utilitaires HTTP (Ok, NotFound, etc.)
-public class TacheController : ControllerBase
-{
-    [HttpGet] // Répond aux requêtes HTTP GET sur "api/tache"
-    public List<Tache> GetTaches()
-    {
-        // Retourner la liste de toutes les tâches
-    }
+## 4. Diagramme de séquence UML - Création d'un emprunt
 
-    [HttpGet("{id}")] // Répond aux requêtes HTTP GET sur "api/tache/{id}"
-    public Tache GetTache(int id)
-    {
-        // Retourner la tâche id
-    }
+Ce diagramme de séquence illustre le déroulement complet d’un emprunt passant
+(cas nominal), depuis l’appel HTTP jusqu’à la persistance en base de données.
 
-    [HttpPost] // Répond aux requêtes HTTP POST sur "api/tache/"
-    public Tache PostTache(Tache tache)
-    {
-        // Stocker en base la tache
-        // Retourner la tache
-    }
+Le scénario correspond à l'appel : `POST /api/emprunt`.
 
-    [HttpPut("{id}")] // Répond aux requêtes HTTP PUT sur "api/tache/{id}"
-    public Tache PutTache(int id, Tache tache)
-    {
-        // Modifier la tache id
-        // Retourner la tache id
-    }
+![Diagramme de séquence UML - Création d'un emprunt](diagramme_sequence_uml.png)
 
-    [HttpDelete("{id}")] // Répond aux requêtes HTTP DELETE sur "api/tache/{id}"
-    public void DeleteTache(int id)
-    {
-        // Supprimer la tache id
-    }
-}
-```
-
-#### Activer les contrôleurs HTTP
-
-```csharp
-// Program.cs
-
-var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddOpenApi();
-builder.Services.AddControllers(); // <-- !! Ajoutez cette ligne !!
-
-...
-
-app.MapControllers(); // <-- !! Ajoutez cette ligne !!
-
-app.UseHttpsRedirection();
-
-app.Run();
-```
-
-### Scalar (interface développeur)
-
-Pour activer Scalar sur `http://localhost:<port>/scalar/`
-
-- Ajouter Scalar à un projet : `dotnet add package Scalar.AspNetCore`
-- Activer Scalar :
-```csharp
-// Program.cs
-using Scalar.AspNetCore; // <-- !! Ajoutez cette ligne !!
-
-var builder = WebApplication.CreateBuilder(args);
-
-...
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-	app.MapOpenApi();
-	app.MapScalarApiReference(); // <-- !! Ajoutez cette ligne !!
-}
-
-...
-
-app.Run();
-```
