@@ -1,6 +1,6 @@
-public class SuiviActiviteQuotidien
+public class SuiviActivite
 {
-    public int Id {get; set; }
+    public int Id { get; set; }
     public DateOnly Date { get; set; }
     private int _nouveauxEmprunts;
     public int NouveauxEmprunts
