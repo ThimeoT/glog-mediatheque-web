@@ -1,18 +1,7 @@
 public class SuiviActiviteQuotidien
 {
     public int Id {get; set; }
-    public DateOnly DateId { get; set; }
-    private string _date;
-    
-    public string Date
-    {
-        get => _date;
-        private set
-        {
-
-            _date = DateTime.Now.ToString("yyyy-MM-dd");
-        }
-    }
+    public DateOnly Date { get; set; }
     private int _nouveauxEmprunts;
     public int NouveauxEmprunts
     {
@@ -21,7 +10,7 @@ public class SuiviActiviteQuotidien
         {
             if (int.IsNegative(value))
                 throw new DomainValidationException(
-                    "Le nombre de nouveaux emprunts ne peut pas être négatif"
+                    "Le nombre de nouveaux emprunts ne peut pas être négatif."
                 );
         }
     }
@@ -33,7 +22,7 @@ public class SuiviActiviteQuotidien
         {
             if (int.IsNegative(value))
                 throw new DomainValidationException(
-                    "Le nombre de retours effectués ne peut pas être négatif"
+                    "Le nombre de retours effectués ne peut pas être négatif."
                 );
         }
     }
@@ -45,7 +34,7 @@ public class SuiviActiviteQuotidien
         {
             if (int.IsNegative(value))
                 throw new DomainValidationException(
-                    "Le nombre de nouvelles réservations ne peut pas être négatif"
+                    "Le nombre de nouvelles réservations ne peut pas être négatif."
                 );
         }
     }
@@ -57,7 +46,7 @@ public class SuiviActiviteQuotidien
         {
             if (int.IsNegative(value))
                 throw new DomainValidationException(
-                    "Le nombre total d'emprunts ne peut pas être négatif"
+                    "Le nombre total d'emprunts ne peut pas être négatif."
                 );
         }
     }

@@ -20,6 +20,6 @@ public class DataContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<SuiviActiviteQuotidien>().HasIndex(m => m.DateId).IsUnique();
+        modelBuilder.Entity<SuiviActiviteQuotidien>().HasIndex(m => m.Date).IsUnique();
     }
 }
