@@ -65,7 +65,7 @@ public class ReservationService
         };
         _reservationRepo.AddReservation(reservation);
         IncrementNouvellesReservationsSuiviActivite(reservation.DateReservation);
-        _adherentRepo.SaveChanges();
+        _reservationRepo.SaveChanges();
         
 
         return reservation;
