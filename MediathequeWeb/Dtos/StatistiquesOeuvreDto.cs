@@ -20,7 +20,7 @@ public class StatistiquesOeuvreDto
     public int NombreEmpruntsTotal { get; set; }
     public int FileAttenteReservation { get; set; }
 
-    public static StatistiquesOeuvreDto FromData(Oeuvre oeuvre)
+    public static StatistiquesOeuvreDto FromModel(Oeuvre oeuvre)
     {
         return new StatistiquesOeuvreDto
         {
