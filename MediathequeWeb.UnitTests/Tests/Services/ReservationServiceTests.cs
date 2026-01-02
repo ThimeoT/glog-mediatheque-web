@@ -40,6 +40,21 @@ public class ReservationServiceTests
     }
 
     [TestMethod]
+    public void GetAllReservationsFromAdherentId_inexistant_lance_exception()
+    {
+        int idInvalide = 999;
+
+        var ex = Assert.ThrowsException<NotFoundException>(
+            () => _service.GetAllReservationsFromAdherentId(idInvalide)
+        );
+
+        Assert.AreEqual(
+            $"L’adhérent avec l’id {idInvalide} n’existe pas.",
+            ex.Message
+        );
+    }
+
+    [TestMethod]
     public void GetAllReservationsFromOeuvreId_avec_oeuvreId_inexistant_lance_exception()
     {
         var ex = Assert.ThrowsException<NotFoundException>(
@@ -100,10 +115,47 @@ public class ReservationServiceTests
     }
 
     [TestMethod]
+    public void CreateReservation_avec_reservation_active_existante_lance_domain_validation()
+    {
+        int adherentId = 1;
+        int oeuvreId = 2;
+
+        var reservationExistante = new Reservation
+        {
+            Id = 99,
+            Adherent = new Adherent { Id = adherentId },
+            Oeuvre = new Oeuvre { Id = oeuvreId },
+            DateReservation = DateOnly.FromDateTime(DateTime.Now.AddDays(-1)),
+            Statut = StatutReservation.Active
+        };
+
+        _mockReservationRepo.AddReservation(reservationExistante);
+
+        var ex = Assert.ThrowsException<DomainValidationException>(
+            () => _service.CreateReservation(adherentId, oeuvreId)
+        );
+
+        Assert.AreEqual(
+            "Une réservation active existe déjà pour cette œuvre.",
+            ex.Message
+        );
+    }
+
+    [TestMethod]
     public void DeleteReservation_existant_supprime_reservation()
     {
         _service.DeleteReservation(1);
 
         Assert.AreEqual(1, _mockReservationRepo.GetAllReservations().Count());
+    }
+
+    [TestMethod]
+    public void DeleteReservation_inexistante_lance_exception()
+    {
+        var ex = Assert.ThrowsException<NotFoundException>(
+            () => _service.DeleteReservation(999)
+        );
+
+        Assert.AreEqual("Réservation introuvable.", ex.Message);
     }
 }
