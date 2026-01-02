@@ -14,7 +14,17 @@ public class InventaireServiceTests
     }
 
     [TestMethod]
-    public void GetAuteurById_inexistant_lance_exception()
+    public void GetAuteurById_avec_id_existant_retourne_auteur()
+    {
+        var auteur = _service.GetAuteurById(1);
+
+        Assert.IsNotNull(auteur);
+        Assert.IsInstanceOfType<Auteur>(auteur);
+        Assert.AreEqual(1, auteur.Id);
+    }
+
+    [TestMethod]
+    public void GetAuteurById_avec_id_inexistant_lance_not_found_exception()
     {
         var ex = Assert.ThrowsException<NotFoundException>(
             () => _service.GetAuteurById(999)
@@ -43,7 +53,7 @@ public class InventaireServiceTests
     }
 
     [TestMethod]
-    public void UpdateAuteur_modifie_les_donnees()
+    public void UpdateAuteur_modifie_les_donnees_d_un_auteur()
     {
         var auteur = _service.UpdateAuteur(1, "Mapped", "Kylian");
 
@@ -60,7 +70,17 @@ public class InventaireServiceTests
     }
 
     [TestMethod]
-    public void GetOeuvreById_inexistant_lance_exception()
+    public void GetOeuvreById_avec_id_existant_retourne_oeuvre()
+    {
+        var oeuvre = _service.GetOeuvreById(1);
+
+        Assert.IsNotNull(oeuvre);
+        Assert.IsInstanceOfType<Oeuvre>(oeuvre);
+        Assert.AreEqual(1, oeuvre.Id);
+    }
+
+    [TestMethod]
+    public void GetOeuvreById_avec_id_inexistant_lance_not_found_exception()
     {
         var ex = Assert.ThrowsException<NotFoundException>(
             () => _service.GetOeuvreById(999)
@@ -89,7 +109,7 @@ public class InventaireServiceTests
     }
 
     [TestMethod]
-    public void UpdateOeuvre_modifie_les_donnees()
+    public void UpdateOeuvre_modifie_les_donnees_d_une_oeuvre()
     {
         var oeuvre = _service.UpdateOeuvre(1, "Feel", "Livre", 1);
         Assert.AreEqual("Feel", oeuvre.Titre);
@@ -105,7 +125,17 @@ public class InventaireServiceTests
     }
 
     [TestMethod]
-    public void GetExemplaireById_inexistant_lance_exception()
+    public void GetExemplaireById_avec_id_existant_retourne_exemplaire()
+    {
+        var exemplaire = _service.GetExemplaireById(1);
+
+        Assert.IsNotNull(exemplaire);
+        Assert.IsInstanceOfType<Exemplaire>(exemplaire);
+        Assert.AreEqual(1, exemplaire.Id);
+    }
+
+    [TestMethod]
+    public void GetExemplaireById_avec_id_inexistant_lance_not_found_exception()
     {
         var ex = Assert.ThrowsException<NotFoundException>(
             () => _service.GetExemplaireById(99)

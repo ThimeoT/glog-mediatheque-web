@@ -23,7 +23,7 @@ public class ReservationControllerTests
     }
 
     [TestMethod]
-    public void Recuperer_reservations_retourne_ok_avec_la_liste_des_dto_reservations()
+    public void Recuperer_reservations_retourne_ok_avec_la_liste_des_reservations()
     {
         var result = _controller.RecupererReservations();
 
@@ -36,7 +36,7 @@ public class ReservationControllerTests
     }
 
     [TestMethod]
-    public void Ajouter_reservation_retourne_created_avec_dto_reservation()
+    public void Ajouter_reservation_retourne_created_avec_reservation()
     {
         var result = _controller.AjouterReservation(adherentId: 1, oeuvreId: 2);
 
@@ -51,7 +51,7 @@ public class ReservationControllerTests
     }
 
     [TestMethod]
-    public void Ajouter_reservation_avec_exemplaire_disponible_retourne_domain_validation()
+    public void Ajouter_reservation_avec_exemplaire_disponible_retourne_bad_request()
     {
         var result = _controller.AjouterReservation(adherentId: 1, oeuvreId: 1);
 

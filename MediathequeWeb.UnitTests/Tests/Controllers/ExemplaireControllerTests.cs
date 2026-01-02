@@ -18,7 +18,7 @@ public class ExemplaireControllerTests
     }
 
     [TestMethod]
-    public void Recuperer_exemplaire_avec_id_valide_retourne_ok_avec_dto_exemplaire()
+    public void Recuperer_exemplaire_avec_id_valide_retourne_ok_avec_exemplaire()
     {
         var result = _controller.RecupererExemplaire(1);
 
@@ -38,9 +38,6 @@ public class ExemplaireControllerTests
         var notFound = result.Result as NotFoundObjectResult;
         Assert.IsNotNull(notFound);
     }
-
-    // ATTENTION : les tests de récupération ou d'ajout d'exemplaire
-    // se trouvent dans OeuvreControllerTests
 
     [TestMethod]
     public void Supprimer_exemplaire_avec_id_valide_retourne_no_content()

@@ -159,7 +159,7 @@ public class AdherentControllerTests
     }
 
     [TestMethod]
-    public void Recuperer_reservations_adherent_retourne_ok_avec_la_liste_des_dto_exemplaires()
+    public void Recuperer_reservations_adherent_retourne_ok_avec_la_liste_des_exemplaires()
     {
         var result = _controller.RecupererReservationsAdherent(1);
 

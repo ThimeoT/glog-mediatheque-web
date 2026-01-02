@@ -22,7 +22,7 @@ public class AdherentServiceTests
     }
 
     [TestMethod]
-    public void GetAdherentById_existant_retourne_adherent()
+    public void GetAdherentById_avec_id_existant_retourne_adherent()
     {
         var adherent = _service.GetAdherentById(1);
 
@@ -31,7 +31,7 @@ public class AdherentServiceTests
     }
 
     [TestMethod]
-    public void GetAdherentById_inexistant_lance_exception()
+    public void GetAdherentById_avec_id_inexistant_lance_not_found_exception()
     {
         var ex = Assert.ThrowsException<NotFoundException>(
             () => _service.GetAdherentById(99)
@@ -53,7 +53,7 @@ public class AdherentServiceTests
     }
 
     [TestMethod]
-    public void UpdateAdherent_modifie_les_donnees()
+    public void UpdateAdherent_modifie_les_donnees_d_un_adherent()
     {
         var adherent = _service.UpdateAdherent(1, "Emarre", "Jean", "jeanemarre@ensc.fr");
 

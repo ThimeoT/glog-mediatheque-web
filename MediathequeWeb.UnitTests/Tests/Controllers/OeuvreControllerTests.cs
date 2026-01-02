@@ -23,7 +23,7 @@ public class OeuvreControllerTests
     }
 
     [TestMethod]
-    public void Recuperer_oeuvres_retourne_ok_avec_la_liste_des_dto_oeuvres()
+    public void Recuperer_oeuvres_retourne_ok_avec_la_liste_des_oeuvres()
     {
         var result = _controller.RecupererOeuvres();
 
@@ -36,7 +36,7 @@ public class OeuvreControllerTests
     }
 
     [TestMethod]
-    public void Recuperer_oeuvre_avec_id_valide_retourne_ok_avec_dto_oeuvre()
+    public void Recuperer_oeuvre_avec_id_valide_retourne_ok_avec_oeuvre()
     {
         var result = _controller.RecupererOeuvre(1);
 
@@ -48,7 +48,7 @@ public class OeuvreControllerTests
     }
 
     [TestMethod]
-    public void Recuperer_oeuvre_id_avec_invalide_retourne_not_found()
+    public void Recuperer_oeuvre_avec_id_invalide_retourne_not_found()
     {
         var result = _controller.RecupererOeuvre(99);
 
@@ -57,7 +57,7 @@ public class OeuvreControllerTests
     }
 
     [TestMethod]
-    public void Ajouter_oeuvre_retourne_created_avec_dto_oeuvre()
+    public void Ajouter_oeuvre_retourne_created_avec_oeuvre()
     {
         var result = _controller.AjouterOeuvre("Carrie", "DVD", 2);
 
@@ -105,7 +105,7 @@ public class OeuvreControllerTests
     }
 
     [TestMethod]
-    public void Modifier_oeuvre_avec_id_valide_retourne_ok_avec_dto_oeuvre_modifie()
+    public void Modifier_oeuvre_avec_id_valide_retourne_ok_avec_oeuvre_modifie()
     {
         var result = _controller.ModifierOeuvre(1, "Inception", "CD", 2);
 
@@ -181,7 +181,7 @@ public class OeuvreControllerTests
     }
 
     [TestMethod]
-    public void Recuperer_exemplaires_oeuvre_retourne_ok_avec_la_liste_des_dto_exemplaires()
+    public void Recuperer_exemplaires_oeuvre_retourne_ok_avec_la_liste_des_exemplaires()
     {
         var result = _controller.RecupererExemplairesOeuvre(1);
 
@@ -204,7 +204,7 @@ public class OeuvreControllerTests
     }
 
     [TestMethod]
-    public void Ajouter_exemplaire_retourne_created_avec_dto_exemplaire()
+    public void Ajouter_exemplaire_retourne_created_avec_exemplaire()
     {
         var result = _controller.AjouterExemplaireOeuvre(1);
 
@@ -229,7 +229,7 @@ public class OeuvreControllerTests
     }
 
     [TestMethod]
-    public void Recuperer_reservations_oeuvre_retourne_ok_avec_la_liste_des_dto_exemplaires()
+    public void Recuperer_reservations_oeuvre_retourne_ok_avec_la_liste_des_exemplaires()
     {
         var result = _controller.RecupererReservationsOeuvre(1);
 

@@ -22,7 +22,7 @@ public class EmpruntControllerTests
     }
 
     [TestMethod]
-    public void Recuperer_emprunts_retourne_ok_avec_la_liste_des_dto_emprunts()
+    public void Recuperer_emprunts_retourne_ok_avec_la_liste_des_emprunts()
     {
         var result = _controller.RecupererEmprunts();
 
@@ -35,7 +35,7 @@ public class EmpruntControllerTests
     }
 
     [TestMethod]
-    public void Recuperer_emprunt_avec_id_valide_retourne_ok_avec_dto()
+    public void Recuperer_emprunt_avec_id_valide_retourne_ok_avec_emprunt()
     {
         var result = _controller.RecupererEmprunt(1);
 
@@ -50,7 +50,7 @@ public class EmpruntControllerTests
     }
 
     [TestMethod]
-    public void Recuperer_emprunt_id_avec_invalide_retourne_not_found()
+    public void Recuperer_emprunt_avec_id_invalide_retourne_not_found()
     {
         var result = _controller.RecupererEmprunt(99);
 
@@ -59,7 +59,7 @@ public class EmpruntControllerTests
     }
 
     [TestMethod]
-    public void Ajouter_emprunt_retourne_created_avec_dto_emprunt()
+    public void Ajouter_emprunt_retourne_created_avec_emprunt()
     {
         var result = _controller.AjouterEmprunt(adherentId: 1, oeuvreId: 1);
 
@@ -125,7 +125,7 @@ public class EmpruntControllerTests
     }
 
     [TestMethod]
-    public void Ajouter_emprunt_limite_atteinte_retourne_bad_request()
+    public void Ajouter_emprunt_avec_limite_emprunts_atteinte_retourne_bad_request()
     {
         var adherent = _mockAdherentRepo.GetAdherent(1);
         Assert.IsNotNull(adherent);
@@ -153,7 +153,7 @@ public class EmpruntControllerTests
     }
 
     [TestMethod]
-    public void Retourner_emprunt_avec_id_valide_retourne_ok_avec_dto_emprunt_modifie()
+    public void Retourner_emprunt_avec_id_valide_retourne_ok_avec_emprunt_modifie()
     {
         var result = _controller.RetournerEmprunt(
             id: 1,

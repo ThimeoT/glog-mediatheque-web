@@ -1,5 +1,3 @@
-using System.Resources;
-
 namespace MediathequeWeb.UnitTests.Services;
 
 [TestClass]
@@ -28,7 +26,7 @@ public class EmpruntServiceTests
     }
 
     [TestMethod]
-    public void GetEmpruntById_existant_retourne_emprunt()
+    public void GetEmpruntById_avec_id_existant_retourne_emprunt()
     {
         var emprunt = _service.GetEmpruntById(1);
 
@@ -38,7 +36,7 @@ public class EmpruntServiceTests
     }
 
     [TestMethod]
-    public void GetEmpruntById_inexistant_lance_exception()
+    public void GetEmpruntById_avec_id_inexistant_lance_exception()
     {
         var ex = Assert.ThrowsException<NotFoundException>(() =>
             _service.GetEmpruntById(99)
@@ -84,7 +82,7 @@ public class EmpruntServiceTests
     }
 
     [TestMethod]
-    public void CreateEmprunt_sans_exemplaire_disponible_lance_domain_validation()
+    public void CreateEmprunt_sans_exemplaire_disponible_lance_domain_validation_exception()
     {
         int oeuvreId = 1;
 
@@ -103,7 +101,7 @@ public class EmpruntServiceTests
     }
 
     [TestMethod]
-    public void CreateEmprunt_avec_limite_atteinte_lance_domain_validation()
+    public void CreateEmprunt_avec_limite_atteinte_lance_domain_validation_exception()
     {
         Exemplaire? exemplaire = _mockInventaireRepo.GetExemplaire(1);
         Adherent? adherent = _mockAdherentRepo.GetAdherent(1);
@@ -144,7 +142,7 @@ public class EmpruntServiceTests
     }
 
     [TestMethod]
-    public void ReturnEmprunt_deja_retourne_lance_domain_validation()
+    public void ReturnEmprunt_deja_retourne_lance_domain_validation_exception()
     {
         var emprunt = _service.GetEmpruntById(1);
         emprunt.DateRetourReelle = DateOnly.FromDateTime(DateTime.Now);
@@ -157,7 +155,7 @@ public class EmpruntServiceTests
     }
 
     [TestMethod]
-    public void ReturnEmprunt_inexistant_lance_not_found()
+    public void ReturnEmprunt_inexistant_lance_not_found_exception()
     {
         var ex = Assert.ThrowsException<NotFoundException>(() =>
             _service.ReturnEmprunt(999, DateOnly.FromDateTime(DateTime.Now))
