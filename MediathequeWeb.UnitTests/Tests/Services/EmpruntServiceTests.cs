@@ -33,15 +33,18 @@ public class EmpruntServiceTests
         var emprunt = _service.GetEmpruntById(1);
 
         Assert.IsNotNull(emprunt);
-        Assert.IsInstanceOfType(emprunt, typeof(Emprunt));
+        Assert.IsInstanceOfType<Emprunt>(emprunt);
         Assert.AreEqual(1, emprunt.Id);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(NotFoundException))]
     public void GetEmpruntById_inexistant_lance_exception()
     {
-        _service.GetEmpruntById(99);
+        var ex = Assert.ThrowsException<NotFoundException>(() =>
+            _service.GetEmpruntById(99)
+        );
+
+        Assert.AreEqual("Emprunt introuvable.", ex.Message);
     }
 
     [TestMethod]
@@ -58,45 +61,56 @@ public class EmpruntServiceTests
     {
         int adherentId = 1;
         int oeuvreId = 1;
-        int reservationId = 5;
-        Adherent adherent = _mockAdherentRepo.GetAdherent(adherentId);
-        Oeuvre oeuvre = _mockInventaireRepo.GetOeuvre(oeuvreId);
-        adherent.Reservations.Add(
-            new Reservation
-            {
-                Id = reservationId,
-                Adherent = adherent,
-                Oeuvre = oeuvre,
-                Statut = StatutReservation.Active,
-            }
-        );
-        var emprunt = _service.CreateEmprunt(adherentId: adherentId, oeuvreId: oeuvreId);
-        var reservation = adherent.Reservations.FirstOrDefault(r =>
-            r.Id == reservationId
-        );
+
+        Adherent? adherent = _mockAdherentRepo.GetAdherent(adherentId);
+        Oeuvre? oeuvre = _mockInventaireRepo.GetOeuvre(oeuvreId);
+        
+        Assert.IsNotNull(adherent);
+        Assert.IsNotNull(oeuvre);
+        
+        Reservation reservation = new()
+        {
+            Id = 5,
+            Adherent = adherent,
+            Oeuvre = oeuvre,
+            Statut = StatutReservation.Active
+        };
+
+        adherent.Reservations.Add(reservation);
+
+        _service.CreateEmprunt(adherentId, oeuvreId);
         
         Assert.AreEqual(StatutReservation.Terminee, reservation.Statut);
     }
 
     [TestMethod]
-    public void CreateEmprunt_sans_exemplaire_lance_domain_validation()
+    public void CreateEmprunt_sans_exemplaire_disponible_lance_domain_validation()
     {
         int oeuvreId = 1;
+
         var exemplaires = _mockInventaireRepo.GetAllExemplairesFromOeuvreId(oeuvreId).ToList();
-        int nombreExemplaires= exemplaires.Count();
-        for(int i=0; i<nombreExemplaires;i++)
-            _mockInventaireRepo.RemoveExemplaire(exemplaires[0]);
-        
-        Assert.ThrowsException<DomainValidationException>(() =>
+
+        foreach (var exemplaire in exemplaires)
+        {
+            _mockInventaireRepo.RemoveExemplaire(exemplaire);
+        }
+
+        var ex = Assert.ThrowsException<DomainValidationException>(() =>
             _service.CreateEmprunt(adherentId: 1, oeuvreId: oeuvreId)
         );
+
+        Assert.AreEqual("Aucun exemplaire disponible.", ex.Message);
     }
 
     [TestMethod]
     public void CreateEmprunt_avec_limite_atteinte_lance_domain_validation()
     {
-        var exemplaire = _mockInventaireRepo.GetExemplaire(1);
-        var adherent = _mockAdherentRepo.GetAdherent(1);
+        Exemplaire? exemplaire = _mockInventaireRepo.GetExemplaire(1);
+        Adherent? adherent = _mockAdherentRepo.GetAdherent(1);
+        
+        Assert.IsNotNull(exemplaire);
+        Assert.IsNotNull(adherent);
+
         for (int i = 0; i < 10; i++)
         {
             adherent.Emprunts.Add(
@@ -111,39 +125,70 @@ public class EmpruntServiceTests
             );
         }
         
-        Assert.ThrowsException<DomainValidationException>(() =>
-            _service.CreateEmprunt(adherentId: adherent.Id, oeuvreId: 1)
+        var ex = Assert.ThrowsException<DomainValidationException>(() =>
+            _service.CreateEmprunt(adherent.Id, oeuvreId: 1)
         );
+
+        Assert.AreEqual("Limite de 10 emprunts atteinte.", ex.Message);
     }
 
     [TestMethod]
-    public void ReturnEmprunt_retourne_un_emprunt_avec_une_date_retour_relle_et_un_exemplaire_disponible()
+    public void ReturnEmprunt_retourne_un_emprunt_avec_une_date_retour_relle_et_remet_exemplaire_disponible()
     {
-        var emprunt = _service.ReturnEmprunt(1, DateOnly.FromDateTime(DateTime.Now));
+        DateOnly dateRetour = DateOnly.FromDateTime(DateTime.Now);
 
-        Assert.AreEqual(DateOnly.FromDateTime(DateTime.Now), emprunt.DateRetourReelle);
+        var emprunt = _service.ReturnEmprunt(1, dateRetour);
+
+        Assert.AreEqual(dateRetour, emprunt.DateRetourReelle);
         Assert.AreEqual(StatutExemplaire.Disponible, emprunt.Exemplaire.Statut);
     }
+
     [TestMethod]
-    public void DeleteEmprunt_existant_supprime_emprunt()
+    public void ReturnEmprunt_deja_retourne_lance_domain_validation()
     {
-        int adherentId = 1;
-        int exemplaireId = 1;
-        Adherent adherent = _mockAdherentRepo.GetAdherent(adherentId);
-        Exemplaire exemplaire = _mockInventaireRepo.GetExemplaire(exemplaireId);
-        Emprunt emprunt = new Emprunt
+        var emprunt = _service.GetEmpruntById(1);
+        emprunt.DateRetourReelle = DateOnly.FromDateTime(DateTime.Now);
+
+        var ex = Assert.ThrowsException<DomainValidationException>(() =>
+            _service.ReturnEmprunt(1, DateOnly.FromDateTime(DateTime.Now))
+        );
+
+        Assert.AreEqual("Cet emprunt a déjà été retourné.", ex.Message);
+    }
+
+    [TestMethod]
+    public void ReturnEmprunt_inexistant_lance_not_found()
+    {
+        var ex = Assert.ThrowsException<NotFoundException>(() =>
+            _service.ReturnEmprunt(999, DateOnly.FromDateTime(DateTime.Now))
+        );
+
+        Assert.AreEqual("Emprunt introuvable.", ex.Message);
+    }
+
+    [TestMethod]
+    public void DeleteEmprunt_existant_supprime_emprunt_et_remet_exemplaire_disponible()
+    {
+        Adherent? adherent = _mockAdherentRepo.GetAdherent(1);
+        Exemplaire? exemplaire = _mockInventaireRepo.GetExemplaire(1);
+
+        Assert.IsNotNull(adherent);
+        Assert.IsNotNull(exemplaire);
+
+        Emprunt emprunt = new()
         {
             Adherent = adherent,
-            Exemplaire = exemplaire,
+            Exemplaire = exemplaire
         };
+
         _mockEmpruntRepo.AddEmprunt(emprunt);
         int empruntId = emprunt.Id;
-       
+
         _service.DeleteEmprunt(empruntId);
 
         Assert.ThrowsException<NotFoundException>(() =>
             _service.GetEmpruntById(empruntId)
         );
-        Assert.AreEqual(StatutExemplaire.Disponible,exemplaire.Statut);
+        Assert.AreEqual(StatutExemplaire.Disponible, exemplaire.Statut);
     }
 }
