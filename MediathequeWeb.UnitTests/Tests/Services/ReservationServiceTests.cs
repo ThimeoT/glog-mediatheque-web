@@ -15,7 +15,8 @@ public class ReservationServiceTests
         _service = new ReservationService(
             _mockAdherentRepo,
             _mockInventaireRepo,
-            _mockReservationRepo
+            _mockReservationRepo,
+            null!
         );
     }
 

@@ -17,7 +17,8 @@ public class ReservationControllerTests
         ReservationService _reservationService = new(
             _mockAdherentRepo,
             _mockInventaireRepo,
-            _mockReservationRepo
+            _mockReservationRepo,
+            null!
         );
         _controller = new(_reservationService);
     }

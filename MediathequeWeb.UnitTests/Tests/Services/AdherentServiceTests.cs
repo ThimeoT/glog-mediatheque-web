@@ -1,4 +1,6 @@
-﻿namespace MediathequeWeb.UnitTests.Services;
+﻿using Microsoft.Extensions.Logging.Abstractions;
+
+namespace MediathequeWeb.UnitTests.Services;
 
 [TestClass]
 public class AdherentServiceTests
@@ -10,7 +12,7 @@ public class AdherentServiceTests
     public void Setup()
     {
         _repo = new MockAdherentRepository();
-        _service = new AdherentService(_repo);
+        _service = new AdherentService(_repo, null!);
     }
 
     [TestMethod]

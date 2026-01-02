@@ -17,7 +17,8 @@ public class OeuvreControllerTests
         ReservationService _reservationService = new(
             null!,
             _mockInventaireRepo,
-            _mockReservationRepo
+            _mockReservationRepo,
+            null!
         );
         _controller = new(_inventaireService, _reservationService);
     }
