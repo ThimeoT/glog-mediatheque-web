@@ -12,6 +12,7 @@ public class SuiviActiviteQuotidien
                 throw new DomainValidationException(
                     "Le nombre de nouveaux emprunts ne peut pas être négatif."
                 );
+            _nouveauxEmprunts = value;
         }
     }
     private int _retoursEffectues;
@@ -24,6 +25,7 @@ public class SuiviActiviteQuotidien
                 throw new DomainValidationException(
                     "Le nombre de retours effectués ne peut pas être négatif."
                 );
+            _retoursEffectues = value;
         }
     }
     private int _nouvellesReservations;
@@ -36,6 +38,7 @@ public class SuiviActiviteQuotidien
                 throw new DomainValidationException(
                     "Le nombre de nouvelles réservations ne peut pas être négatif."
                 );
+            _nouvellesReservations = value;
         }
     }
     private int _nouveauxAdherents;
@@ -46,8 +49,9 @@ public class SuiviActiviteQuotidien
         {
             if (int.IsNegative(value))
                 throw new DomainValidationException(
-                    "Le nombre total d'emprunts ne peut pas être négatif."
+                    "Le nombre de nouveaux adhérents ne peut pas être négatif."
                 );
+            _nouveauxAdherents = value;
         }
     }
 }
