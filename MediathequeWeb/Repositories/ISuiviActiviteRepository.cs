@@ -1,4 +1,4 @@
-public interface ISSuiviActiviteRepository
+public interface ISuiviActiviteRepository
 {
     public IEnumerable<SuiviActivite> GetAllSuiviActivite();
     public SuiviActivite? GetSuiviActiviteFromId(int id);

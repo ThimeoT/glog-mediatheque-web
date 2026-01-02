@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-public class SuiviActiviteRepository : ISSuiviActiviteRepository
+public class SuiviActiviteRepository : ISuiviActiviteRepository
 {
     private readonly DataContext _db;
 
