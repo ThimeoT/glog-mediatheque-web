@@ -6,16 +6,19 @@ public class EmpruntService
     private readonly IAdherentRepository _adherentRepo;
     private readonly IEmpruntRepository _empruntRepo;
     private readonly IInventaireRepository _inventaireRepo;
+    private readonly ISuiviActiviteRepository _suiviActiviteRepo;
 
     public EmpruntService(
         IAdherentRepository adherentRepo,
         IEmpruntRepository empruntRepo,
-        IInventaireRepository inventaireRepo
+        IInventaireRepository inventaireRepo,
+        ISuiviActiviteRepository suiviActiviteRepo
     )
     {
         _adherentRepo = adherentRepo;
         _empruntRepo = empruntRepo;
         _inventaireRepo = inventaireRepo;
+        _suiviActiviteRepo = suiviActiviteRepo;
     }
 
     public Emprunt CreateEmprunt(int adherentId, int oeuvreId)
@@ -65,7 +68,7 @@ public class EmpruntService
         {
             reservation.Statut = StatutReservation.Terminee;
         }
-
+        AddNewEmpruntActivite(emprunt.DateEmprunt);
         _empruntRepo.SaveChanges();
 
         return emprunt;
@@ -105,7 +108,27 @@ public class EmpruntService
     {
         Emprunt emprunt = GetEmpruntById(empruntId);
         emprunt.Exemplaire.Statut = StatutExemplaire.Disponible;
+        RemoveEmpruntActivite(emprunt.DateEmprunt);
         _empruntRepo.RemoveEmprunt(emprunt);
         _empruntRepo.SaveChanges();
+    }
+
+    public void AddNewEmpruntActivite(DateOnly date)
+    {
+        SuiviActivite? suiviActivite = _suiviActiviteRepo.GetSuiviActiviteFromDate(date);
+        if (suiviActivite == null)
+            _suiviActiviteRepo.AddSuiviActivite(
+                new SuiviActivite { Date = date, NouveauxEmprunts = 1 }
+            );
+        else
+            suiviActivite.NouveauxEmprunts += 1;
+        _suiviActiviteRepo.SaveChanges();
+    }
+
+    public void RemoveEmpruntActivite(DateOnly date) 
+    {
+        SuiviActivite suiviActivite = _suiviActiviteRepo.GetSuiviActiviteFromDate(date);
+        suiviActivite.NouveauxEmprunts-=1;
+        _suiviActiviteRepo.SaveChanges();
     }
 }
