@@ -104,8 +104,7 @@ public class StatistiquesService
             statut: DetermineStatutDisponibilite(oeuvre),
             nombreCopies: oeuvre.Exemplaires.Count,
             nombreEmpruntsTotal: oeuvre
-                .Exemplaires.Where(e => e != null && e.Emprunts != null)
-                .SelectMany(e => e.Emprunts)
+                .Exemplaires.SelectMany(e => e.Emprunts)
                 .Count(),
             fileAttenteReservation: oeuvre.Reservations.Count(r =>
                 r.Statut == StatutReservation.Active
@@ -126,8 +125,7 @@ public class StatistiquesService
                     statut: DetermineStatutDisponibilite(oeuvre),
                     nombreCopies: oeuvre.Exemplaires.Count,
                     nombreEmpruntsTotal: oeuvre
-                        .Exemplaires.Where(e => e != null && e.Emprunts != null)
-                        .SelectMany(e => e.Emprunts)
+                        .Exemplaires.SelectMany(e => e.Emprunts)
                         .Count(),
                     fileAttenteReservation: oeuvre.Reservations.Count(r =>
                         r.Statut == StatutReservation.Active
