@@ -15,6 +15,7 @@ public class ReservationService
         _adherentRepo = adherentRepo;
         _inventaireRepo = inventaireRepo;
         _reservationRepo = reservationRepo;
+        _suiviActiviteRepo = suiviActiviteRepo;
     }
 
     public IEnumerable<Reservation> GetAllReservations()
