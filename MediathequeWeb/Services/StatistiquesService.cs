@@ -61,7 +61,7 @@ public class StatistiquesService
         return bilanActiviteQuotidien;
     }
 
-    public BilanActiviteQuotidien GetStatistiquesBilanActiviteQuotidienByDate(DateOnly date)
+    public BilanActiviteQuotidien GetStatistiquesActiviteByDate(DateOnly date)
     {
         BilanActiviteQuotidien bilanActiviteQuotidien =
             _bilanActiviteQuotidienRepo.GetBilanActiviteQuotidienFromDate(date)
@@ -71,7 +71,7 @@ public class StatistiquesService
         return bilanActiviteQuotidien;
     }
 
-    public IEnumerable<BilanActiviteQuotidien> GetAllSuivisActivite()
+    public IEnumerable<BilanActiviteQuotidien> GetAllStatistiquesActivites()
     {
         List<BilanActiviteQuotidien> bilansActiviteQuotidiens = [];
         foreach (
