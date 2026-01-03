@@ -1,12 +1,15 @@
 public class AdherentService
 {
     private readonly IAdherentRepository _adherentRepo;
-    private readonly ISuiviActiviteRepository _suiviActiviteRepo;
+    private readonly IBilanActiviteQuotidienRepository _bilanActiviteQuotidienRepo;
 
-    public AdherentService(IAdherentRepository adherentRepo,ISuiviActiviteRepository suiviActiviteRepo)
+    public AdherentService(
+        IAdherentRepository adherentRepo,
+        IBilanActiviteQuotidienRepository bilanActiviteQuotidienRepo
+    )
     {
         _adherentRepo = adherentRepo;
-        _suiviActiviteRepo = suiviActiviteRepo;
+        _bilanActiviteQuotidienRepo = bilanActiviteQuotidienRepo;
     }
 
     public Adherent GetAdherentById(int id)
@@ -31,7 +34,7 @@ public class AdherentService
 
         _adherentRepo.AddAdherent(adherent);
         _adherentRepo.SaveChanges();
-        IncrementNouveauxAdherentsSuiviActivite(DateOnly.FromDateTime(DateTime.Now));
+        IncrementNouveauxAdherentsBilanActiviteQuotidien(DateOnly.FromDateTime(DateTime.Now));
 
         return adherent;
     }
@@ -54,15 +57,17 @@ public class AdherentService
         _adherentRepo.RemoveAdherent(adherent);
         _adherentRepo.SaveChanges();
     }
-    public void IncrementNouveauxAdherentsSuiviActivite(DateOnly date)
+
+    public void IncrementNouveauxAdherentsBilanActiviteQuotidien(DateOnly date)
     {
-        SuiviActivite? suiviActivite = _suiviActiviteRepo.GetSuiviActiviteFromDate(date);
-        if (suiviActivite == null)
-            _suiviActiviteRepo.AddSuiviActivite(
-                new SuiviActivite { Date = date, NouveauxAdherents = 1 }
+        BilanActiviteQuotidien? bilanActiviteQuotidien =
+            _bilanActiviteQuotidienRepo.GetBilanActiviteQuotidienFromDate(date);
+        if (bilanActiviteQuotidien == null)
+            _bilanActiviteQuotidienRepo.AddBilanActiviteQuotidien(
+                new BilanActiviteQuotidien { Date = date, NouveauxAdherents = 1 }
             );
         else
-            suiviActivite.NouveauxAdherents += 1;
-        _suiviActiviteRepo.SaveChanges();
+            bilanActiviteQuotidien.NouveauxAdherents += 1;
+        _bilanActiviteQuotidienRepo.SaveChanges();
     }
 }

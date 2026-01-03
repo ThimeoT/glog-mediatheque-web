@@ -3,19 +3,19 @@ public class StatistiquesService
     private readonly IAdherentRepository _adherentRepo;
     private readonly IEmpruntRepository _empruntRepo;
     private readonly IInventaireRepository _inventaireRepo;
-    private readonly ISuiviActiviteRepository _suiviActiviteRepo;
+    private readonly IBilanActiviteQuotidienRepository _bilanActiviteQuotidienRepo;
 
     public StatistiquesService(
         IAdherentRepository adherentRepo,
         IEmpruntRepository empruntRepo,
         IInventaireRepository inventaireRepo,
-        ISuiviActiviteRepository suiviActiviteRepo
+        IBilanActiviteQuotidienRepository bilanActiviteQuotidienRepo
     )
     {
         _adherentRepo = adherentRepo;
         _empruntRepo = empruntRepo;
         _inventaireRepo = inventaireRepo;
-        _suiviActiviteRepo = suiviActiviteRepo;
+        _bilanActiviteQuotidienRepo = bilanActiviteQuotidienRepo;
     }
 
     public StatistiquesAdherentDto GetStatistiquesAdherentById(int adherentId)
@@ -51,25 +51,32 @@ public class StatistiquesService
         return statistiquesOeuvres;
     }
 
-    public StatistiquesActiviteDto GetStatistiquesSuiviActiviteById(int activiteId)
+    public StatistiquesActiviteDto GetStatistiquesBilanActiviteQuotidienById(int activiteId)
     {
-        SuiviActivite suiviActivite =
-            _suiviActiviteRepo.GetSuiviActiviteFromId(activiteId)
-            ?? throw new NotFoundException($"Le suivi de l'activité avec l’id {activiteId} n’existe pas.");
-        return StatistiquesActiviteDto.FromModel(suiviActivite);
+        BilanActiviteQuotidien bilanActiviteQuotidien =
+            _bilanActiviteQuotidienRepo.GetBilanActiviteQuotidienFromId(activiteId)
+            ?? throw new NotFoundException(
+                $"Le suivi de l'activité avec l’id {activiteId} n’existe pas."
+            );
+        return StatistiquesActiviteDto.FromModel(bilanActiviteQuotidien);
     }
-    public StatistiquesActiviteDto GetStatistiquesSuiviActiviteByDate(DateOnly date)
+
+    public StatistiquesActiviteDto GetStatistiquesBilanActiviteQuotidienByDate(DateOnly date)
     {
-        SuiviActivite suiviActivite =
-            _suiviActiviteRepo.GetSuiviActiviteFromDate(date)
-            ?? throw new NotFoundException($"Le suivi de l'activité de la date {date} n’existe pas.");
-        return StatistiquesActiviteDto.FromModel(suiviActivite);
+        BilanActiviteQuotidien bilanActiviteQuotidien =
+            _bilanActiviteQuotidienRepo.GetBilanActiviteQuotidienFromDate(date)
+            ?? throw new NotFoundException(
+                $"Le suivi de l'activité de la date {date} n’existe pas."
+            );
+        return StatistiquesActiviteDto.FromModel(bilanActiviteQuotidien);
     }
 
     public IEnumerable<StatistiquesActiviteDto> GetAllSuivisActivite()
     {
         List<StatistiquesActiviteDto> statistiquesActivites = [];
-        foreach (SuiviActivite activite in _suiviActiviteRepo.GetAllSuiviActivite())
+        foreach (
+            BilanActiviteQuotidien activite in _bilanActiviteQuotidienRepo.GetAllBilanActiviteQuotidien()
+        )
             statistiquesActivites.Add(StatistiquesActiviteDto.FromModel(activite));
         return statistiquesActivites;
     }

@@ -10,7 +10,7 @@ public class DataContext : DbContext
     public DbSet<Exemplaire> Exemplaires { get; set; }
     public DbSet<Oeuvre> Oeuvres { get; set; }
     public DbSet<Reservation> Reservations { get; set; }
-    public DbSet<SuiviActivite> SuiviActivite { get; set; }
+    public DbSet<BilanActiviteQuotidien> BilanActiviteQuotidien { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
@@ -20,6 +20,6 @@ public class DataContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<SuiviActivite>().HasIndex(m => m.Date).IsUnique();
+        modelBuilder.Entity<BilanActiviteQuotidien>().HasIndex(m => m.Date).IsUnique();
     }
 }
