@@ -16,10 +16,4 @@ public class DataContext : DbContext
     {
         options.UseSqlite($"Data Source={DbPath}");
     }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<BilanActiviteQuotidien>().HasIndex(m => m.Date).IsUnique();
-    }
 }
