@@ -7,24 +7,13 @@ public class StatistiquesAdherentDto
     public int ReservationsActives { get; set; }
     public int HistoriqueEmprunts { get; set; }
 
-    public static StatistiquesAdherentDto FromData(Adherent adherent)
+    public static StatistiquesAdherentDto FromData(int id, string nomComplet, StatutAdherent statut, int empruntsEnCours, int reservationsActives, int historiqueEmprunts)
     {
-        int empruntsEnCours = adherent.Emprunts.Count(e => !e.DateRetourReelle.HasValue);
-        int reservationsActives = adherent.Reservations.Count(r =>
-            r.Statut == StatutReservation.Active
-        );
-        int historiqueEmprunts = adherent.Emprunts.Count;
-        bool isEnRetard = adherent.Emprunts.Any(e =>
-            e.DateRetourReelle.HasValue && e.DateRetourReelle.Value > e.DateRetourPrevue
-        );
-        string statut = isEnRetard
-            ? StatutAdherent.EnRetard.ToString()
-            : StatutAdherent.EnRegle.ToString();
         return new StatistiquesAdherentDto
         {
-            Id = adherent.Id,
-            NomComplet = $"{adherent.Prenom} {adherent.Nom}",
-            Statut = statut,
+            Id = id,
+            NomComplet = nomComplet,
+            Statut = statut.ToString(),
             EmpruntsEnCours = empruntsEnCours,
             ReservationsActives = reservationsActives,
             HistoriqueEmprunts = historiqueEmprunts,
