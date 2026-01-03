@@ -43,7 +43,7 @@ public class StatistiquesService
         return StatistiquesOeuvreDto.FromModel(oeuvre);
     }
 
-    public IEnumerable<StatistiquesOeuvreDto> GetAllStatitstiquesOeuvres()
+    public IEnumerable<StatistiquesOeuvreDto> GetAllStatistiquesOeuvres()
     {
         List<StatistiquesOeuvreDto> statistiquesOeuvres = [];
         foreach (Oeuvre oeuvre in _inventaireRepo.GetAllOeuvres())
