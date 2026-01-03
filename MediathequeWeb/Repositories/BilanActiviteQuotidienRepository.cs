@@ -34,7 +34,7 @@ public class BilanActiviteQuotidienRepository : IBilanActiviteQuotidienRepositor
         _db.BilanActiviteQuotidien.Add(bilanActiviteQuotidien);
     }
 
-    public void DeleteBilanActiviteQuotidien(BilanActiviteQuotidien bilanActiviteQuotidien)
+    public void RemoveBilanActiviteQuotidien(BilanActiviteQuotidien bilanActiviteQuotidien)
     {
         _db.BilanActiviteQuotidien.Remove(bilanActiviteQuotidien);
     }

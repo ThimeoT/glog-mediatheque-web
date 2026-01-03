@@ -4,9 +4,7 @@ public interface IBilanActiviteQuotidienRepository
     public BilanActiviteQuotidien? GetBilanActiviteQuotidienFromId(int id);
     public BilanActiviteQuotidien? GetBilanActiviteQuotidienFromDate(DateOnly date);
     public bool ExistsFromDate(DateOnly date);
-    public void AddBilanActiviteQuotidien(BilanActiviteQuotidien bilanActiviteQuotidienQuotidien);
-    public void DeleteBilanActiviteQuotidien(
-        BilanActiviteQuotidien bilanActiviteQuotidienQuotidien
-    );
+    public void AddBilanActiviteQuotidien(BilanActiviteQuotidien bilanActiviteQuotidien);
+    public void RemoveBilanActiviteQuotidien(BilanActiviteQuotidien bilanActiviteQuotidien);
     public void SaveChanges();
 }
