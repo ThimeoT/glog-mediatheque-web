@@ -22,7 +22,7 @@ public class StatistiquesService
     {
         if (
             adherent.Emprunts.Any(e =>
-                e.DateRetourReelle.HasValue && e.DateRetourReelle.Value > e.DateRetourPrevue
+                e.DateRetourReelle == null && DateOnly.FromDateTime(DateTime.Now) > e.DateRetourPrevue
             )
         )
         {
@@ -31,13 +31,13 @@ public class StatistiquesService
         return StatutAdherent.EnRegle;
     }
 
-    private StatutDisponibilite DetermineStatutDisponibilite(Oeuvre oeuvre)
+    private static StatutDisponibilite DetermineStatutDisponibilite(Oeuvre oeuvre)
     {
         StatutDisponibilite statutDisponibilite = StatutDisponibilite.Disponible;
         int exemplairesDisponibles = oeuvre.Exemplaires.Count(e =>
             e.Statut == StatutExemplaire.Disponible
         );
-        int nombreExemplaires = oeuvre.Exemplaires.Count();
+        int nombreExemplaires = oeuvre.Exemplaires.Count;
         int reservationsActives = oeuvre.Reservations.Count(r =>
             r.Statut == StatutReservation.Active
         );
