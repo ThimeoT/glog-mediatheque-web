@@ -3,19 +3,16 @@ public class ReservationService
     private readonly IAdherentRepository _adherentRepo;
     private readonly IInventaireRepository _inventaireRepo;
     private readonly IReservationRepository _reservationRepo;
-    private readonly IStatistiquesRepository _statistiquesRepo;
 
     public ReservationService(
         IAdherentRepository adherentRepo,
         IInventaireRepository inventaireRepo,
-        IReservationRepository reservationRepo,
-        IStatistiquesRepository statistiquesRepo
+        IReservationRepository reservationRepo
     )
     {
         _adherentRepo = adherentRepo;
         _inventaireRepo = inventaireRepo;
         _reservationRepo = reservationRepo;
-        _statistiquesRepo = statistiquesRepo;
     }
 
     public IEnumerable<Reservation> GetAllReservations()
@@ -65,7 +62,6 @@ public class ReservationService
             Statut = StatutReservation.Active,
         };
         _reservationRepo.AddReservation(reservation);
-        IncrementNouvellesReservationsStatistiques(reservation.DateReservation);
         _reservationRepo.SaveChanges();
 
         return reservation;
@@ -76,35 +72,7 @@ public class ReservationService
         Reservation reservation =
             _reservationRepo.GetReservation(reservationId)
             ?? throw new NotFoundException("Réservation introuvable.");
-        DecrementNouvellesReservationsStatistiques(reservation.DateReservation);
         _reservationRepo.RemoveReservation(reservation);
         _reservationRepo.SaveChanges();
-    }
-
-    public void IncrementNouvellesReservationsStatistiques(DateOnly date)
-    {
-        Statistiques? statistiques = _statistiquesRepo.GetStatistiquesFromDate(date);
-        if (statistiques == null)
-            _statistiquesRepo.AddStatistiques(
-                new Statistiques { Date = date, NouvellesReservations = 1 }
-            );
-        else
-            statistiques.NouvellesReservations += 1;
-        _statistiquesRepo.SaveChanges();
-    }
-
-    public void DecrementNouvellesReservationsStatistiques(DateOnly date)
-    {
-        var suivi =
-            _statistiquesRepo.GetStatistiquesFromDate(date)
-            ?? throw new NotFoundException($"Aucune activité trouvée pour la date {date}.");
-
-        if (suivi.NouvellesReservations <= 0)
-            throw new DomainValidationException(
-                "Aucunne nouvelle réservation enregistrée pour cette date."
-            );
-
-        suivi.NouvellesReservations -= 1;
-        _statistiquesRepo.SaveChanges();
     }
 }

@@ -1,15 +1,12 @@
 public class AdherentService
 {
     private readonly IAdherentRepository _adherentRepo;
-    private readonly IStatistiquesRepository _statistiquesRepo;
 
     public AdherentService(
-        IAdherentRepository adherentRepo,
-        IStatistiquesRepository statistiquesRepo
+        IAdherentRepository adherentRepo
     )
     {
         _adherentRepo = adherentRepo;
-        _statistiquesRepo = statistiquesRepo;
     }
 
     public Adherent GetAdherentById(int id)
@@ -34,7 +31,6 @@ public class AdherentService
 
         _adherentRepo.AddAdherent(adherent);
         _adherentRepo.SaveChanges();
-        IncrementNouveauxAdherentsStatistiques(DateOnly.FromDateTime(DateTime.Now));
 
         return adherent;
     }
@@ -56,17 +52,5 @@ public class AdherentService
         Adherent adherent = GetAdherentById(id);
         _adherentRepo.RemoveAdherent(adherent);
         _adherentRepo.SaveChanges();
-    }
-
-    public void IncrementNouveauxAdherentsStatistiques(DateOnly date)
-    {
-        Statistiques? statistiques = _statistiquesRepo.GetStatistiquesFromDate(date);
-        if (statistiques == null)
-            _statistiquesRepo.AddStatistiques(
-                new Statistiques { Date = date, NouveauxAdherents = 1 }
-            );
-        else
-            statistiques.NouveauxAdherents += 1;
-        _statistiquesRepo.SaveChanges();
     }
 }

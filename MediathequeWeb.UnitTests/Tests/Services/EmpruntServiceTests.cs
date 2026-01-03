@@ -7,7 +7,6 @@ public class EmpruntServiceTests
     private MockAdherentRepository _mockAdherentRepo;
     private MockEmpruntRepository _mockEmpruntRepo;
     private MockInventaireRepository _mockInventaireRepo;
-    private MockStatistiquesRepository _mockStatistiquesRepo;
 
     [TestInitialize]
     public void Setup()
@@ -15,12 +14,10 @@ public class EmpruntServiceTests
         _mockEmpruntRepo = new();
         _mockAdherentRepo = new();
         _mockInventaireRepo = new();
-        _mockStatistiquesRepo = new();
         _service = new EmpruntService(
             _mockAdherentRepo,
             _mockEmpruntRepo,
-            _mockInventaireRepo,
-            _mockStatistiquesRepo
+            _mockInventaireRepo
         );
     }
 
@@ -185,14 +182,7 @@ public class EmpruntServiceTests
             DateEmprunt = dateEmprunt,
         };
         _mockEmpruntRepo.AddEmprunt(emprunt);
-        _mockStatistiquesRepo.AddStatistiques(
-            new()
-            {
-                Id = 1,
-                Date = dateEmprunt,
-                NouveauxEmprunts = 1,
-            }
-        );
+
         int empruntId = emprunt.Id;
 
         _service.DeleteEmprunt(empruntId);

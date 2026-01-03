@@ -54,29 +54,26 @@ public class StatistiquesController : ControllerBase
     }
 
     [HttpGet("activite")]
-    public ActionResult<IEnumerable<StatistiquesActiviteDto>> RecupererStatistiquesActivite()
+    public ActionResult<StatistiquesActiviteDto> RecupererStatistiquesActivite(
+        [FromQuery] string? apres
+    )
     {
-        var bilansActiviteQuotidiens = _statistiquesService.GetAllStatistiquesActivites();
-        return Ok(bilansActiviteQuotidiens.Select(StatistiquesActiviteDto.FromModel));
-    }
+        DateOnly? dateApres = null;
 
-    [HttpGet("activite/{apres}")]
-    public ActionResult<StatistiquesActiviteDto> RecupererStatistiquesActivite(string apres)
-    {
-        try
+        if (apres != null)
         {
-            if (!DateOnly.TryParse(apres, out DateOnly date))
+            if (!DateOnly.TryParse(apres, out DateOnly parsedDate))
             {
                 return BadRequest(
                     $"Format de date invalide. Utilisez 'yyyy-MM-dd'. Format reçu : {apres}"
                 );
             }
-            var statistiquesAdherentDto = _statistiquesService.GetStatistiquesActiviteByDate(date);
-            return Ok(statistiquesAdherentDto);
+            dateApres = parsedDate;
         }
-        catch (NotFoundException ex)
-        {
-            return NotFound(ex.Message);
-        }
+
+        var statistiquesActiviteDto =
+            _statistiquesService.GetStatistiquesActivite(dateApres);
+
+        return Ok(statistiquesActiviteDto);
     }
 }

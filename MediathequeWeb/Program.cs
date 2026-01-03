@@ -9,7 +9,6 @@ builder.Services.AddScoped<IAdherentRepository, AdherentRepository>();
 builder.Services.AddScoped<IInventaireRepository, InventaireRepository>();
 builder.Services.AddScoped<IEmpruntRepository, EmpruntRepository>();
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
-builder.Services.AddScoped<IStatistiquesRepository, StatistiquesRepository>();
 builder.Services.AddScoped<AdherentService>();
 builder.Services.AddScoped<InventaireService>();
 builder.Services.AddScoped<EmpruntService>();

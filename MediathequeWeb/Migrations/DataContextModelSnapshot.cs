@@ -58,32 +58,6 @@ namespace MediathequeWeb.Migrations
                     b.ToTable("Auteurs");
                 });
 
-            modelBuilder.Entity("Statistiques", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("NouveauxAdherents")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("NouveauxEmprunts")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("NouvellesReservations")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("RetoursEffectues")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Statistiques");
-                });
-
             modelBuilder.Entity("Emprunt", b =>
                 {
                     b.Property<int>("Id")

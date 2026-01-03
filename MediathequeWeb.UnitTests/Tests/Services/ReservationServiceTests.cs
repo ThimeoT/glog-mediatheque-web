@@ -5,20 +5,17 @@ public class ReservationServiceTests
 {
     private ReservationService _service;
     private MockReservationRepository _mockReservationRepo;
-    private MockStatistiquesRepository _mockStatistiquesRepo;
 
     [TestInitialize]
     public void Setup()
     {
         _mockReservationRepo = new MockReservationRepository();
         MockInventaireRepository _mockInventaireRepo = new();
-        _mockStatistiquesRepo = new();
         MockAdherentRepository _mockAdherentRepo = new();
         _service = new ReservationService(
             _mockAdherentRepo,
             _mockInventaireRepo,
-            _mockReservationRepo,
-            _mockStatistiquesRepo
+            _mockReservationRepo       
         );
     }
 
@@ -126,14 +123,6 @@ public class ReservationServiceTests
         _mockReservationRepo.AddReservation(reservation);
         reservation.Id = 50;
         Assert.IsNotNull(_mockReservationRepo.GetReservation(reservationId));
-        _mockStatistiquesRepo.AddStatistiques(
-            new()
-            {
-                Id = 5,
-                Date = dateReservation,
-                NouvellesReservations = 1,
-            }
-        );
 
         _service.DeleteReservation(reservationId);
 

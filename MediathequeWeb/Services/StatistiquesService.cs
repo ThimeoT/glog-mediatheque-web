@@ -2,17 +2,20 @@ public class StatistiquesService
 {
     private readonly IAdherentRepository _adherentRepo;
     private readonly IInventaireRepository _inventaireRepo;
-    private readonly IStatistiquesRepository _statistiquesRepo;
+    private readonly IEmpruntRepository _empruntRepo;
+    private readonly IReservationRepository _reservationRepo;
 
     public StatistiquesService(
         IAdherentRepository adherentRepo,
         IInventaireRepository inventaireRepo,
-        IStatistiquesRepository statistiquesRepo
+        IEmpruntRepository empruntRepo,
+        IReservationRepository reservationRepo
     )
     {
         _adherentRepo = adherentRepo;
         _inventaireRepo = inventaireRepo;
-        _statistiquesRepo = statistiquesRepo;
+        _empruntRepo = empruntRepo;
+        _reservationRepo = reservationRepo;
     }
 
     public StatutAdherent DetermineStatutAdherent(Adherent adherent)
@@ -123,31 +126,26 @@ public class StatistiquesService
         return statistiquesOeuvres;
     }
 
-    public Statistiques GetStatistiquesStatistiquesById(int activiteId)
+    public StatistiquesActiviteDto GetStatistiquesActivite(DateOnly? apres)
     {
-        Statistiques statistiques =
-            _statistiquesRepo.GetStatistiquesFromId(activiteId)
-            ?? throw new NotFoundException(
-                $"Le suivi de l'activité avec l’id {activiteId} n’existe pas."
-            );
-        return statistiques;
-    }
+        var emprunts = _empruntRepo.GetAllEmprunts();
+        var reservations = _reservationRepo.GetAllReservations();
+        var adherents = _adherentRepo.GetAllAdherents();
 
-    public Statistiques GetStatistiquesActiviteByDate(DateOnly date)
-    {
-        Statistiques statistiques =
-            _statistiquesRepo.GetStatistiquesFromDate(date)
-            ?? throw new NotFoundException(
-                $"Le suivi de l'activité de la date {date} n’existe pas."
-            );
-        return statistiques;
-    }
+        if (apres.HasValue)
+        {
+            emprunts = emprunts.Where(e => e.DateEmprunt >= apres.Value);
+            reservations = reservations.Where(r => r.DateReservation >= apres.Value);
+            adherents = adherents.Where(a => a.DateInscription >= apres.Value);
+        }
 
-    public IEnumerable<Statistiques> GetAllStatistiquesActivites()
-    {
-        List<Statistiques> bilansActiviteQuotidiens = [];
-        foreach (Statistiques bilanActivite in _statistiquesRepo.GetAllStatistiques())
-            bilansActiviteQuotidiens.Add(bilanActivite);
-        return bilansActiviteQuotidiens;
+        return new StatistiquesActiviteDto
+        {
+            Date = DateOnly.FromDateTime(DateTime.Now).ToString("yyyy-MM-dd"),
+            NouveauxEmprunts = emprunts.Count(),
+            RetoursEffectues = emprunts.Count(e => e.DateRetourReelle != null),
+            NouvellesReservations = reservations.Count(),
+            NouveauxAdherents = adherents.Count()
+        };
     }
 }

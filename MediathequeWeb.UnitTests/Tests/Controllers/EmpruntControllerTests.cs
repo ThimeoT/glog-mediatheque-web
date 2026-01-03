@@ -14,15 +14,13 @@ public class EmpruntControllerTests
     [TestInitialize]
     public void Setup()
     {
-        MockStatistiquesRepository _mockStatistiquesRepo = new();
         _mockEmpruntRepo = new();
         _mockAdherentRepo = new();
         _mockInventaireRepo = new();
         _service = new(
             _mockAdherentRepo,
             _mockEmpruntRepo,
-            _mockInventaireRepo,
-            _mockStatistiquesRepo
+            _mockInventaireRepo
         );
         _controller = new(_service);
     }
@@ -118,8 +116,7 @@ public class EmpruntControllerTests
             new EmpruntService(
                 new MockAdherentRepository(),
                 new MockEmpruntRepository(),
-                inventaireRepo,
-                null!
+                inventaireRepo
             )
         );
 
