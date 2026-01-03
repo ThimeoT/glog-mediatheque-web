@@ -35,7 +35,7 @@ public class StatistiquesService
         return statistiquesAdherents;
     }
 
-    public StatistiquesOeuvreDto GetStatistiquesOeuvreDtoById(int oeuvreId)
+    public StatistiquesOeuvreDto GetStatistiquesOeuvreById(int oeuvreId)
     {
         Oeuvre oeuvre =
             _inventaireRepo.GetOeuvre(oeuvreId)
