@@ -13,12 +13,13 @@ public class OeuvreControllerTests
     {
         _mockInventaireRepo = new();
         MockReservationRepository _mockReservationRepo = new();
+        MockBilanActiviteQuotidienRepository _mockBilanActiviteQuotidienRepo = new();
         InventaireService _inventaireService = new(_mockInventaireRepo);
         ReservationService _reservationService = new(
             null!,
             _mockInventaireRepo,
             _mockReservationRepo,
-            null!
+            _mockBilanActiviteQuotidienRepo
         );
         _controller = new(_inventaireService, _reservationService);
     }

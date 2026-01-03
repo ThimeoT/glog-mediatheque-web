@@ -14,11 +14,12 @@ public class ReservationControllerTests
         _mockReservationRepo = new();
         MockInventaireRepository _mockInventaireRepo = new();
         MockAdherentRepository _mockAdherentRepo = new();
+        MockBilanActiviteQuotidienRepository _mockBilanActiviteQuotidienRepo = new();
         ReservationService _reservationService = new(
             _mockAdherentRepo,
             _mockInventaireRepo,
             _mockReservationRepo,
-            null!
+            _mockBilanActiviteQuotidienRepo
         );
         _controller = new(_reservationService);
     }

@@ -6,13 +6,15 @@ namespace MediathequeWeb.UnitTests.Services;
 public class AdherentServiceTests
 {
     private AdherentService _service;
-    private MockAdherentRepository _repo;
+    private MockAdherentRepository _adherentRepo;
+    
 
     [TestInitialize]
     public void Setup()
     {
-        _repo = new MockAdherentRepository();
-        _service = new AdherentService(_repo, null!);
+        _adherentRepo = new MockAdherentRepository();
+        MockBilanActiviteQuotidienRepository _mockBilanActiviteQuotidienRepo = new();
+        _service = new AdherentService(_adherentRepo, _mockBilanActiviteQuotidienRepo);
     }
 
     [TestMethod]
@@ -46,7 +48,7 @@ public class AdherentServiceTests
         var adherent = _service.CreateAdherent("Gonzola", "Igor", "igorgonzola@ensc.fr");
 
         Assert.IsTrue(adherent.Id > 0);
-        Assert.AreEqual(3, _repo.GetAllAdherents().Count());
+        Assert.AreEqual(3, _adherentRepo.GetAllAdherents().Count());
     }
 
     [TestMethod]
@@ -63,6 +65,6 @@ public class AdherentServiceTests
     {
         _service.DeleteAdherent(1);
 
-        Assert.AreEqual(1, _repo.GetAllAdherents().Count());
+        Assert.AreEqual(1, _adherentRepo.GetAllAdherents().Count());
     }
 }

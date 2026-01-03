@@ -11,12 +11,13 @@ public class ReservationServiceTests
     {
         _mockReservationRepo = new MockReservationRepository();
         MockInventaireRepository _mockInventaireRepo = new();
+        MockBilanActiviteQuotidienRepository _mockBilanActiviteQuotidienRepo = new();
         MockAdherentRepository _mockAdherentRepo = new();
         _service = new ReservationService(
             _mockAdherentRepo,
             _mockInventaireRepo,
             _mockReservationRepo,
-            null!
+            _mockBilanActiviteQuotidienRepo
         );
     }
 
