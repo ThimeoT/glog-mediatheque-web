@@ -1,6 +1,6 @@
 public interface IBilanActiviteQuotidienRepository
 {
-    public IEnumerable<BilanActiviteQuotidien> GetAllBilanActiviteQuotidien();
+    public IEnumerable<BilanActiviteQuotidien> GetAllBilansActiviteQuotidiens();
     public BilanActiviteQuotidien? GetBilanActiviteQuotidienFromId(int id);
     public BilanActiviteQuotidien? GetBilanActiviteQuotidienFromDate(DateOnly date);
     public bool ExistsFromDate(DateOnly date);

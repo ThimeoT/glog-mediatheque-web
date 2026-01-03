@@ -9,7 +9,7 @@ public class BilanActiviteQuotidienRepository : IBilanActiviteQuotidienRepositor
         _db = db;
     }
 
-    public IEnumerable<BilanActiviteQuotidien> GetAllBilanActiviteQuotidien()
+    public IEnumerable<BilanActiviteQuotidien> GetAllBilansActiviteQuotidiens()
     {
         return _db.BilanActiviteQuotidien.ToList();
     }

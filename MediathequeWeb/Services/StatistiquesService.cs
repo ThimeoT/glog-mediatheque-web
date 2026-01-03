@@ -75,7 +75,7 @@ public class StatistiquesService
     {
         List<StatistiquesActiviteDto> statistiquesActivites = [];
         foreach (
-            BilanActiviteQuotidien activite in _bilanActiviteQuotidienRepo.GetAllBilanActiviteQuotidien()
+            BilanActiviteQuotidien activite in _bilanActiviteQuotidienRepo.GetAllBilansActiviteQuotidiens()
         )
             statistiquesActivites.Add(StatistiquesActiviteDto.FromModel(activite));
         return statistiquesActivites;
