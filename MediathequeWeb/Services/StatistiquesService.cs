@@ -1,19 +1,16 @@
 public class StatistiquesService
 {
     private readonly IAdherentRepository _adherentRepo;
-    private readonly IEmpruntRepository _empruntRepo;
     private readonly IInventaireRepository _inventaireRepo;
     private readonly IStatistiquesRepository _statistiquesRepo;
 
     public StatistiquesService(
         IAdherentRepository adherentRepo,
-        IEmpruntRepository empruntRepo,
         IInventaireRepository inventaireRepo,
         IStatistiquesRepository statistiquesRepo
     )
     {
         _adherentRepo = adherentRepo;
-        _empruntRepo = empruntRepo;
         _inventaireRepo = inventaireRepo;
         _statistiquesRepo = statistiquesRepo;
     }
