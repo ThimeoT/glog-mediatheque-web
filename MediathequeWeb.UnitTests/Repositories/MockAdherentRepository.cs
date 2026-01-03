@@ -38,6 +38,33 @@ public class MockAdherentRepository : IAdherentRepository
         return _adherents;
     }
 
+    public int GetNombreEmpruntsEnCours(int adherentId)
+    {
+        Adherent adherent =
+            GetAdherent(adherentId)
+            ?? throw new NotFoundException("Adhérent introuvable dans le mock.");
+
+        return adherent.Emprunts.Count(e => e.DateRetourReelle == null);
+    }
+
+    public int GetNombreReservationsActives(int adherentId)
+    {
+        Adherent adherent =
+            GetAdherent(adherentId)
+            ?? throw new NotFoundException("Adhérent introuvable dans le mock.");
+
+        return adherent.Reservations.Count(r => r.Statut == StatutReservation.Active);
+    }
+
+    public int GetNombreEmpruntsTotal(int adherentId)
+    {
+        Adherent adherent =
+            GetAdherent(adherentId)
+            ?? throw new NotFoundException("Adhérent introuvable dans le mock.");
+
+        return adherent.Emprunts.Count;
+    }
+
     public bool AdherentExists(int adherentId)
     {
         return _adherents.Any(a => a.Id == adherentId);

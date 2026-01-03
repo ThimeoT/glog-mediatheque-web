@@ -32,6 +32,27 @@ public class AdherentRepository : IAdherentRepository
             .ToList();
     }
 
+    public int GetNombreEmpruntsEnCours(int adherentId)
+    {
+        return _db.Emprunts.Count(e =>
+            e.Adherent.Id == adherentId &&
+            e.DateRetourReelle == null
+        );
+    }
+
+    public int GetNombreReservationsActives(int adherentId)
+    {
+        return _db.Reservations.Count(r =>
+            r.Adherent.Id == adherentId &&
+            r.Statut == StatutReservation.Active
+        );
+    }
+
+    public int GetNombreEmpruntsTotal(int adherentId)
+    {
+        return _db.Emprunts.Count(e => e.Adherent.Id == adherentId);
+    }
+
     public void AddAdherent(Adherent adherent)
     {
         _db.Adherents.Add(adherent);

@@ -56,6 +56,18 @@ public class InventaireRepository : IInventaireRepository
         .ToList();
     }
 
+    public int GetNombreEmpruntsTotalPourOeuvre(int oeuvreId)
+    {
+        return _db.Emprunts.Count(e => e.Exemplaire.Oeuvre.Id == oeuvreId);
+    }
+
+    public int GetReservationsActivesPourOeuvre(int oeuvreId)
+    {
+        return _db.Reservations.Count(r =>
+            r.Oeuvre.Id == oeuvreId && r.Statut == StatutReservation.Active
+        );
+    }
+
     public void AddOeuvre(Oeuvre oeuvre)
     {
         _db.Oeuvres.Add(oeuvre);

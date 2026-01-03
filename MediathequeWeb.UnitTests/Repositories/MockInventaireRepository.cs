@@ -97,6 +97,22 @@ public class MockInventaireRepository : IInventaireRepository
         return _oeuvres;
     }
 
+    public int GetNombreEmpruntsTotalPourOeuvre(int oeuvreId)
+    {
+        return _exemplaires
+            .Where(e => e.Oeuvre.Id == oeuvreId)
+            .SelectMany(e => e.Emprunts)
+            .Count();
+    }
+
+    public int GetReservationsActivesPourOeuvre(int oeuvreId)
+    {
+        Oeuvre? oeuvre = _oeuvres.FirstOrDefault(o => o.Id == oeuvreId);
+        if (oeuvre == null) return 0;
+
+        return oeuvre.Reservations.Count(r => r.Statut == StatutReservation.Active);
+    }
+
     public void AddOeuvre(Oeuvre oeuvre)
     {
         oeuvre.Id = _nextIdOeuvre++;

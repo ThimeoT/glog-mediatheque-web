@@ -78,11 +78,9 @@ public class StatistiquesService
                     id: adherent.Id,
                     nomComplet: $"{adherent.Prenom} {adherent.Nom}",
                     statut: DetermineStatutAdherent(adherent),
-                    empruntsEnCours: adherent.Emprunts.Count(e => !e.DateRetourReelle.HasValue),
-                    reservationsActives: adherent.Reservations.Count(r =>
-                        r.Statut == StatutReservation.Active
-                    ),
-                    historiqueEmprunts: adherent.Emprunts.Count
+                    empruntsEnCours: _adherentRepo.GetNombreEmpruntsEnCours(adherent.Id),
+                    reservationsActives: _adherentRepo.GetNombreReservationsActives(adherent.Id),
+                    historiqueEmprunts: _adherentRepo.GetNombreEmpruntsTotal(adherent.Id)
                 )
             );
         }
@@ -100,12 +98,8 @@ public class StatistiquesService
             auteurNomComplet: $"{oeuvre.Auteur.Prenom} {oeuvre.Auteur.Nom}",
             statut: DetermineStatutDisponibilite(oeuvre),
             nombreCopies: oeuvre.Exemplaires.Count,
-            nombreEmpruntsTotal: oeuvre
-                .Exemplaires.SelectMany(e => e.Emprunts)
-                .Count(),
-            fileAttenteReservation: oeuvre.Reservations.Count(r =>
-                r.Statut == StatutReservation.Active
-            )
+            nombreEmpruntsTotal: _inventaireRepo.GetNombreEmpruntsTotalPourOeuvre(oeuvre.Id),
+            fileAttenteReservation: _inventaireRepo.GetReservationsActivesPourOeuvre(oeuvre.Id)
         );
     }
 
@@ -121,12 +115,8 @@ public class StatistiquesService
                     auteurNomComplet: $"{oeuvre.Auteur.Prenom} {oeuvre.Auteur.Nom}",
                     statut: DetermineStatutDisponibilite(oeuvre),
                     nombreCopies: oeuvre.Exemplaires.Count,
-                    nombreEmpruntsTotal: oeuvre
-                        .Exemplaires.SelectMany(e => e.Emprunts)
-                        .Count(),
-                    fileAttenteReservation: oeuvre.Reservations.Count(r =>
-                        r.Statut == StatutReservation.Active
-                    )
+                    nombreEmpruntsTotal: _inventaireRepo.GetNombreEmpruntsTotalPourOeuvre(oeuvre.Id),
+                    fileAttenteReservation: _inventaireRepo.GetReservationsActivesPourOeuvre(oeuvre.Id)
                 )
             );
         }

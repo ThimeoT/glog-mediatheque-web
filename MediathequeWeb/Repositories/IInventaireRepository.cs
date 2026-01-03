@@ -8,6 +8,8 @@ public interface IInventaireRepository
     Oeuvre? GetOeuvre(int oeuvreId);
     bool OeuvreExists(int oeuvreId);
     IEnumerable<Oeuvre> GetAllOeuvres();
+    public int GetNombreEmpruntsTotalPourOeuvre(int oeuvreId);
+    public int GetReservationsActivesPourOeuvre(int oeuvreId);
     void AddOeuvre(Oeuvre oeuvre);
     void RemoveOeuvre(Oeuvre oeuvre);
 
