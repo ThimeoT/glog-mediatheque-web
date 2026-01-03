@@ -36,6 +36,8 @@ public class InventaireRepository : IInventaireRepository
         return _db
             .Oeuvres.Include(o => o.Auteur)
             .Include(o => o.Exemplaires)
+                .ThenInclude(e => e.Emprunts)
+            .Include(o => o.Reservations)
             .FirstOrDefault(o => o.Id == oeuvreId);
     }
 
@@ -46,7 +48,12 @@ public class InventaireRepository : IInventaireRepository
 
     public IEnumerable<Oeuvre> GetAllOeuvres()
     {
-        return _db.Oeuvres.Include(o => o.Auteur).Include(o => o.Exemplaires).ToList();
+        return _db
+        .Oeuvres.Include(o => o.Auteur)
+        .Include(o => o.Exemplaires)
+            .ThenInclude(e => e.Emprunts)
+        .Include(o => o.Reservations)
+        .ToList();
     }
 
     public void AddOeuvre(Oeuvre oeuvre)
