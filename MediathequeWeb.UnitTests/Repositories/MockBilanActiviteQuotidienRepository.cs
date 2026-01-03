@@ -141,7 +141,33 @@ public class MockBilanActiviteQuotidienRepository : IBilanActiviteQuotidienRepos
         _adherents[0].Emprunts.Add(_emprunts[0]);
         _adherents[1].Emprunts.Add(_emprunts[1]);
 
-        _bilansActiviteQuotidiens = [new BilanActiviteQuotidien { Id = 1 }];
+        _bilansActiviteQuotidiens =
+        [
+            new BilanActiviteQuotidien
+            {
+                Id = 1,
+                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(-50)),
+                NouveauxAdherents = 2,
+            },
+            new BilanActiviteQuotidien
+            {
+                Id = 2,
+                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(-10)),
+                NouveauxEmprunts = 1,
+            },
+            new BilanActiviteQuotidien
+            {
+                Id = 3,
+                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(-4)),
+                NouveauxEmprunts = 1,
+            },
+            new BilanActiviteQuotidien
+            {
+                Id = 4,
+                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(-50)),
+                NouvellesReservations = 2,
+            },
+        ];
     }
 
     public BilanActiviteQuotidien? GetBilanActiviteQuotidienFromId(int id)
