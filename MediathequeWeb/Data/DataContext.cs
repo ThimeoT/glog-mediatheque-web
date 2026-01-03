@@ -10,7 +10,7 @@ public class DataContext : DbContext
     public DbSet<Exemplaire> Exemplaires { get; set; }
     public DbSet<Oeuvre> Oeuvres { get; set; }
     public DbSet<Reservation> Reservations { get; set; }
-    public DbSet<BilanActiviteQuotidien> BilanActiviteQuotidien { get; set; }
+    public DbSet<Statistiques> Statistiques { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {

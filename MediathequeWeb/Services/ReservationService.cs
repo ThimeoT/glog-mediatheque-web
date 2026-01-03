@@ -3,19 +3,19 @@ public class ReservationService
     private readonly IAdherentRepository _adherentRepo;
     private readonly IInventaireRepository _inventaireRepo;
     private readonly IReservationRepository _reservationRepo;
-    private readonly IBilanActiviteQuotidienRepository _bilanActiviteQuotidienRepo;
+    private readonly IStatistiquesRepository _statistiquesRepo;
 
     public ReservationService(
         IAdherentRepository adherentRepo,
         IInventaireRepository inventaireRepo,
         IReservationRepository reservationRepo,
-        IBilanActiviteQuotidienRepository bilanActiviteQuotidienRepo
+        IStatistiquesRepository statistiquesRepo
     )
     {
         _adherentRepo = adherentRepo;
         _inventaireRepo = inventaireRepo;
         _reservationRepo = reservationRepo;
-        _bilanActiviteQuotidienRepo = bilanActiviteQuotidienRepo;
+        _statistiquesRepo = statistiquesRepo;
     }
 
     public IEnumerable<Reservation> GetAllReservations()
@@ -65,7 +65,7 @@ public class ReservationService
             Statut = StatutReservation.Active,
         };
         _reservationRepo.AddReservation(reservation);
-        IncrementNouvellesReservationsBilanActiviteQuotidien(reservation.DateReservation);
+        IncrementNouvellesReservationsStatistiques(reservation.DateReservation);
         _reservationRepo.SaveChanges();
 
         return reservation;
@@ -76,28 +76,27 @@ public class ReservationService
         Reservation reservation =
             _reservationRepo.GetReservation(reservationId)
             ?? throw new NotFoundException("Réservation introuvable.");
-        DecrementNouvellesReservationsBilanActiviteQuotidien(reservation.DateReservation);
+        DecrementNouvellesReservationsStatistiques(reservation.DateReservation);
         _reservationRepo.RemoveReservation(reservation);
         _reservationRepo.SaveChanges();
     }
 
-    public void IncrementNouvellesReservationsBilanActiviteQuotidien(DateOnly date)
+    public void IncrementNouvellesReservationsStatistiques(DateOnly date)
     {
-        BilanActiviteQuotidien? bilanActiviteQuotidien =
-            _bilanActiviteQuotidienRepo.GetBilanActiviteQuotidienFromDate(date);
-        if (bilanActiviteQuotidien == null)
-            _bilanActiviteQuotidienRepo.AddBilanActiviteQuotidien(
-                new BilanActiviteQuotidien { Date = date, NouvellesReservations = 1 }
+        Statistiques? statistiques = _statistiquesRepo.GetStatistiquesFromDate(date);
+        if (statistiques == null)
+            _statistiquesRepo.AddStatistiques(
+                new Statistiques { Date = date, NouvellesReservations = 1 }
             );
         else
-            bilanActiviteQuotidien.NouvellesReservations += 1;
-        _bilanActiviteQuotidienRepo.SaveChanges();
+            statistiques.NouvellesReservations += 1;
+        _statistiquesRepo.SaveChanges();
     }
 
-    public void DecrementNouvellesReservationsBilanActiviteQuotidien(DateOnly date)
+    public void DecrementNouvellesReservationsStatistiques(DateOnly date)
     {
         var suivi =
-            _bilanActiviteQuotidienRepo.GetBilanActiviteQuotidienFromDate(date)
+            _statistiquesRepo.GetStatistiquesFromDate(date)
             ?? throw new NotFoundException($"Aucune activité trouvée pour la date {date}.");
 
         if (suivi.NouvellesReservations <= 0)
@@ -106,6 +105,6 @@ public class ReservationService
             );
 
         suivi.NouvellesReservations -= 1;
-        _bilanActiviteQuotidienRepo.SaveChanges();
+        _statistiquesRepo.SaveChanges();
     }
 }

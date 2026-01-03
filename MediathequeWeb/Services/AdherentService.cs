@@ -1,15 +1,15 @@
 public class AdherentService
 {
     private readonly IAdherentRepository _adherentRepo;
-    private readonly IBilanActiviteQuotidienRepository _bilanActiviteQuotidienRepo;
+    private readonly IStatistiquesRepository _statistiquesRepo;
 
     public AdherentService(
         IAdherentRepository adherentRepo,
-        IBilanActiviteQuotidienRepository bilanActiviteQuotidienRepo
+        IStatistiquesRepository statistiquesRepo
     )
     {
         _adherentRepo = adherentRepo;
-        _bilanActiviteQuotidienRepo = bilanActiviteQuotidienRepo;
+        _statistiquesRepo = statistiquesRepo;
     }
 
     public Adherent GetAdherentById(int id)
@@ -34,7 +34,7 @@ public class AdherentService
 
         _adherentRepo.AddAdherent(adherent);
         _adherentRepo.SaveChanges();
-        IncrementNouveauxAdherentsBilanActiviteQuotidien(DateOnly.FromDateTime(DateTime.Now));
+        IncrementNouveauxAdherentsStatistiques(DateOnly.FromDateTime(DateTime.Now));
 
         return adherent;
     }
@@ -58,16 +58,15 @@ public class AdherentService
         _adherentRepo.SaveChanges();
     }
 
-    public void IncrementNouveauxAdherentsBilanActiviteQuotidien(DateOnly date)
+    public void IncrementNouveauxAdherentsStatistiques(DateOnly date)
     {
-        BilanActiviteQuotidien? bilanActiviteQuotidien =
-            _bilanActiviteQuotidienRepo.GetBilanActiviteQuotidienFromDate(date);
-        if (bilanActiviteQuotidien == null)
-            _bilanActiviteQuotidienRepo.AddBilanActiviteQuotidien(
-                new BilanActiviteQuotidien { Date = date, NouveauxAdherents = 1 }
+        Statistiques? statistiques = _statistiquesRepo.GetStatistiquesFromDate(date);
+        if (statistiques == null)
+            _statistiquesRepo.AddStatistiques(
+                new Statistiques { Date = date, NouveauxAdherents = 1 }
             );
         else
-            bilanActiviteQuotidien.NouveauxAdherents += 1;
-        _bilanActiviteQuotidienRepo.SaveChanges();
+            statistiques.NouveauxAdherents += 1;
+        _statistiquesRepo.SaveChanges();
     }
 }

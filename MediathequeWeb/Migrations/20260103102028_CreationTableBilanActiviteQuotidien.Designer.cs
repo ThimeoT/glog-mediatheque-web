@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediathequeWeb.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20260103102028_CreationTableBilanActiviteQuotidien")]
-    partial class CreationTableBilanActiviteQuotidien
+    [Migration("20260103102028_CreationTableStatistiques")]
+    partial class CreationTableStatistiques
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,7 +61,7 @@ namespace MediathequeWeb.Migrations
                     b.ToTable("Auteurs");
                 });
 
-            modelBuilder.Entity("BilanActiviteQuotidien", b =>
+            modelBuilder.Entity("Statistiques", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,7 +84,7 @@ namespace MediathequeWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BilanActiviteQuotidien");
+                    b.ToTable("Statistiques");
                 });
 
             modelBuilder.Entity("Emprunt", b =>

@@ -6,7 +6,7 @@ public class StatistiquesActiviteDto
     public int NouvellesReservations { get; set; }
     public int NouveauxAdherents { get; set; }
 
-    public static StatistiquesActiviteDto FromModel(BilanActiviteQuotidien activite)
+    public static StatistiquesActiviteDto FromModel(Statistiques activite)
     {
         return new StatistiquesActiviteDto
         {

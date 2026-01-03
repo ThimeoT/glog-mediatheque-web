@@ -6,19 +6,19 @@ public class EmpruntService
     private readonly IAdherentRepository _adherentRepo;
     private readonly IEmpruntRepository _empruntRepo;
     private readonly IInventaireRepository _inventaireRepo;
-    private readonly IBilanActiviteQuotidienRepository _bilanActiviteQuotidienRepo;
+    private readonly IStatistiquesRepository _statistiquesRepo;
 
     public EmpruntService(
         IAdherentRepository adherentRepo,
         IEmpruntRepository empruntRepo,
         IInventaireRepository inventaireRepo,
-        IBilanActiviteQuotidienRepository bilanActiviteQuotidienRepo
+        IStatistiquesRepository statistiquesRepo
     )
     {
         _adherentRepo = adherentRepo;
         _empruntRepo = empruntRepo;
         _inventaireRepo = inventaireRepo;
-        _bilanActiviteQuotidienRepo = bilanActiviteQuotidienRepo;
+        _statistiquesRepo = statistiquesRepo;
     }
 
     public Emprunt CreateEmprunt(int adherentId, int oeuvreId)
@@ -66,7 +66,7 @@ public class EmpruntService
         {
             reservation.Statut = StatutReservation.Terminee;
         }
-        IncrementNouveauxEmpruntsBilanActiviteQuotidien(emprunt.DateEmprunt);
+        IncrementNouveauxEmpruntsStatistiques(emprunt.DateEmprunt);
         _empruntRepo.SaveChanges();
 
         return emprunt;
@@ -97,7 +97,7 @@ public class EmpruntService
 
         emprunt.DateRetourReelle = dateRetourReelle;
         emprunt.Exemplaire.Statut = StatutExemplaire.Disponible;
-        IncrementRetoursEffectuesBilanActiviteQuotidien(dateRetourReelle);
+        IncrementRetoursEffectuesStatistiques(dateRetourReelle);
 
         _empruntRepo.SaveChanges();
 
@@ -108,47 +108,45 @@ public class EmpruntService
     {
         Emprunt emprunt = GetEmpruntById(empruntId);
         emprunt.Exemplaire.Statut = StatutExemplaire.Disponible;
-        DecrementNouveauxEmpruntsBilanActiviteQuotidien(emprunt.DateEmprunt);
+        DecrementNouveauxEmpruntsStatistiques(emprunt.DateEmprunt);
         _empruntRepo.RemoveEmprunt(emprunt);
         _empruntRepo.SaveChanges();
     }
 
-    public void IncrementNouveauxEmpruntsBilanActiviteQuotidien(DateOnly date)
+    public void IncrementNouveauxEmpruntsStatistiques(DateOnly date)
     {
-        BilanActiviteQuotidien? bilanActiviteQuotidien =
-            _bilanActiviteQuotidienRepo.GetBilanActiviteQuotidienFromDate(date);
-        if (bilanActiviteQuotidien == null)
-            _bilanActiviteQuotidienRepo.AddBilanActiviteQuotidien(
-                new BilanActiviteQuotidien { Date = date, NouveauxEmprunts = 1 }
+        Statistiques? statistiques = _statistiquesRepo.GetStatistiquesFromDate(date);
+        if (statistiques == null)
+            _statistiquesRepo.AddStatistiques(
+                new Statistiques { Date = date, NouveauxEmprunts = 1 }
             );
         else
-            bilanActiviteQuotidien.NouveauxEmprunts += 1;
-        _bilanActiviteQuotidienRepo.SaveChanges();
+            statistiques.NouveauxEmprunts += 1;
+        _statistiquesRepo.SaveChanges();
     }
 
-    public void DecrementNouveauxEmpruntsBilanActiviteQuotidien(DateOnly date)
+    public void DecrementNouveauxEmpruntsStatistiques(DateOnly date)
     {
         var suivi =
-            _bilanActiviteQuotidienRepo.GetBilanActiviteQuotidienFromDate(date)
+            _statistiquesRepo.GetStatistiquesFromDate(date)
             ?? throw new NotFoundException($"Aucune activité trouvée pour la date {date}.");
 
         if (suivi.NouveauxEmprunts <= 0)
             throw new DomainValidationException("Aucun nouvel emprunt enregistré pour cette date.");
 
         suivi.NouveauxEmprunts -= 1;
-        _bilanActiviteQuotidienRepo.SaveChanges();
+        _statistiquesRepo.SaveChanges();
     }
 
-    public void IncrementRetoursEffectuesBilanActiviteQuotidien(DateOnly date)
+    public void IncrementRetoursEffectuesStatistiques(DateOnly date)
     {
-        BilanActiviteQuotidien? bilanActiviteQuotidien =
-            _bilanActiviteQuotidienRepo.GetBilanActiviteQuotidienFromDate(date);
-        if (bilanActiviteQuotidien == null)
-            _bilanActiviteQuotidienRepo.AddBilanActiviteQuotidien(
-                new BilanActiviteQuotidien { Date = date, RetoursEffectues = 1 }
+        Statistiques? statistiques = _statistiquesRepo.GetStatistiquesFromDate(date);
+        if (statistiques == null)
+            _statistiquesRepo.AddStatistiques(
+                new Statistiques { Date = date, RetoursEffectues = 1 }
             );
         else
-            bilanActiviteQuotidien.RetoursEffectues += 1;
-        _bilanActiviteQuotidienRepo.SaveChanges();
+            statistiques.RetoursEffectues += 1;
+        _statistiquesRepo.SaveChanges();
     }
 }

@@ -1,4 +1,4 @@
-public class BilanActiviteQuotidien
+public class Statistiques
 {
     public int Id { get; set; }
     public DateOnly Date { get; set; }

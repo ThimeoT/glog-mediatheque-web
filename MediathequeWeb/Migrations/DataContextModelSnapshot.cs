@@ -58,7 +58,7 @@ namespace MediathequeWeb.Migrations
                     b.ToTable("Auteurs");
                 });
 
-            modelBuilder.Entity("BilanActiviteQuotidien", b =>
+            modelBuilder.Entity("Statistiques", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -81,7 +81,7 @@ namespace MediathequeWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BilanActiviteQuotidien");
+                    b.ToTable("Statistiques");
                 });
 
             modelBuilder.Entity("Emprunt", b =>
