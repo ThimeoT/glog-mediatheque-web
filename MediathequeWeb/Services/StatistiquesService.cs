@@ -31,7 +31,7 @@ public class StatistiquesService
         return StatutAdherent.EnRegle;
     }
 
-    private StatutDisponibilite DeterminerStatutDisponibilite(Oeuvre oeuvre)
+    private StatutDisponibilite DetermineStatutDisponibilite(Oeuvre oeuvre)
     {
         StatutDisponibilite statutDisponibilite = StatutDisponibilite.Disponible;
         int exemplairesDisponibles = oeuvre.Exemplaires.Count(e =>
@@ -101,7 +101,7 @@ public class StatistiquesService
             id: oeuvre.Id,
             titre: oeuvre.Titre,
             auteurNomComplet: $"{oeuvre.Auteur.Prenom} {oeuvre.Auteur.Nom}",
-            statutDisponibilite: DeterminerStatutDisponibilite(oeuvre),
+            statut: DetermineStatutDisponibilite(oeuvre),
             nombreCopies: oeuvre.Exemplaires.Count,
             nombreEmpruntsTotal: oeuvre
                 .Exemplaires.Where(e => e != null && e.Emprunts != null)
@@ -123,7 +123,7 @@ public class StatistiquesService
                     id: oeuvre.Id,
                     titre: oeuvre.Titre,
                     auteurNomComplet: $"{oeuvre.Auteur.Prenom} {oeuvre.Auteur.Nom}",
-                    statutDisponibilite: DeterminerStatutDisponibilite(oeuvre),
+                    statut: DetermineStatutDisponibilite(oeuvre),
                     nombreCopies: oeuvre.Exemplaires.Count,
                     nombreEmpruntsTotal: oeuvre
                         .Exemplaires.Where(e => e != null && e.Emprunts != null)

@@ -7,13 +7,20 @@ public class StatistiquesAdherentDto
     public int ReservationsActives { get; set; }
     public int HistoriqueEmprunts { get; set; }
 
-    public static StatistiquesAdherentDto FromData(int id, string nomComplet, StatutAdherent statut, int empruntsEnCours, int reservationsActives, int historiqueEmprunts)
+    public static StatistiquesAdherentDto FromData(
+        int id,
+        string nomComplet,
+        StatutAdherent statut,
+        int empruntsEnCours,
+        int reservationsActives,
+        int historiqueEmprunts
+    )
     {
         return new StatistiquesAdherentDto
         {
             Id = id,
             NomComplet = nomComplet,
-            Statut = statut.ToString(),
+            Statut = statut == StatutAdherent.EnRegle ? "En règle" : "En retard",
             EmpruntsEnCours = empruntsEnCours,
             ReservationsActives = reservationsActives,
             HistoriqueEmprunts = historiqueEmprunts,
