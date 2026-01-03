@@ -33,24 +33,24 @@ public class StatistiquesService
 
     private static StatutDisponibilite DetermineStatutDisponibilite(Oeuvre oeuvre)
     {
-        StatutDisponibilite statutDisponibilite = StatutDisponibilite.Disponible;
         int exemplairesDisponibles = oeuvre.Exemplaires.Count(e =>
             e.Statut == StatutExemplaire.Disponible
         );
-        int nombreExemplaires = oeuvre.Exemplaires.Count;
+
         int reservationsActives = oeuvre.Reservations.Count(r =>
             r.Statut == StatutReservation.Active
         );
 
-        if (
-            reservationsActives > 0
-            && reservationsActives >= exemplairesDisponibles
-            && nombreExemplaires > 0
-        )
+        // Disponible = au moins un exemplaire disponible
+        if (exemplairesDisponibles > 0)
+            return StatutDisponibilite.Disponible;
+
+        // En réservation = aucun exemplaire disponible ET au moins une réservation active
+        if (reservationsActives > 0)
             return StatutDisponibilite.EnReservation;
-        if (nombreExemplaires > 0 && exemplairesDisponibles == 0)
-            return StatutDisponibilite.TousEmpruntes;
-        return statutDisponibilite;
+
+        // Tous empruntés = aucun exemplaire disponible ET aucune réservation active
+        return StatutDisponibilite.TousEmpruntes;
     }
 
     public StatistiquesAdherentDto GetStatistiquesAdherentById(int adherentId)
