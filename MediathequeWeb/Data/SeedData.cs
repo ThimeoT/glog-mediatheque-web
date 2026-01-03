@@ -62,6 +62,7 @@ public static class SeedData
             Nom = "Dupont",
             Prenom = "Jean",
             Email = "jean.dupont@email.com",
+            DateInscription = new DateOnly(2025, 11, 10)
         };
 
         var marieCurie = new Adherent
@@ -69,6 +70,7 @@ public static class SeedData
             Nom = "Curie",
             Prenom = "Marie",
             Email = "marie.curie@email.com",
+            DateInscription = new DateOnly(2024, 12, 1)
         };
 
         db.Adherents.AddRange(jeanDupont, marieCurie);

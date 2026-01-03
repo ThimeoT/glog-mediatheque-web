@@ -4,7 +4,7 @@ public class AdherentDto
     public string Nom { get; set; }
     public string Prenom { get; set; }
     public string Email { get; set; }
-    public DateOnly DateInscription { get; set; }
+    public DateOnly DateInscription { get; set; } = DateOnly.FromDateTime(DateTime.Now);
     public List<string> Emprunts { get; set; } = [];
 
     public static AdherentDto FromModel(Adherent adherent)
