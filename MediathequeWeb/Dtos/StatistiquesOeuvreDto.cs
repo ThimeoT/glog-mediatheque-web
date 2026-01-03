@@ -3,7 +3,7 @@ public class StatistiquesOeuvreDto
     public int Id { get; set; }
     public string Titre { get; set; }
     public string AuteurNomComplet { get; set; }
-    public string Statut { get; set; }
+    public string StatutDisponibilite { get; set; }
     public int NombreCopies { get; set; }
     public int NombreEmpruntsTotal { get; set; }
     public int FileAttenteReservation { get; set; }
@@ -18,26 +18,19 @@ public class StatistiquesOeuvreDto
         int fileAttenteReservation
     )
     {
-        string statutDisponibilite;
-        switch (statut)
+        string statutDisponibilite = statut switch
         {
-            case StatutDisponibilite.EnReservation:
-                statutDisponibilite = "En Réservation";
-                break;
-            case StatutDisponibilite.TousEmpruntes:
-                statutDisponibilite = "Tous Empruntés";
-                break;
-            default:
-                statutDisponibilite = "Disponible";
-                break;
-        }
-
+            global::StatutDisponibilite.EnReservation => "En Réservation",
+            global::StatutDisponibilite.TousEmpruntes => "Tous Empruntés",
+            _ => "Disponible",
+        };
+        
         return new StatistiquesOeuvreDto
         {
             Id = id,
             Titre = titre,
             AuteurNomComplet = auteurNomComplet,
-            Statut = statutDisponibilite,
+            StatutDisponibilite = statutDisponibilite,
              NombreCopies = nombreCopies,
             NombreEmpruntsTotal = nombreEmpruntsTotal,
             FileAttenteReservation = fileAttenteReservation,

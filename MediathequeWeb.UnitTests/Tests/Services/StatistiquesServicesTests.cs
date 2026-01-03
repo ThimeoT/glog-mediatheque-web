@@ -163,9 +163,9 @@ public class StatistiquesServiceTests
         Assert.IsInstanceOfType<StatistiquesOeuvreDto>(statistiquesOeuvre);
         Assert.AreEqual("Shining", statistiquesOeuvre.Titre);
         Assert.AreEqual("Marc DeMarco", statistiquesOeuvre.AuteurNomComplet);
-        Assert.AreEqual("Disponible", statistiquesOeuvre.Statut);
+        Assert.AreEqual("Disponible", statistiquesOeuvre.StatutDisponibilite);
         Assert.IsTrue(
-            Enum.TryParse<StatutDisponibilite>(statistiquesOeuvre.Statut, true, out var statut)
+            Enum.TryParse<StatutDisponibilite>(statistiquesOeuvre.StatutDisponibilite, true, out var statut)
         );
         Assert.AreEqual(4, statistiquesOeuvre.NombreCopies);
         Assert.AreEqual(3, statistiquesOeuvre.NombreEmpruntsTotal);
