@@ -18,20 +18,77 @@ public class StatistiquesService
         _statistiquesRepo = statistiquesRepo;
     }
 
+    public StatutAdherent DetermineStatutAdherent(Adherent adherent)
+    {
+        if (
+            adherent.Emprunts.Any(e =>
+                e.DateRetourReelle.HasValue && e.DateRetourReelle.Value > e.DateRetourPrevue
+            )
+        )
+        {
+            return StatutAdherent.EnRetard;
+        }
+        return StatutAdherent.EnRegle;
+    }
+
+    private StatutDisponibilite DeterminerStatutDisponibilite(Oeuvre oeuvre)
+    {
+        StatutDisponibilite statutDisponibilite = StatutDisponibilite.Disponible;
+        int exemplairesDisponibles = oeuvre.Exemplaires.Count(e =>
+            e.Statut == StatutExemplaire.Disponible
+        );
+        int nombreExemplaires = oeuvre.Exemplaires.Count();
+        int reservationsActives = oeuvre.Reservations.Count(r =>
+            r.Statut == StatutReservation.Active
+        );
+
+        if (
+            reservationsActives > 0
+            && reservationsActives >= exemplairesDisponibles
+            && nombreExemplaires > 0
+        )
+            return StatutDisponibilite.EnReservation;
+        if (nombreExemplaires > 0 && exemplairesDisponibles == 0)
+            return StatutDisponibilite.TousEmpruntes;
+        return statutDisponibilite;
+    }
+
     public StatistiquesAdherentDto GetStatistiquesAdherentById(int adherentId)
     {
         Adherent adherent =
             _adherentRepo.GetAdherent(adherentId)
             ?? throw new NotFoundException($"L’adhérent avec l’id {adherentId} n’existe pas.");
 
-        return StatistiquesAdherentDto.FromData(adherent);
+        return StatistiquesAdherentDto.FromData(
+            id: adherent.Id,
+            nomComplet: $"{adherent.Prenom} {adherent.Nom}",
+            statut: DetermineStatutAdherent(adherent),
+            empruntsEnCours: adherent.Emprunts.Count(e => !e.DateRetourReelle.HasValue),
+            reservationsActives: adherent.Reservations.Count(r =>
+                r.Statut == StatutReservation.Active
+            ),
+            historiqueEmprunts: adherent.Emprunts.Count
+        );
     }
 
     public IEnumerable<StatistiquesAdherentDto> GetAllStatistiquesAdherents()
     {
         List<StatistiquesAdherentDto> statistiquesAdherents = [];
         foreach (Adherent adherent in _adherentRepo.GetAllAdherents())
-            statistiquesAdherents.Add(StatistiquesAdherentDto.FromData(adherent));
+        {
+            statistiquesAdherents.Add(
+                StatistiquesAdherentDto.FromData(
+                    id: adherent.Id,
+                    nomComplet: $"{adherent.Prenom} {adherent.Nom}",
+                    statut: DetermineStatutAdherent(adherent),
+                    empruntsEnCours: adherent.Emprunts.Count(e => !e.DateRetourReelle.HasValue),
+                    reservationsActives: adherent.Reservations.Count(r =>
+                        r.Statut == StatutReservation.Active
+                    ),
+                    historiqueEmprunts: adherent.Emprunts.Count
+                )
+            );
+        }
         return statistiquesAdherents;
     }
 
@@ -40,14 +97,44 @@ public class StatistiquesService
         Oeuvre oeuvre =
             _inventaireRepo.GetOeuvre(oeuvreId)
             ?? throw new NotFoundException($"L’œuvre avec l’id {oeuvreId} n’existe pas.");
-        return StatistiquesOeuvreDto.FromModel(oeuvre);
+        return StatistiquesOeuvreDto.FromData(
+            id: oeuvre.Id,
+            titre: oeuvre.Titre,
+            auteurNomComplet: $"{oeuvre.Auteur.Prenom} {oeuvre.Auteur.Nom}",
+            statutDisponibilite: DeterminerStatutDisponibilite(oeuvre),
+            nombreCopies: oeuvre.Exemplaires.Count,
+            nombreEmpruntsTotal: oeuvre
+                .Exemplaires.Where(e => e != null && e.Emprunts != null)
+                .SelectMany(e => e.Emprunts)
+                .Count(),
+            fileAttenteReservation: oeuvre.Reservations.Count(r =>
+                r.Statut == StatutReservation.Active
+            )
+        );
     }
 
     public IEnumerable<StatistiquesOeuvreDto> GetAllStatistiquesOeuvres()
     {
         List<StatistiquesOeuvreDto> statistiquesOeuvres = [];
         foreach (Oeuvre oeuvre in _inventaireRepo.GetAllOeuvres())
-            statistiquesOeuvres.Add(StatistiquesOeuvreDto.FromModel(oeuvre));
+        {
+            statistiquesOeuvres.Add(
+                StatistiquesOeuvreDto.FromData(
+                    id: oeuvre.Id,
+                    titre: oeuvre.Titre,
+                    auteurNomComplet: $"{oeuvre.Auteur.Prenom} {oeuvre.Auteur.Nom}",
+                    statutDisponibilite: DeterminerStatutDisponibilite(oeuvre),
+                    nombreCopies: oeuvre.Exemplaires.Count,
+                    nombreEmpruntsTotal: oeuvre
+                        .Exemplaires.Where(e => e != null && e.Emprunts != null)
+                        .SelectMany(e => e.Emprunts)
+                        .Count(),
+                    fileAttenteReservation: oeuvre.Reservations.Count(r =>
+                        r.Statut == StatutReservation.Active
+                    )
+                )
+            );
+        }
         return statistiquesOeuvres;
     }
 
