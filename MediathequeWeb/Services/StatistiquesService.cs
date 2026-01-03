@@ -51,33 +51,33 @@ public class StatistiquesService
         return statistiquesOeuvres;
     }
 
-    public StatistiquesActiviteDto GetStatistiquesBilanActiviteQuotidienById(int activiteId)
+    public BilanActiviteQuotidien GetStatistiquesBilanActiviteQuotidienById(int activiteId)
     {
         BilanActiviteQuotidien bilanActiviteQuotidien =
             _bilanActiviteQuotidienRepo.GetBilanActiviteQuotidienFromId(activiteId)
             ?? throw new NotFoundException(
                 $"Le suivi de l'activité avec l’id {activiteId} n’existe pas."
             );
-        return StatistiquesActiviteDto.FromModel(bilanActiviteQuotidien);
+        return bilanActiviteQuotidien;
     }
 
-    public StatistiquesActiviteDto GetStatistiquesBilanActiviteQuotidienByDate(DateOnly date)
+    public BilanActiviteQuotidien GetStatistiquesBilanActiviteQuotidienByDate(DateOnly date)
     {
         BilanActiviteQuotidien bilanActiviteQuotidien =
             _bilanActiviteQuotidienRepo.GetBilanActiviteQuotidienFromDate(date)
             ?? throw new NotFoundException(
                 $"Le suivi de l'activité de la date {date} n’existe pas."
             );
-        return StatistiquesActiviteDto.FromModel(bilanActiviteQuotidien);
+        return bilanActiviteQuotidien;
     }
 
-    public IEnumerable<StatistiquesActiviteDto> GetAllSuivisActivite()
+    public IEnumerable<BilanActiviteQuotidien> GetAllSuivisActivite()
     {
-        List<StatistiquesActiviteDto> statistiquesActivites = [];
+        List<BilanActiviteQuotidien> bilansActiviteQuotidiens = [];
         foreach (
-            BilanActiviteQuotidien activite in _bilanActiviteQuotidienRepo.GetAllBilansActiviteQuotidiens()
+            BilanActiviteQuotidien bilanActivite in _bilanActiviteQuotidienRepo.GetAllBilansActiviteQuotidiens()
         )
-            statistiquesActivites.Add(StatistiquesActiviteDto.FromModel(activite));
-        return statistiquesActivites;
+            bilansActiviteQuotidiens.Add(bilanActivite);
+        return bilansActiviteQuotidiens;
     }
 }
