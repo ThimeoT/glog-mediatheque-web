@@ -12,15 +12,15 @@ public class AdherentControllerTests
     public void Setup()
     {
         _mockAdherentRepo = new();
-        MockBilanActiviteQuotidienRepository _mockBilanActiviteQuotidienRepo = new();
+        MockStatistiquesRepository _mockStatistiquesRepo = new();
         MockInventaireRepository _mockInventaireRepo = new();
         MockReservationRepository _mockReservationRepo = new();
-        var adherentService = new AdherentService(_mockAdherentRepo, _mockBilanActiviteQuotidienRepo);
+        var adherentService = new AdherentService(_mockAdherentRepo, _mockStatistiquesRepo);
         ReservationService reservationService = new(
             _mockAdherentRepo,
             _mockInventaireRepo,
             _mockReservationRepo,
-            _mockBilanActiviteQuotidienRepo
+            _mockStatistiquesRepo
         );
 
         _controller = new AdherentController(adherentService, reservationService);

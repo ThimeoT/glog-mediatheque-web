@@ -8,7 +8,7 @@ public class ReservationControllerTests
 {
     private ReservationController _controller;
     private MockReservationRepository _mockReservationRepo;
-    MockBilanActiviteQuotidienRepository _mockBilanActiviteQuotidienRepo;
+    MockStatistiquesRepository _mockStatistiquesRepo;
 
     [TestInitialize]
     public void Setup()
@@ -16,12 +16,12 @@ public class ReservationControllerTests
         _mockReservationRepo = new();
         MockInventaireRepository _mockInventaireRepo = new();
         MockAdherentRepository _mockAdherentRepo = new();
-         _mockBilanActiviteQuotidienRepo = new();
+        _mockStatistiquesRepo = new();
         ReservationService _reservationService = new(
             _mockAdherentRepo,
             _mockInventaireRepo,
             _mockReservationRepo,
-            _mockBilanActiviteQuotidienRepo
+            _mockStatistiquesRepo
         );
         _controller = new(_reservationService);
     }
@@ -97,7 +97,14 @@ public class ReservationControllerTests
         Reservation reservation = new() { DateReservation = dateReservation };
         _mockReservationRepo.AddReservation(reservation);
         reservation.Id = reservationId;
-        _mockBilanActiviteQuotidienRepo.AddBilanActiviteQuotidien(new() {Id = 5, Date = dateReservation, NouvellesReservations=1});
+        _mockStatistiquesRepo.AddStatistiques(
+            new()
+            {
+                Id = 5,
+                Date = dateReservation,
+                NouvellesReservations = 1,
+            }
+        );
 
         var result = _controller.SupprimerReservation(reservationId);
 

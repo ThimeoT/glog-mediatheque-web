@@ -1,4 +1,4 @@
-public class MockBilanActiviteQuotidienRepository : IBilanActiviteQuotidienRepository
+public class MockStatistiquesRepository : IStatistiquesRepository
 {
     private readonly List<Auteur> _auteurs;
     private readonly List<Adherent> _adherents;
@@ -6,10 +6,10 @@ public class MockBilanActiviteQuotidienRepository : IBilanActiviteQuotidienRepos
     private readonly List<Oeuvre> _oeuvres;
     private readonly List<Exemplaire> _exemplaires;
     private readonly List<Emprunt> _emprunts;
-    private readonly List<BilanActiviteQuotidien> _bilansActiviteQuotidiens;
+    private readonly List<Statistiques> _statistiques;
     private int _nextId = 3;
 
-    public MockBilanActiviteQuotidienRepository()
+    public MockStatistiquesRepository()
     {
         _adherents =
         [
@@ -141,27 +141,27 @@ public class MockBilanActiviteQuotidienRepository : IBilanActiviteQuotidienRepos
         _adherents[0].Emprunts.Add(_emprunts[0]);
         _adherents[1].Emprunts.Add(_emprunts[1]);
 
-        _bilansActiviteQuotidiens =
+        _statistiques =
         [
-            new BilanActiviteQuotidien
+            new Statistiques
             {
                 Id = 1,
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(-50)),
                 NouveauxAdherents = 2,
             },
-            new BilanActiviteQuotidien
+            new Statistiques
             {
                 Id = 2,
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(-10)),
                 NouveauxEmprunts = 1,
             },
-            new BilanActiviteQuotidien
+            new Statistiques
             {
                 Id = 3,
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(-4)),
                 NouveauxEmprunts = 1,
             },
-            new BilanActiviteQuotidien
+            new Statistiques
             {
                 Id = 4,
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(-50)),
@@ -170,35 +170,35 @@ public class MockBilanActiviteQuotidienRepository : IBilanActiviteQuotidienRepos
         ];
     }
 
-    public BilanActiviteQuotidien? GetBilanActiviteQuotidienFromId(int id)
+    public Statistiques? GetStatistiquesFromId(int id)
     {
-        return _bilansActiviteQuotidiens.FirstOrDefault(a => a.Id == id);
+        return _statistiques.FirstOrDefault(a => a.Id == id);
     }
 
-    public BilanActiviteQuotidien? GetBilanActiviteQuotidienFromDate(DateOnly date)
+    public Statistiques? GetStatistiquesFromDate(DateOnly date)
     {
-        return _bilansActiviteQuotidiens.FirstOrDefault(a => a.Date == date);
+        return _statistiques.FirstOrDefault(a => a.Date == date);
     }
 
-    public IEnumerable<BilanActiviteQuotidien> GetAllBilansActiviteQuotidiens()
+    public IEnumerable<Statistiques> GetAllStatistiques()
     {
-        return _bilansActiviteQuotidiens;
+        return _statistiques;
     }
 
     public bool ExistsFromDate(DateOnly date)
     {
-        return _bilansActiviteQuotidiens.Any(b => b.Date == date);
+        return _statistiques.Any(b => b.Date == date);
     }
 
-    public void AddBilanActiviteQuotidien(BilanActiviteQuotidien bilanActiviteQuotidienQuotidien)
+    public void AddStatistiques(Statistiques statistiquesQuotidien)
     {
-        bilanActiviteQuotidienQuotidien.Id = _nextId++;
-        _bilansActiviteQuotidiens.Add(bilanActiviteQuotidienQuotidien);
+        statistiquesQuotidien.Id = _nextId++;
+        _statistiques.Add(statistiquesQuotidien);
     }
 
-    public void RemoveBilanActiviteQuotidien(BilanActiviteQuotidien bilanActiviteQuotidien)
+    public void RemoveStatistiques(Statistiques statistiques)
     {
-        _bilansActiviteQuotidiens.Remove(bilanActiviteQuotidien);
+        _statistiques.Remove(statistiques);
     }
 
     public void SaveChanges() { }

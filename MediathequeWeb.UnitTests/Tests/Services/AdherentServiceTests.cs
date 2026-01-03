@@ -7,14 +7,13 @@ public class AdherentServiceTests
 {
     private AdherentService _service;
     private MockAdherentRepository _adherentRepo;
-    
 
     [TestInitialize]
     public void Setup()
     {
         _adherentRepo = new MockAdherentRepository();
-        MockBilanActiviteQuotidienRepository _mockBilanActiviteQuotidienRepo = new();
-        _service = new AdherentService(_adherentRepo, _mockBilanActiviteQuotidienRepo);
+        MockStatistiquesRepository _mockStatistiquesRepo = new();
+        _service = new AdherentService(_adherentRepo, _mockStatistiquesRepo);
     }
 
     [TestMethod]

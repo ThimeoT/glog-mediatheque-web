@@ -14,7 +14,7 @@ public class EmpruntControllerTests
     [TestInitialize]
     public void Setup()
     {
-        MockBilanActiviteQuotidienRepository _mockBilanActiviteQuotidienRepo = new();
+        MockStatistiquesRepository _mockStatistiquesRepo = new();
         _mockEmpruntRepo = new();
         _mockAdherentRepo = new();
         _mockInventaireRepo = new();
@@ -22,7 +22,7 @@ public class EmpruntControllerTests
             _mockAdherentRepo,
             _mockEmpruntRepo,
             _mockInventaireRepo,
-            _mockBilanActiviteQuotidienRepo
+            _mockStatistiquesRepo
         );
         _controller = new(_service);
     }
