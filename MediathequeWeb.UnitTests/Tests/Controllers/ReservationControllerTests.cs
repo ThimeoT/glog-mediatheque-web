@@ -1,5 +1,6 @@
 namespace MediathequeWeb.UnitTests.Tests.Controllers;
 
+using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
 
 [TestClass]
@@ -7,6 +8,7 @@ public class ReservationControllerTests
 {
     private ReservationController _controller;
     private MockReservationRepository _mockReservationRepo;
+    MockBilanActiviteQuotidienRepository _mockBilanActiviteQuotidienRepo;
 
     [TestInitialize]
     public void Setup()
@@ -14,7 +16,7 @@ public class ReservationControllerTests
         _mockReservationRepo = new();
         MockInventaireRepository _mockInventaireRepo = new();
         MockAdherentRepository _mockAdherentRepo = new();
-        MockBilanActiviteQuotidienRepository _mockBilanActiviteQuotidienRepo = new();
+         _mockBilanActiviteQuotidienRepo = new();
         ReservationService _reservationService = new(
             _mockAdherentRepo,
             _mockInventaireRepo,
@@ -90,11 +92,18 @@ public class ReservationControllerTests
     [TestMethod]
     public void Supprimer_reservation_avec_id_valide_retourne_no_content()
     {
-        var result = _controller.SupprimerReservation(1);
+        int reservationId = 50;
+        DateOnly dateReservation = DateOnly.FromDateTime(DateTime.Now);
+        Reservation reservation = new() { DateReservation = dateReservation };
+        _mockReservationRepo.AddReservation(reservation);
+        reservation.Id = reservationId;
+        _mockBilanActiviteQuotidienRepo.AddBilanActiviteQuotidien(new() {Id = 5, Date = dateReservation, NouvellesReservations=1});
+
+        var result = _controller.SupprimerReservation(reservationId);
 
         var noContent = result as NoContentResult;
         Assert.IsNotNull(noContent);
-        Assert.AreEqual(1, _mockReservationRepo.GetAllReservations().Count());
+        Assert.AreEqual(2, _mockReservationRepo.GetAllReservations().Count());
     }
 
     [TestMethod]

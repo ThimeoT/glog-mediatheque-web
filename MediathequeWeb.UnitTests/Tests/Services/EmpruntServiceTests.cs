@@ -7,6 +7,7 @@ public class EmpruntServiceTests
     private MockAdherentRepository _mockAdherentRepo;
     private MockEmpruntRepository _mockEmpruntRepo;
     private MockInventaireRepository _mockInventaireRepo;
+    private MockBilanActiviteQuotidienRepository _mockBilanActiviteQuotidienRepo;
 
     [TestInitialize]
     public void Setup()
@@ -14,8 +15,13 @@ public class EmpruntServiceTests
         _mockEmpruntRepo = new();
         _mockAdherentRepo = new();
         _mockInventaireRepo = new();
-        MockBilanActiviteQuotidienRepository _mockBilanActiviteQuotidienRepo = new();
-        _service = new EmpruntService(_mockAdherentRepo, _mockEmpruntRepo, _mockInventaireRepo,_mockBilanActiviteQuotidienRepo);
+        _mockBilanActiviteQuotidienRepo = new();
+        _service = new EmpruntService(
+            _mockAdherentRepo,
+            _mockEmpruntRepo,
+            _mockInventaireRepo,
+            _mockBilanActiviteQuotidienRepo
+        );
     }
 
     [TestMethod]
@@ -171,10 +177,22 @@ public class EmpruntServiceTests
 
         Assert.IsNotNull(adherent);
         Assert.IsNotNull(exemplaire);
-
-        Emprunt emprunt = new() { Adherent = adherent, Exemplaire = exemplaire };
-
+        DateOnly dateEmprunt = DateOnly.FromDateTime(DateTime.Now);
+        Emprunt emprunt = new()
+        {
+            Adherent = adherent,
+            Exemplaire = exemplaire,
+            DateEmprunt = dateEmprunt,
+        };
         _mockEmpruntRepo.AddEmprunt(emprunt);
+        _mockBilanActiviteQuotidienRepo.AddBilanActiviteQuotidien(
+            new()
+            {
+                Id = 1,
+                Date = dateEmprunt,
+                NouveauxEmprunts = 1,
+            }
+        );
         int empruntId = emprunt.Id;
 
         _service.DeleteEmprunt(empruntId);

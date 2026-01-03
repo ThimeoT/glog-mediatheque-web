@@ -5,13 +5,14 @@ public class ReservationServiceTests
 {
     private ReservationService _service;
     private MockReservationRepository _mockReservationRepo;
+    private MockBilanActiviteQuotidienRepository _mockBilanActiviteQuotidienRepo;
 
     [TestInitialize]
     public void Setup()
     {
         _mockReservationRepo = new MockReservationRepository();
         MockInventaireRepository _mockInventaireRepo = new();
-        MockBilanActiviteQuotidienRepository _mockBilanActiviteQuotidienRepo = new();
+        _mockBilanActiviteQuotidienRepo = new();
         MockAdherentRepository _mockAdherentRepo = new();
         _service = new ReservationService(
             _mockAdherentRepo,
@@ -117,11 +118,21 @@ public class ReservationServiceTests
     }
 
     [TestMethod]
-    public void DeleteReservation_existant_supprime_reservation()
+    public void DeleteReservation_existant_supprime_reservation_et_retire_activite()
     {
-        _service.DeleteReservation(1);
+        int reservationId = 50;
+        DateOnly dateReservation = DateOnly.FromDateTime(DateTime.Now);
+        Reservation reservation = new() { DateReservation = dateReservation };
+        _mockReservationRepo.AddReservation( reservation );
+        reservation.Id = 50;
+        Assert.IsNotNull(_mockReservationRepo.GetReservation(reservationId));
+        _mockBilanActiviteQuotidienRepo.AddBilanActiviteQuotidien(new() { Id = 5, Date = dateReservation, NouvellesReservations=1 });
+        
+        _service.DeleteReservation(reservationId);
 
-        Assert.AreEqual(1, _mockReservationRepo.GetAllReservations().Count());
+        Assert.AreEqual(2, _mockReservationRepo.GetAllReservations().Count());
+        Assert.IsNull(_mockReservationRepo.GetReservation(reservationId));
+        
     }
 
     [TestMethod]
