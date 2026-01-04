@@ -24,14 +24,14 @@ public class StatistiquesOeuvreDto
             global::StatutDisponibilite.TousEmpruntes => "Tous Empruntés",
             _ => "Disponible",
         };
-        
+
         return new StatistiquesOeuvreDto
         {
             Id = id,
             Titre = titre,
             AuteurNomComplet = auteurNomComplet,
             StatutDisponibilite = statutDisponibilite,
-             NombreCopies = nombreCopies,
+            NombreCopies = nombreCopies,
             NombreEmpruntsTotal = nombreEmpruntsTotal,
             FileAttenteReservation = fileAttenteReservation,
         };

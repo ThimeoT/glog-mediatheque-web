@@ -22,7 +22,8 @@ public class StatistiquesService
     {
         if (
             adherent.Emprunts.Any(e =>
-                e.DateRetourReelle == null && DateOnly.FromDateTime(DateTime.Now) > e.DateRetourPrevue
+                e.DateRetourReelle == null
+                && DateOnly.FromDateTime(DateTime.Now) > e.DateRetourPrevue
             )
         )
         {
@@ -118,8 +119,12 @@ public class StatistiquesService
                     auteurNomComplet: $"{oeuvre.Auteur.Prenom} {oeuvre.Auteur.Nom}",
                     statut: DetermineStatutDisponibilite(oeuvre),
                     nombreCopies: oeuvre.Exemplaires.Count,
-                    nombreEmpruntsTotal: _inventaireRepo.GetNombreEmpruntsTotalPourOeuvre(oeuvre.Id),
-                    fileAttenteReservation: _inventaireRepo.GetReservationsActivesPourOeuvre(oeuvre.Id)
+                    nombreEmpruntsTotal: _inventaireRepo.GetNombreEmpruntsTotalPourOeuvre(
+                        oeuvre.Id
+                    ),
+                    fileAttenteReservation: _inventaireRepo.GetReservationsActivesPourOeuvre(
+                        oeuvre.Id
+                    )
                 )
             );
         }
@@ -145,7 +150,7 @@ public class StatistiquesService
             NouveauxEmprunts = emprunts.Count(),
             RetoursEffectues = emprunts.Count(e => e.DateRetourReelle != null),
             NouvellesReservations = reservations.Count(),
-            NouveauxAdherents = adherents.Count()
+            NouveauxAdherents = adherents.Count(),
         };
     }
 }

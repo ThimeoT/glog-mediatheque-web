@@ -2,9 +2,7 @@ public class AdherentService
 {
     private readonly IAdherentRepository _adherentRepo;
 
-    public AdherentService(
-        IAdherentRepository adherentRepo
-    )
+    public AdherentService(IAdherentRepository adherentRepo)
     {
         _adherentRepo = adherentRepo;
     }

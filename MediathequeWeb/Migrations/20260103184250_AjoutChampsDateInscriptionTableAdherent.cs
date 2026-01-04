@@ -16,15 +16,14 @@ namespace MediathequeWeb.Migrations
                 table: "Adherents",
                 type: "TEXT",
                 nullable: false,
-                defaultValue: new DateOnly(1, 1, 1));
+                defaultValue: new DateOnly(1, 1, 1)
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "DateInscription",
-                table: "Adherents");
+            migrationBuilder.DropColumn(name: "DateInscription", table: "Adherents");
         }
     }
 }

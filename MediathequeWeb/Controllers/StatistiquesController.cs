@@ -71,8 +71,7 @@ public class StatistiquesController : ControllerBase
             dateApres = parsedDate;
         }
 
-        var statistiquesActiviteDto =
-            _statistiquesService.GetStatistiquesActivite(dateApres);
+        var statistiquesActiviteDto = _statistiquesService.GetStatistiquesActivite(dateApres);
 
         return Ok(statistiquesActiviteDto);
     }

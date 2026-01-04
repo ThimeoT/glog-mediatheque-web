@@ -14,11 +14,7 @@ public class EmpruntServiceTests
         _mockEmpruntRepo = new();
         _mockAdherentRepo = new();
         _mockInventaireRepo = new();
-        _service = new EmpruntService(
-            _mockAdherentRepo,
-            _mockEmpruntRepo,
-            _mockInventaireRepo
-        );
+        _service = new EmpruntService(_mockAdherentRepo, _mockEmpruntRepo, _mockInventaireRepo);
     }
 
     [TestMethod]

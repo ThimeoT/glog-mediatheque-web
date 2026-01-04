@@ -99,16 +99,14 @@ public class MockInventaireRepository : IInventaireRepository
 
     public int GetNombreEmpruntsTotalPourOeuvre(int oeuvreId)
     {
-        return _exemplaires
-            .Where(e => e.Oeuvre.Id == oeuvreId)
-            .SelectMany(e => e.Emprunts)
-            .Count();
+        return _exemplaires.Where(e => e.Oeuvre.Id == oeuvreId).SelectMany(e => e.Emprunts).Count();
     }
 
     public int GetReservationsActivesPourOeuvre(int oeuvreId)
     {
         Oeuvre? oeuvre = _oeuvres.FirstOrDefault(o => o.Id == oeuvreId);
-        if (oeuvre == null) return 0;
+        if (oeuvre == null)
+            return 0;
 
         return oeuvre.Reservations.Count(r => r.Statut == StatutReservation.Active);
     }

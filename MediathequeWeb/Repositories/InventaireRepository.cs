@@ -49,11 +49,11 @@ public class InventaireRepository : IInventaireRepository
     public IEnumerable<Oeuvre> GetAllOeuvres()
     {
         return _db
-        .Oeuvres.Include(o => o.Auteur)
-        .Include(o => o.Exemplaires)
-            .ThenInclude(e => e.Emprunts)
-        .Include(o => o.Reservations)
-        .ToList();
+            .Oeuvres.Include(o => o.Auteur)
+            .Include(o => o.Exemplaires)
+                .ThenInclude(e => e.Emprunts)
+            .Include(o => o.Reservations)
+            .ToList();
     }
 
     public int GetNombreEmpruntsTotalPourOeuvre(int oeuvreId)

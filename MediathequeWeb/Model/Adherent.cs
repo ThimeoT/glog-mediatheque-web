@@ -44,7 +44,7 @@ public class Adherent
         }
     }
 
-    public DateOnly DateInscription { get; set; } 
+    public DateOnly DateInscription { get; set; }
 
     public List<Emprunt> Emprunts { get; set; } = [];
 

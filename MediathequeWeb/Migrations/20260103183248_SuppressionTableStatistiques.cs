@@ -11,8 +11,7 @@ namespace MediathequeWeb.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Statistiques");
+            migrationBuilder.DropTable(name: "Statistiques");
         }
 
         /// <inheritdoc />
@@ -22,18 +21,20 @@ namespace MediathequeWeb.Migrations
                 name: "Statistiques",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table
+                        .Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Date = table.Column<DateOnly>(type: "TEXT", nullable: false),
                     NouveauxAdherents = table.Column<int>(type: "INTEGER", nullable: false),
                     NouveauxEmprunts = table.Column<int>(type: "INTEGER", nullable: false),
                     NouvellesReservations = table.Column<int>(type: "INTEGER", nullable: false),
-                    RetoursEffectues = table.Column<int>(type: "INTEGER", nullable: false)
+                    RetoursEffectues = table.Column<int>(type: "INTEGER", nullable: false),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Statistiques", x => x.Id);
-                });
+                }
+            );
         }
     }
 }

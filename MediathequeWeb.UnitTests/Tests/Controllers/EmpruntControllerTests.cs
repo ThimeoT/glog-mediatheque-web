@@ -17,11 +17,7 @@ public class EmpruntControllerTests
         _mockEmpruntRepo = new();
         _mockAdherentRepo = new();
         _mockInventaireRepo = new();
-        _service = new(
-            _mockAdherentRepo,
-            _mockEmpruntRepo,
-            _mockInventaireRepo
-        );
+        _service = new(_mockAdherentRepo, _mockEmpruntRepo, _mockInventaireRepo);
         _controller = new(_service);
     }
 

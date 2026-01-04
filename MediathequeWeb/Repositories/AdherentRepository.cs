@@ -34,17 +34,13 @@ public class AdherentRepository : IAdherentRepository
 
     public int GetNombreEmpruntsEnCours(int adherentId)
     {
-        return _db.Emprunts.Count(e =>
-            e.Adherent.Id == adherentId &&
-            e.DateRetourReelle == null
-        );
+        return _db.Emprunts.Count(e => e.Adherent.Id == adherentId && e.DateRetourReelle == null);
     }
 
     public int GetNombreReservationsActives(int adherentId)
     {
         return _db.Reservations.Count(r =>
-            r.Adherent.Id == adherentId &&
-            r.Statut == StatutReservation.Active
+            r.Adherent.Id == adherentId && r.Statut == StatutReservation.Active
         );
     }
 

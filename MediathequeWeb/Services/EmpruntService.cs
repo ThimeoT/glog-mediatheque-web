@@ -63,7 +63,7 @@ public class EmpruntService
         {
             reservation.Statut = StatutReservation.Terminee;
         }
-        
+
         _empruntRepo.SaveChanges();
 
         return emprunt;
